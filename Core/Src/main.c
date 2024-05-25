@@ -107,7 +107,7 @@ typedef enum
 #define Nusers_address 				1
 #define WrongPassword_address 		2
 #define MemDatastartpoint			3
-#define Timeout						10	//in second
+#define Timeout						120	//in second
 uint8_t Brand_new = 0;
 uint8_t password[8];
 uint8_t MasterKey[16];		//128 bit
@@ -422,7 +422,7 @@ void Startup(){
 	HAL_Delay (1000);
 	SSD1306_Clear();
 	if(Brand_new == 0){
-		//printf("Brand new = %02x\n",Brand_new);
+		printf("Brand new = %02x\n",Brand_new);
 		SSD1306_Clear();
 	    SSD1306_GotoXY (15,25);
 	    SSD1306_Puts ("Brand new", &Font_11x18, 1);
@@ -490,6 +490,7 @@ void TransmitMenu() {
 	}
 }
 void Enroll(){
+	printf("Enroll\n");
 	SSD1306_Clear();
 	SSD1306_GotoXY (20,5);
 	SSD1306_Puts ("Enter new pin", &Font_7x10, 1);
@@ -509,7 +510,7 @@ void Enroll(){
 	uint8_t index=0;
 	uint8_t temp_num=0;
 	while(flag){
-		if(!DeviceState){state=Lock;break;}
+		//if(!DeviceState){state=Lock;break;}
 		uint8_t temp =checkButtons();
 		if(temp == 0){
 			//printf("Up\n");
@@ -791,25 +792,40 @@ bool CheckPassword(){
 }
 
 void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len){
-	uint8_t status=0;	//0 lock 1 unlock 2 brand new
+	//uint8_t status=0;	//0 lock 1 unlock 2 brand new
+	uint8_t hwinfo[33] = {
+	    0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+	};
 	if(buf[0]==0){
 		MY_FLASH_ReadN(BrandNew_address,&Brand_new,1,DATA_TYPE_8);
 		if(Brand_new == 0){
-			status = 2;
-			CDC_Transmit_FS(&status, 1);
+			hwinfo[0] = 2;
+			//status = 2;
+			//CDC_Transmit_FS(&status, 1);
+			CDC_Transmit_FS(hwinfo, 33);
 		}else if(DeviceState){
-			status = 1;
-			CDC_Transmit_FS(&status, 1);
+			//status = 1;
+			hwinfo[0] = 1;
+			//CDC_Transmit_FS(&status, 1);
+			CDC_Transmit_FS(hwinfo, 33);
 		}else{
-			status = 0;
-			CDC_Transmit_FS(&status, 1);
+			//status = 0;
+			hwinfo[0] = 0;
+			//CDC_Transmit_FS(&status, 1);
+			CDC_Transmit_FS(hwinfo, 33);
 		}
 	}else if(buf[0]==1){
 		if(DeviceState){
-			status = 0;
-			CDC_Transmit_FS(&status, 1);
+			hwinfo[0] = 0;
+			CDC_Transmit_FS(hwinfo, 33);
 			DeviceState=0;
 			TimerState = 1;
+		}else{
+			hwinfo[0] = 1;
+			CDC_Transmit_FS(hwinfo, 33);
 		}
 	}else if(buf[0]==2){
 	    /*uint8_t master[16] = {
@@ -821,9 +837,9 @@ void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len){
 		if(DeviceState){
 	    uint32_t carry = 0;
 	    uint8_t  result[16];
-	    uint8_t Key[4] = {buf[1], buf[2], buf[3], buf[4]};
+	    uint8_t Key[9] = {buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7], buf[8], buf[9]};
 	    for (int i = 0; i < 16; i++) {
-	        uint32_t sum = CurrentMasterKey[i] + (i < 4 ? Key[i] : 0) + carry;
+	        uint32_t sum = CurrentMasterKey[i] + (i < 9 ? Key[i] : 0) + carry;
 	        result[i] = sum & 0xFF;
 	        carry = (sum >> 8) & 0xFF;
 	    }
