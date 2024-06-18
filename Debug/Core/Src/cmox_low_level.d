@@ -1,6 +1,6 @@
 Core/Src/cmox_low_level.o: ../Core/Src/cmox_low_level.c \
- C:/Users/saman/Desktop/Cyber/Library/en.STM32CubeExpansion_Crypto/STM32CubeExpansion_Crypto_V4.1.0/Middlewares/ST/STM32_Cryptographic/include/cmox_init.h \
- C:/Users/saman/Desktop/Cyber/Library/en.STM32CubeExpansion_Crypto/STM32CubeExpansion_Crypto_V4.1.0/Middlewares/ST/STM32_Cryptographic/include/cmox_low_level.h \
+ ../X-CUBE-CRYPTOLIB/Middlewares/ST/STM32_Cryptographic/include/cmox_init.h \
+ ../X-CUBE-CRYPTOLIB/Middlewares/ST/STM32_Cryptographic/include/cmox_low_level.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -35,8 +35,8 @@ Core/Src/cmox_low_level.o: ../Core/Src/cmox_low_level.c \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
-C:/Users/saman/Desktop/Cyber/Library/en.STM32CubeExpansion_Crypto/STM32CubeExpansion_Crypto_V4.1.0/Middlewares/ST/STM32_Cryptographic/include/cmox_init.h:
-C:/Users/saman/Desktop/Cyber/Library/en.STM32CubeExpansion_Crypto/STM32CubeExpansion_Crypto_V4.1.0/Middlewares/ST/STM32_Cryptographic/include/cmox_low_level.h:
+../X-CUBE-CRYPTOLIB/Middlewares/ST/STM32_Cryptographic/include/cmox_init.h:
+../X-CUBE-CRYPTOLIB/Middlewares/ST/STM32_Cryptographic/include/cmox_low_level.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
