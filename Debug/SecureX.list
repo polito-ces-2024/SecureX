@@ -1,5 +1,5 @@
 
-HSM.elf:     file format elf32-littlearm
+SecureX.elf:     file format elf32-littlearm
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
@@ -47,11 +47,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  21 .debug_line   000203d0  00000000  00000000  0006836e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_str    000d5c19  00000000  00000000  0008873e  2**0
+ 22 .debug_str    000d5bf8  00000000  00000000  0008873e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 23 .debug_frame  00006fec  00000000  00000000  0015e358  2**2
+ 23 .debug_frame  00006fec  00000000  00000000  0015e338  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 24 .debug_line_str 00000049  00000000  00000000  00165344  2**0
+ 24 .debug_line_str 0000006c  00000000  00000000  00165324  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3097,50 +3097,32 @@ Disassembly of section .text:
  800201a:	bf00      	nop
 
 0800201c <MY_FLASH_EraseSector>:
-static uint8_t MY_SectorNum;
-
-//functions definitions
-//1. Erase Sector
-static void MY_FLASH_EraseSector(void)
-{
  800201c:	b580      	push	{r7, lr}
  800201e:	af00      	add	r7, sp, #0
-	HAL_FLASH_Unlock();
  8002020:	f002 fe12 	bl	8004c48 <HAL_FLASH_Unlock>
-	//Erase the required Flash sector
-	FLASH_Erase_Sector(MY_SectorNum, FLASH_VOLTAGE_RANGE_3);
  8002024:	4b04      	ldr	r3, [pc, #16]	; (8002038 <MY_FLASH_EraseSector+0x1c>)
  8002026:	781b      	ldrb	r3, [r3, #0]
  8002028:	2102      	movs	r1, #2
  800202a:	4618      	mov	r0, r3
  800202c:	f002 ff6e 	bl	8004f0c <FLASH_Erase_Sector>
-	HAL_FLASH_Lock();
  8002030:	f002 fe2c 	bl	8004c8c <HAL_FLASH_Lock>
-}
  8002034:	bf00      	nop
  8002036:	bd80      	pop	{r7, pc}
  8002038:	20000190 	.word	0x20000190
 
 0800203c <MY_FLASH_SetSectorAddrs>:
-
-//2. Set Sector Adress
-void MY_FLASH_SetSectorAddrs(uint8_t sector, uint32_t addrs)
-{
  800203c:	b480      	push	{r7}
  800203e:	b083      	sub	sp, #12
  8002040:	af00      	add	r7, sp, #0
  8002042:	4603      	mov	r3, r0
  8002044:	6039      	str	r1, [r7, #0]
  8002046:	71fb      	strb	r3, [r7, #7]
-	MY_SectorNum = sector;
  8002048:	4a05      	ldr	r2, [pc, #20]	; (8002060 <MY_FLASH_SetSectorAddrs+0x24>)
  800204a:	79fb      	ldrb	r3, [r7, #7]
  800204c:	7013      	strb	r3, [r2, #0]
-	MY_SectorAddrs = addrs;
  800204e:	4a05      	ldr	r2, [pc, #20]	; (8002064 <MY_FLASH_SetSectorAddrs+0x28>)
  8002050:	683b      	ldr	r3, [r7, #0]
  8002052:	6013      	str	r3, [r2, #0]
-}
  8002054:	bf00      	nop
  8002056:	370c      	adds	r7, #12
  8002058:	46bd      	mov	sp, r7
@@ -3150,10 +3132,6 @@ void MY_FLASH_SetSectorAddrs(uint8_t sector, uint32_t addrs)
  8002064:	2000018c 	.word	0x2000018c
 
 08002068 <MY_FLASH_WriteN>:
-
-//3. Write Flash
-void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef dataType)
-{
  8002068:	e92d 4fb0 	stmdb	sp!, {r4, r5, r7, r8, r9, sl, fp, lr}
  800206c:	b088      	sub	sp, #32
  800206e:	af00      	add	r7, sp, #0
@@ -3161,22 +3139,13 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  8002072:	60b9      	str	r1, [r7, #8]
  8002074:	607a      	str	r2, [r7, #4]
  8002076:	70fb      	strb	r3, [r7, #3]
-	uint32_t flashAddress = MY_SectorAddrs + idx;
  8002078:	4b37      	ldr	r3, [pc, #220]	; (8002158 <MY_FLASH_WriteN+0xf0>)
  800207a:	681b      	ldr	r3, [r3, #0]
  800207c:	68fa      	ldr	r2, [r7, #12]
  800207e:	4413      	add	r3, r2
  8002080:	61fb      	str	r3, [r7, #28]
-	
-	//Erase sector before write
-	MY_FLASH_EraseSector();
  8002082:	f7ff ffcb 	bl	800201c <MY_FLASH_EraseSector>
-	
-	//Unlock Flash
-	HAL_FLASH_Unlock();
  8002086:	f002 fddf 	bl	8004c48 <HAL_FLASH_Unlock>
-	//Write to Flash
-	switch(dataType)
  800208a:	78fb      	ldrb	r3, [r7, #3]
  800208c:	2b02      	cmp	r3, #2
  800208e:	d03f      	beq.n	8002110 <MY_FLASH_WriteN+0xa8>
@@ -3187,14 +3156,9 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  8002098:	2b01      	cmp	r3, #1
  800209a:	d01c      	beq.n	80020d6 <MY_FLASH_WriteN+0x6e>
  800209c:	e054      	b.n	8002148 <MY_FLASH_WriteN+0xe0>
-	{
-		case DATA_TYPE_8:
-				for(uint32_t i=0; i<Nsize; i++)
  800209e:	2300      	movs	r3, #0
  80020a0:	61bb      	str	r3, [r7, #24]
  80020a2:	e013      	b.n	80020cc <MY_FLASH_WriteN+0x64>
-				{
-					HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, flashAddress , ((uint8_t *)wrBuf)[i]);
  80020a4:	68ba      	ldr	r2, [r7, #8]
  80020a6:	69bb      	ldr	r3, [r7, #24]
  80020a8:	4413      	add	r3, r2
@@ -3208,11 +3172,9 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  80020b8:	69f9      	ldr	r1, [r7, #28]
  80020ba:	2000      	movs	r0, #0
  80020bc:	f002 fd70 	bl	8004ba0 <HAL_FLASH_Program>
-					flashAddress++;
  80020c0:	69fb      	ldr	r3, [r7, #28]
  80020c2:	3301      	adds	r3, #1
  80020c4:	61fb      	str	r3, [r7, #28]
-				for(uint32_t i=0; i<Nsize; i++)
  80020c6:	69bb      	ldr	r3, [r7, #24]
  80020c8:	3301      	adds	r3, #1
  80020ca:	61bb      	str	r3, [r7, #24]
@@ -3220,17 +3182,10 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  80020ce:	687b      	ldr	r3, [r7, #4]
  80020d0:	429a      	cmp	r2, r3
  80020d2:	d3e7      	bcc.n	80020a4 <MY_FLASH_WriteN+0x3c>
-				}
-			break;
  80020d4:	e038      	b.n	8002148 <MY_FLASH_WriteN+0xe0>
-		
-		case DATA_TYPE_16:
-				for(uint32_t i=0; i<Nsize; i++)
  80020d6:	2300      	movs	r3, #0
  80020d8:	617b      	str	r3, [r7, #20]
  80020da:	e014      	b.n	8002106 <MY_FLASH_WriteN+0x9e>
-				{
-					HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, flashAddress , ((uint16_t *)wrBuf)[i]);
  80020dc:	697b      	ldr	r3, [r7, #20]
  80020de:	005b      	lsls	r3, r3, #1
  80020e0:	68ba      	ldr	r2, [r7, #8]
@@ -3245,11 +3200,9 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  80020f2:	69f9      	ldr	r1, [r7, #28]
  80020f4:	2001      	movs	r0, #1
  80020f6:	f002 fd53 	bl	8004ba0 <HAL_FLASH_Program>
-					flashAddress+=2;
  80020fa:	69fb      	ldr	r3, [r7, #28]
  80020fc:	3302      	adds	r3, #2
  80020fe:	61fb      	str	r3, [r7, #28]
-				for(uint32_t i=0; i<Nsize; i++)
  8002100:	697b      	ldr	r3, [r7, #20]
  8002102:	3301      	adds	r3, #1
  8002104:	617b      	str	r3, [r7, #20]
@@ -3257,17 +3210,10 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  8002108:	687b      	ldr	r3, [r7, #4]
  800210a:	429a      	cmp	r2, r3
  800210c:	d3e6      	bcc.n	80020dc <MY_FLASH_WriteN+0x74>
-				}
-			break;
  800210e:	e01b      	b.n	8002148 <MY_FLASH_WriteN+0xe0>
-		
-		case DATA_TYPE_32:
-				for(uint32_t i=0; i<Nsize; i++)
  8002110:	2300      	movs	r3, #0
  8002112:	613b      	str	r3, [r7, #16]
  8002114:	e013      	b.n	800213e <MY_FLASH_WriteN+0xd6>
-				{
-					HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, flashAddress , ((uint32_t *)wrBuf)[i]);
  8002116:	693b      	ldr	r3, [r7, #16]
  8002118:	009b      	lsls	r3, r3, #2
  800211a:	68ba      	ldr	r2, [r7, #8]
@@ -3281,11 +3227,9 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  800212a:	69f9      	ldr	r1, [r7, #28]
  800212c:	2002      	movs	r0, #2
  800212e:	f002 fd37 	bl	8004ba0 <HAL_FLASH_Program>
-					flashAddress+=4;
  8002132:	69fb      	ldr	r3, [r7, #28]
  8002134:	3304      	adds	r3, #4
  8002136:	61fb      	str	r3, [r7, #28]
-				for(uint32_t i=0; i<Nsize; i++)
  8002138:	693b      	ldr	r3, [r7, #16]
  800213a:	3301      	adds	r3, #1
  800213c:	613b      	str	r3, [r7, #16]
@@ -3293,14 +3237,8 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  8002140:	687b      	ldr	r3, [r7, #4]
  8002142:	429a      	cmp	r2, r3
  8002144:	d3e7      	bcc.n	8002116 <MY_FLASH_WriteN+0xae>
-				}
-			break;
  8002146:	bf00      	nop
-	}
-	//Lock the Flash space
-	HAL_FLASH_Lock();
  8002148:	f002 fda0 	bl	8004c8c <HAL_FLASH_Lock>
-}
  800214c:	bf00      	nop
  800214e:	3720      	adds	r7, #32
  8002150:	46bd      	mov	sp, r7
@@ -3309,9 +3247,6 @@ void MY_FLASH_WriteN(uint32_t idx, void *wrBuf, uint32_t Nsize, DataTypeDef data
  8002158:	2000018c 	.word	0x2000018c
 
 0800215c <MY_FLASH_ReadN>:
-//4. Read Flash
-void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataType)
-{
  800215c:	b480      	push	{r7}
  800215e:	b089      	sub	sp, #36	; 0x24
  8002160:	af00      	add	r7, sp, #0
@@ -3319,14 +3254,11 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  8002164:	60b9      	str	r1, [r7, #8]
  8002166:	607a      	str	r2, [r7, #4]
  8002168:	70fb      	strb	r3, [r7, #3]
-	uint32_t flashAddress = MY_SectorAddrs + idx;
  800216a:	4b29      	ldr	r3, [pc, #164]	; (8002210 <MY_FLASH_ReadN+0xb4>)
  800216c:	681b      	ldr	r3, [r3, #0]
  800216e:	68fa      	ldr	r2, [r7, #12]
  8002170:	4413      	add	r3, r2
  8002172:	61fb      	str	r3, [r7, #28]
-	
-	switch(dataType)
  8002174:	78fb      	ldrb	r3, [r7, #3]
  8002176:	2b02      	cmp	r3, #2
  8002178:	d02f      	beq.n	80021da <MY_FLASH_ReadN+0x7e>
@@ -3336,29 +3268,19 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  8002180:	d002      	beq.n	8002188 <MY_FLASH_ReadN+0x2c>
  8002182:	2b01      	cmp	r3, #1
  8002184:	d014      	beq.n	80021b0 <MY_FLASH_ReadN+0x54>
-					*((uint32_t *)rdBuf + i) = *(uint32_t *)flashAddress;
-					flashAddress+=4;
-				}
-			break;
-	}
-}
  8002186:	e03d      	b.n	8002204 <MY_FLASH_ReadN+0xa8>
-				for(uint32_t i=0; i<Nsize; i++)
  8002188:	2300      	movs	r3, #0
  800218a:	61bb      	str	r3, [r7, #24]
  800218c:	e00b      	b.n	80021a6 <MY_FLASH_ReadN+0x4a>
-					*((uint8_t *)rdBuf + i) = *(uint8_t *)flashAddress;
  800218e:	69fa      	ldr	r2, [r7, #28]
  8002190:	68b9      	ldr	r1, [r7, #8]
  8002192:	69bb      	ldr	r3, [r7, #24]
  8002194:	440b      	add	r3, r1
  8002196:	7812      	ldrb	r2, [r2, #0]
  8002198:	701a      	strb	r2, [r3, #0]
-					flashAddress++;
  800219a:	69fb      	ldr	r3, [r7, #28]
  800219c:	3301      	adds	r3, #1
  800219e:	61fb      	str	r3, [r7, #28]
-				for(uint32_t i=0; i<Nsize; i++)
  80021a0:	69bb      	ldr	r3, [r7, #24]
  80021a2:	3301      	adds	r3, #1
  80021a4:	61bb      	str	r3, [r7, #24]
@@ -3366,13 +3288,10 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  80021a8:	687b      	ldr	r3, [r7, #4]
  80021aa:	429a      	cmp	r2, r3
  80021ac:	d3ef      	bcc.n	800218e <MY_FLASH_ReadN+0x32>
-			break;
  80021ae:	e029      	b.n	8002204 <MY_FLASH_ReadN+0xa8>
-				for(uint32_t i=0; i<Nsize; i++)
  80021b0:	2300      	movs	r3, #0
  80021b2:	617b      	str	r3, [r7, #20]
  80021b4:	e00c      	b.n	80021d0 <MY_FLASH_ReadN+0x74>
-					*((uint16_t *)rdBuf + i) = *(uint16_t *)flashAddress;
  80021b6:	69fa      	ldr	r2, [r7, #28]
  80021b8:	697b      	ldr	r3, [r7, #20]
  80021ba:	005b      	lsls	r3, r3, #1
@@ -3380,11 +3299,9 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  80021be:	440b      	add	r3, r1
  80021c0:	8812      	ldrh	r2, [r2, #0]
  80021c2:	801a      	strh	r2, [r3, #0]
-					flashAddress+=2;
  80021c4:	69fb      	ldr	r3, [r7, #28]
  80021c6:	3302      	adds	r3, #2
  80021c8:	61fb      	str	r3, [r7, #28]
-				for(uint32_t i=0; i<Nsize; i++)
  80021ca:	697b      	ldr	r3, [r7, #20]
  80021cc:	3301      	adds	r3, #1
  80021ce:	617b      	str	r3, [r7, #20]
@@ -3392,13 +3309,10 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  80021d2:	687b      	ldr	r3, [r7, #4]
  80021d4:	429a      	cmp	r2, r3
  80021d6:	d3ee      	bcc.n	80021b6 <MY_FLASH_ReadN+0x5a>
-			break;
  80021d8:	e014      	b.n	8002204 <MY_FLASH_ReadN+0xa8>
-				for(uint32_t i=0; i<Nsize; i++)
  80021da:	2300      	movs	r3, #0
  80021dc:	613b      	str	r3, [r7, #16]
  80021de:	e00c      	b.n	80021fa <MY_FLASH_ReadN+0x9e>
-					*((uint32_t *)rdBuf + i) = *(uint32_t *)flashAddress;
  80021e0:	69fa      	ldr	r2, [r7, #28]
  80021e2:	693b      	ldr	r3, [r7, #16]
  80021e4:	009b      	lsls	r3, r3, #2
@@ -3406,11 +3320,9 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  80021e8:	440b      	add	r3, r1
  80021ea:	6812      	ldr	r2, [r2, #0]
  80021ec:	601a      	str	r2, [r3, #0]
-					flashAddress+=4;
  80021ee:	69fb      	ldr	r3, [r7, #28]
  80021f0:	3304      	adds	r3, #4
  80021f2:	61fb      	str	r3, [r7, #28]
-				for(uint32_t i=0; i<Nsize; i++)
  80021f4:	693b      	ldr	r3, [r7, #16]
  80021f6:	3301      	adds	r3, #1
  80021f8:	613b      	str	r3, [r7, #16]
@@ -3418,9 +3330,7 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  80021fc:	687b      	ldr	r3, [r7, #4]
  80021fe:	429a      	cmp	r2, r3
  8002200:	d3ee      	bcc.n	80021e0 <MY_FLASH_ReadN+0x84>
-			break;
  8002202:	bf00      	nop
-}
  8002204:	bf00      	nop
  8002206:	3724      	adds	r7, #36	; 0x24
  8002208:	46bd      	mov	sp, r7
@@ -3429,7 +3339,6 @@ void MY_FLASH_ReadN(uint32_t idx, void *rdBuf, uint32_t Nsize, DataTypeDef dataT
  8002210:	2000018c 	.word	0x2000018c
 
 08002214 <write_flash>:
-void write_flash(uint32_t idx, uint8_t *wrBuf, uint32_t Nsize){
  8002214:	b580      	push	{r7, lr}
  8002216:	f5ad 6d80 	sub.w	sp, sp, #1024	; 0x400
  800221a:	af00      	add	r7, sp, #0
@@ -3442,18 +3351,14 @@ void write_flash(uint32_t idx, uint8_t *wrBuf, uint32_t Nsize){
  8002230:	f507 6380 	add.w	r3, r7, #1024	; 0x400
  8002234:	f5a3 737f 	sub.w	r3, r3, #1020	; 0x3fc
  8002238:	601a      	str	r2, [r3, #0]
-	uint8_t temp_mem[1000];
-	MY_FLASH_ReadN(0,temp_mem,500,DATA_TYPE_8);
  800223a:	f107 0114 	add.w	r1, r7, #20
  800223e:	2300      	movs	r3, #0
  8002240:	f44f 72fa 	mov.w	r2, #500	; 0x1f4
  8002244:	2000      	movs	r0, #0
  8002246:	f7ff ff89 	bl	800215c <MY_FLASH_ReadN>
-	for (int i=0;i<Nsize;i++){
  800224a:	2300      	movs	r3, #0
  800224c:	f8c7 33fc 	str.w	r3, [r7, #1020]	; 0x3fc
  8002250:	e01a      	b.n	8002288 <write_flash+0x74>
-		temp_mem[idx+i] = wrBuf[i];
  8002252:	f8d7 33fc 	ldr.w	r3, [r7, #1020]	; 0x3fc
  8002256:	f507 6280 	add.w	r2, r7, #1024	; 0x400
  800225a:	f5a2 727e 	sub.w	r2, r2, #1016	; 0x3f8
@@ -3468,7 +3373,6 @@ void write_flash(uint32_t idx, uint8_t *wrBuf, uint32_t Nsize){
  8002274:	f507 6280 	add.w	r2, r7, #1024	; 0x400
  8002278:	f5a2 727b 	sub.w	r2, r2, #1004	; 0x3ec
  800227c:	54d1      	strb	r1, [r2, r3]
-	for (int i=0;i<Nsize;i++){
  800227e:	f8d7 33fc 	ldr.w	r3, [r7, #1020]	; 0x3fc
  8002282:	3301      	adds	r3, #1
  8002284:	f8c7 33fc 	str.w	r3, [r7, #1020]	; 0x3fc
@@ -3478,14 +3382,11 @@ void write_flash(uint32_t idx, uint8_t *wrBuf, uint32_t Nsize){
  8002294:	6812      	ldr	r2, [r2, #0]
  8002296:	429a      	cmp	r2, r3
  8002298:	d8db      	bhi.n	8002252 <write_flash+0x3e>
-	}
-	MY_FLASH_WriteN(0,temp_mem,500,DATA_TYPE_8);
  800229a:	f107 0114 	add.w	r1, r7, #20
  800229e:	2300      	movs	r3, #0
  80022a0:	f44f 72fa 	mov.w	r2, #500	; 0x1f4
  80022a4:	2000      	movs	r0, #0
  80022a6:	f7ff fedf 	bl	8002068 <MY_FLASH_WriteN>
-}
  80022aa:	bf00      	nop
  80022ac:	f507 6780 	add.w	r7, r7, #1024	; 0x400
  80022b0:	46bd      	mov	sp, r7
@@ -3523,50 +3424,31 @@ void write_flash(uint32_t idx, uint8_t *wrBuf, uint32_t Nsize){
  80022f4:	40023800 	.word	0x40023800
 
 080022f8 <ITM_SendChar>:
-           \li Is blocking when a debugger is connected, but the previous character sent has not been transmitted.
-  \param [in]     ch  Character to transmit.
-  \returns            Character to transmit.
- */
-__STATIC_INLINE uint32_t ITM_SendChar (uint32_t ch)
-{
  80022f8:	b480      	push	{r7}
  80022fa:	b083      	sub	sp, #12
  80022fc:	af00      	add	r7, sp, #0
  80022fe:	6078      	str	r0, [r7, #4]
-  if (((ITM->TCR & ITM_TCR_ITMENA_Msk) != 0UL) &&      /* ITM enabled */
  8002300:	f04f 4360 	mov.w	r3, #3758096384	; 0xe0000000
  8002304:	f8d3 3e80 	ldr.w	r3, [r3, #3712]	; 0xe80
  8002308:	f003 0301 	and.w	r3, r3, #1
  800230c:	2b00      	cmp	r3, #0
  800230e:	d013      	beq.n	8002338 <ITM_SendChar+0x40>
-      ((ITM->TER & 1UL               ) != 0UL)   )     /* ITM Port #0 enabled */
  8002310:	f04f 4360 	mov.w	r3, #3758096384	; 0xe0000000
  8002314:	f8d3 3e00 	ldr.w	r3, [r3, #3584]	; 0xe00
  8002318:	f003 0301 	and.w	r3, r3, #1
-  if (((ITM->TCR & ITM_TCR_ITMENA_Msk) != 0UL) &&      /* ITM enabled */
  800231c:	2b00      	cmp	r3, #0
  800231e:	d00b      	beq.n	8002338 <ITM_SendChar+0x40>
-  {
-    while (ITM->PORT[0U].u32 == 0UL)
  8002320:	e000      	b.n	8002324 <ITM_SendChar+0x2c>
-    {
-      __NOP();
  8002322:	bf00      	nop
-    while (ITM->PORT[0U].u32 == 0UL)
  8002324:	f04f 4360 	mov.w	r3, #3758096384	; 0xe0000000
  8002328:	681b      	ldr	r3, [r3, #0]
  800232a:	2b00      	cmp	r3, #0
  800232c:	d0f9      	beq.n	8002322 <ITM_SendChar+0x2a>
-    }
-    ITM->PORT[0U].u8 = (uint8_t)ch;
  800232e:	f04f 4360 	mov.w	r3, #3758096384	; 0xe0000000
  8002332:	687a      	ldr	r2, [r7, #4]
  8002334:	b2d2      	uxtb	r2, r2
  8002336:	701a      	strb	r2, [r3, #0]
-  }
-  return (ch);
  8002338:	687b      	ldr	r3, [r7, #4]
-}
  800233a:	4618      	mov	r0, r3
  800233c:	370c      	adds	r7, #12
  800233e:	46bd      	mov	sp, r7
@@ -3575,109 +3457,55 @@ __STATIC_INLINE uint32_t ITM_SendChar (uint32_t ch)
 	...
 
 08002348 <main>:
-  * @brief  The application entry point.
-  * @retval int
-  */
-
-int main(void)
-{
  8002348:	b580      	push	{r7, lr}
  800234a:	af00      	add	r7, sp, #0
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
  800234c:	f002 fa64 	bl	8004818 <HAL_Init>
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
-
-  /* Configure the system clock */
-  SystemClock_Config();
  8002350:	f000 f848 	bl	80023e4 <SystemClock_Config>
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
  8002354:	f000 f954 	bl	8002600 <MX_GPIO_Init>
-  MX_I2C1_Init();
  8002358:	f000 f8c2 	bl	80024e0 <MX_I2C1_Init>
-  MX_RNG_Init();
  800235c:	f000 f8ee 	bl	800253c <MX_RNG_Init>
-  MX_USB_DEVICE_Init();
  8002360:	f009 fce6 	bl	800bd30 <MX_USB_DEVICE_Init>
-  MX_TIM2_Init();
  8002364:	f000 f8fe 	bl	8002564 <MX_TIM2_Init>
-  MX_CRC_Init();
  8002368:	f000 f8a6 	bl	80024b8 <MX_CRC_Init>
-  /* USER CODE BEGIN 2 */
-  MY_FLASH_SetSectorAddrs(sector_name, sector_base_address);
  800236c:	4919      	ldr	r1, [pc, #100]	; (80023d4 <main+0x8c>)
  800236e:	200b      	movs	r0, #11
  8002370:	f7ff fe64 	bl	800203c <MY_FLASH_SetSectorAddrs>
-  SSD1306_Init();
  8002374:	f001 fc54 	bl	8003c20 <SSD1306_Init>
-  HAL_TIM_Base_Start_IT(&htim2);
  8002378:	4817      	ldr	r0, [pc, #92]	; (80023d8 <main+0x90>)
  800237a:	f005 fda9 	bl	8007ed0 <HAL_TIM_Base_Start_IT>
-  	/*
-    write_flash(BrandNew_address, &Brand_new, 1);
-    write_flash(Nusers_address, &user_num, 1);
-    write_flash(WrongPassword_address, &WrongPassword, 1);
-    */
-	if (cmox_initialize(NULL) != CMOX_INIT_SUCCESS)
  800237e:	2000      	movs	r0, #0
  8002380:	f7fe fcde 	bl	8000d40 <cmox_initialize>
  8002384:	4603      	mov	r3, r0
  8002386:	2b00      	cmp	r3, #0
  8002388:	d002      	beq.n	8002390 <main+0x48>
-	{
-		  printf("Init is not done\n");
  800238a:	4814      	ldr	r0, [pc, #80]	; (80023dc <main+0x94>)
  800238c:	f00a fb7c 	bl	800ca88 <puts>
-	}
-	Startup();
  8002390:	f000 f9b2 	bl	80026f8 <Startup>
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	  if(state == Lock)LockDevice();
  8002394:	4b12      	ldr	r3, [pc, #72]	; (80023e0 <main+0x98>)
  8002396:	781b      	ldrb	r3, [r3, #0]
  8002398:	2b00      	cmp	r3, #0
  800239a:	d101      	bne.n	80023a0 <main+0x58>
  800239c:	f000 fd06 	bl	8002dac <LockDevice>
-	  if(state == Reset)ResetFactory();
  80023a0:	4b0f      	ldr	r3, [pc, #60]	; (80023e0 <main+0x98>)
  80023a2:	781b      	ldrb	r3, [r3, #0]
  80023a4:	2b01      	cmp	r3, #1
  80023a6:	d101      	bne.n	80023ac <main+0x64>
  80023a8:	f000 ff12 	bl	80031d0 <ResetFactory>
-	  if(state == Timeout)TimeoutMenu();
  80023ac:	4b0c      	ldr	r3, [pc, #48]	; (80023e0 <main+0x98>)
  80023ae:	781b      	ldrb	r3, [r3, #0]
  80023b0:	2b02      	cmp	r3, #2
  80023b2:	d101      	bne.n	80023b8 <main+0x70>
  80023b4:	f000 faf4 	bl	80029a0 <TimeoutMenu>
-	  if(state == Enrollment)Enroll();
  80023b8:	4b09      	ldr	r3, [pc, #36]	; (80023e0 <main+0x98>)
  80023ba:	781b      	ldrb	r3, [r3, #0]
  80023bc:	2b03      	cmp	r3, #3
  80023be:	d101      	bne.n	80023c4 <main+0x7c>
  80023c0:	f000 fb24 	bl	8002a0c <Enroll>
-	  if(state == Menu)MainMenu();
  80023c4:	4b06      	ldr	r3, [pc, #24]	; (80023e0 <main+0x98>)
  80023c6:	781b      	ldrb	r3, [r3, #0]
  80023c8:	2b04      	cmp	r3, #4
  80023ca:	d1e3      	bne.n	8002394 <main+0x4c>
  80023cc:	f000 f9f6 	bl	80027bc <MainMenu>
-	  if(state == Lock)LockDevice();
  80023d0:	e7e0      	b.n	8002394 <main+0x4c>
  80023d2:	bf00      	nop
  80023d4:	080e0000 	.word	0x080e0000
@@ -3686,22 +3514,14 @@ int main(void)
  80023e0:	200002c1 	.word	0x200002c1
 
 080023e4 <SystemClock_Config>:
-/**
-  * @brief System Clock Configuration
-  * @retval None
-  */
-void SystemClock_Config(void)
-{
  80023e4:	b580      	push	{r7, lr}
  80023e6:	b094      	sub	sp, #80	; 0x50
  80023e8:	af00      	add	r7, sp, #0
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
  80023ea:	f107 0320 	add.w	r3, r7, #32
  80023ee:	2230      	movs	r2, #48	; 0x30
  80023f0:	2100      	movs	r1, #0
  80023f2:	4618      	mov	r0, r3
  80023f4:	f00a fc38 	bl	800cc68 <memset>
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  80023f8:	f107 030c 	add.w	r3, r7, #12
  80023fc:	2200      	movs	r2, #0
  80023fe:	601a      	str	r2, [r3, #0]
@@ -3709,10 +3529,6 @@ void SystemClock_Config(void)
  8002402:	609a      	str	r2, [r3, #8]
  8002404:	60da      	str	r2, [r3, #12]
  8002406:	611a      	str	r2, [r3, #16]
-
-  /** Configure the main internal regulator output voltage
-  */
-  __HAL_RCC_PWR_CLK_ENABLE();
  8002408:	2300      	movs	r3, #0
  800240a:	60bb      	str	r3, [r7, #8]
  800240c:	4b28      	ldr	r3, [pc, #160]	; (80024b0 <SystemClock_Config+0xcc>)
@@ -3725,7 +3541,6 @@ void SystemClock_Config(void)
  800241c:	f003 5380 	and.w	r3, r3, #268435456	; 0x10000000
  8002420:	60bb      	str	r3, [r7, #8]
  8002422:	68bb      	ldr	r3, [r7, #8]
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
  8002424:	2300      	movs	r3, #0
  8002426:	607b      	str	r3, [r7, #4]
  8002428:	4b22      	ldr	r3, [pc, #136]	; (80024b4 <SystemClock_Config+0xd0>)
@@ -3738,66 +3553,39 @@ void SystemClock_Config(void)
  8002438:	f403 4380 	and.w	r3, r3, #16384	; 0x4000
  800243c:	607b      	str	r3, [r7, #4]
  800243e:	687b      	ldr	r3, [r7, #4]
-
-  /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
  8002440:	2301      	movs	r3, #1
  8002442:	623b      	str	r3, [r7, #32]
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
  8002444:	f44f 3380 	mov.w	r3, #65536	; 0x10000
  8002448:	627b      	str	r3, [r7, #36]	; 0x24
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
  800244a:	2302      	movs	r3, #2
  800244c:	63bb      	str	r3, [r7, #56]	; 0x38
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
  800244e:	f44f 0380 	mov.w	r3, #4194304	; 0x400000
  8002452:	63fb      	str	r3, [r7, #60]	; 0x3c
-  RCC_OscInitStruct.PLL.PLLM = 8;
  8002454:	2308      	movs	r3, #8
  8002456:	643b      	str	r3, [r7, #64]	; 0x40
-  RCC_OscInitStruct.PLL.PLLN = 336;
  8002458:	f44f 73a8 	mov.w	r3, #336	; 0x150
  800245c:	647b      	str	r3, [r7, #68]	; 0x44
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
  800245e:	2302      	movs	r3, #2
  8002460:	64bb      	str	r3, [r7, #72]	; 0x48
-  RCC_OscInitStruct.PLL.PLLQ = 7;
  8002462:	2307      	movs	r3, #7
  8002464:	64fb      	str	r3, [r7, #76]	; 0x4c
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
  8002466:	f107 0320 	add.w	r3, r7, #32
  800246a:	4618      	mov	r0, r3
  800246c:	f004 ff9a 	bl	80073a4 <HAL_RCC_OscConfig>
  8002470:	4603      	mov	r3, r0
  8002472:	2b00      	cmp	r3, #0
  8002474:	d001      	beq.n	800247a <SystemClock_Config+0x96>
-  {
-    Error_Handler();
  8002476:	f001 fb65 	bl	8003b44 <Error_Handler>
-  }
-
-  /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
  800247a:	230f      	movs	r3, #15
  800247c:	60fb      	str	r3, [r7, #12]
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
  800247e:	2302      	movs	r3, #2
  8002480:	613b      	str	r3, [r7, #16]
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
  8002482:	2300      	movs	r3, #0
  8002484:	617b      	str	r3, [r7, #20]
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV8;
  8002486:	f44f 53c0 	mov.w	r3, #6144	; 0x1800
  800248a:	61bb      	str	r3, [r7, #24]
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
  800248c:	f44f 5380 	mov.w	r3, #4096	; 0x1000
  8002490:	61fb      	str	r3, [r7, #28]
-
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
  8002492:	f107 030c 	add.w	r3, r7, #12
  8002496:	2105      	movs	r1, #5
  8002498:	4618      	mov	r0, r3
@@ -3805,11 +3593,7 @@ void SystemClock_Config(void)
  800249e:	4603      	mov	r3, r0
  80024a0:	2b00      	cmp	r3, #0
  80024a2:	d001      	beq.n	80024a8 <SystemClock_Config+0xc4>
-  {
-    Error_Handler();
  80024a4:	f001 fb4e 	bl	8003b44 <Error_Handler>
-  }
-}
  80024a8:	bf00      	nop
  80024aa:	3750      	adds	r7, #80	; 0x50
  80024ac:	46bd      	mov	sp, r7
@@ -3818,38 +3602,17 @@ void SystemClock_Config(void)
  80024b4:	40007000 	.word	0x40007000
 
 080024b8 <MX_CRC_Init>:
-  * @brief CRC Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_CRC_Init(void)
-{
  80024b8:	b580      	push	{r7, lr}
  80024ba:	af00      	add	r7, sp, #0
-  /* USER CODE END CRC_Init 0 */
-
-  /* USER CODE BEGIN CRC_Init 1 */
-
-  /* USER CODE END CRC_Init 1 */
-  hcrc.Instance = CRC;
  80024bc:	4b06      	ldr	r3, [pc, #24]	; (80024d8 <MX_CRC_Init+0x20>)
  80024be:	4a07      	ldr	r2, [pc, #28]	; (80024dc <MX_CRC_Init+0x24>)
  80024c0:	601a      	str	r2, [r3, #0]
-  if (HAL_CRC_Init(&hcrc) != HAL_OK)
  80024c2:	4805      	ldr	r0, [pc, #20]	; (80024d8 <MX_CRC_Init+0x20>)
  80024c4:	f002 fb4f 	bl	8004b66 <HAL_CRC_Init>
  80024c8:	4603      	mov	r3, r0
  80024ca:	2b00      	cmp	r3, #0
  80024cc:	d001      	beq.n	80024d2 <MX_CRC_Init+0x1a>
-  {
-    Error_Handler();
  80024ce:	f001 fb39 	bl	8003b44 <Error_Handler>
-  }
-  /* USER CODE BEGIN CRC_Init 2 */
-
-  /* USER CODE END CRC_Init 2 */
-
-}
  80024d2:	bf00      	nop
  80024d4:	bd80      	pop	{r7, pc}
  80024d6:	bf00      	nop
@@ -3857,70 +3620,41 @@ static void MX_CRC_Init(void)
  80024dc:	40023000 	.word	0x40023000
 
 080024e0 <MX_I2C1_Init>:
-  * @brief I2C1 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_I2C1_Init(void)
-{
  80024e0:	b580      	push	{r7, lr}
  80024e2:	af00      	add	r7, sp, #0
-  /* USER CODE END I2C1_Init 0 */
-
-  /* USER CODE BEGIN I2C1_Init 1 */
-
-  /* USER CODE END I2C1_Init 1 */
-  hi2c1.Instance = I2C1;
  80024e4:	4b12      	ldr	r3, [pc, #72]	; (8002530 <MX_I2C1_Init+0x50>)
  80024e6:	4a13      	ldr	r2, [pc, #76]	; (8002534 <MX_I2C1_Init+0x54>)
  80024e8:	601a      	str	r2, [r3, #0]
-  hi2c1.Init.ClockSpeed = 400000;
  80024ea:	4b11      	ldr	r3, [pc, #68]	; (8002530 <MX_I2C1_Init+0x50>)
  80024ec:	4a12      	ldr	r2, [pc, #72]	; (8002538 <MX_I2C1_Init+0x58>)
  80024ee:	605a      	str	r2, [r3, #4]
-  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
  80024f0:	4b0f      	ldr	r3, [pc, #60]	; (8002530 <MX_I2C1_Init+0x50>)
  80024f2:	2200      	movs	r2, #0
  80024f4:	609a      	str	r2, [r3, #8]
-  hi2c1.Init.OwnAddress1 = 0;
  80024f6:	4b0e      	ldr	r3, [pc, #56]	; (8002530 <MX_I2C1_Init+0x50>)
  80024f8:	2200      	movs	r2, #0
  80024fa:	60da      	str	r2, [r3, #12]
-  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
  80024fc:	4b0c      	ldr	r3, [pc, #48]	; (8002530 <MX_I2C1_Init+0x50>)
  80024fe:	f44f 4280 	mov.w	r2, #16384	; 0x4000
  8002502:	611a      	str	r2, [r3, #16]
-  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
  8002504:	4b0a      	ldr	r3, [pc, #40]	; (8002530 <MX_I2C1_Init+0x50>)
  8002506:	2200      	movs	r2, #0
  8002508:	615a      	str	r2, [r3, #20]
-  hi2c1.Init.OwnAddress2 = 0;
  800250a:	4b09      	ldr	r3, [pc, #36]	; (8002530 <MX_I2C1_Init+0x50>)
  800250c:	2200      	movs	r2, #0
  800250e:	619a      	str	r2, [r3, #24]
-  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
  8002510:	4b07      	ldr	r3, [pc, #28]	; (8002530 <MX_I2C1_Init+0x50>)
  8002512:	2200      	movs	r2, #0
  8002514:	61da      	str	r2, [r3, #28]
-  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
  8002516:	4b06      	ldr	r3, [pc, #24]	; (8002530 <MX_I2C1_Init+0x50>)
  8002518:	2200      	movs	r2, #0
  800251a:	621a      	str	r2, [r3, #32]
-  if (HAL_I2C_Init(&hi2c1) != HAL_OK)
  800251c:	4804      	ldr	r0, [pc, #16]	; (8002530 <MX_I2C1_Init+0x50>)
  800251e:	f002 ff25 	bl	800536c <HAL_I2C_Init>
  8002522:	4603      	mov	r3, r0
  8002524:	2b00      	cmp	r3, #0
  8002526:	d001      	beq.n	800252c <MX_I2C1_Init+0x4c>
-  {
-    Error_Handler();
  8002528:	f001 fb0c 	bl	8003b44 <Error_Handler>
-  }
-  /* USER CODE BEGIN I2C1_Init 2 */
-
-  /* USER CODE END I2C1_Init 2 */
-
-}
  800252c:	bf00      	nop
  800252e:	bd80      	pop	{r7, pc}
  8002530:	2000019c 	.word	0x2000019c
@@ -3928,38 +3662,17 @@ static void MX_I2C1_Init(void)
  8002538:	00061a80 	.word	0x00061a80
 
 0800253c <MX_RNG_Init>:
-  * @brief RNG Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_RNG_Init(void)
-{
  800253c:	b580      	push	{r7, lr}
  800253e:	af00      	add	r7, sp, #0
-  /* USER CODE END RNG_Init 0 */
-
-  /* USER CODE BEGIN RNG_Init 1 */
-
-  /* USER CODE END RNG_Init 1 */
-  hrng.Instance = RNG;
  8002540:	4b06      	ldr	r3, [pc, #24]	; (800255c <MX_RNG_Init+0x20>)
  8002542:	4a07      	ldr	r2, [pc, #28]	; (8002560 <MX_RNG_Init+0x24>)
  8002544:	601a      	str	r2, [r3, #0]
-  if (HAL_RNG_Init(&hrng) != HAL_OK)
  8002546:	4805      	ldr	r0, [pc, #20]	; (800255c <MX_RNG_Init+0x20>)
  8002548:	f005 fbb0 	bl	8007cac <HAL_RNG_Init>
  800254c:	4603      	mov	r3, r0
  800254e:	2b00      	cmp	r3, #0
  8002550:	d001      	beq.n	8002556 <MX_RNG_Init+0x1a>
-  {
-    Error_Handler();
  8002552:	f001 faf7 	bl	8003b44 <Error_Handler>
-  }
-  /* USER CODE BEGIN RNG_Init 2 */
-
-  /* USER CODE END RNG_Init 2 */
-
-}
  8002556:	bf00      	nop
  8002558:	bd80      	pop	{r7, pc}
  800255a:	bf00      	nop
@@ -3967,74 +3680,45 @@ static void MX_RNG_Init(void)
  8002560:	50060800 	.word	0x50060800
 
 08002564 <MX_TIM2_Init>:
-  * @brief TIM2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM2_Init(void)
-{
  8002564:	b580      	push	{r7, lr}
  8002566:	b086      	sub	sp, #24
  8002568:	af00      	add	r7, sp, #0
-
-  /* USER CODE BEGIN TIM2_Init 0 */
-
-  /* USER CODE END TIM2_Init 0 */
-
-  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
  800256a:	f107 0308 	add.w	r3, r7, #8
  800256e:	2200      	movs	r2, #0
  8002570:	601a      	str	r2, [r3, #0]
  8002572:	605a      	str	r2, [r3, #4]
  8002574:	609a      	str	r2, [r3, #8]
  8002576:	60da      	str	r2, [r3, #12]
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
  8002578:	463b      	mov	r3, r7
  800257a:	2200      	movs	r2, #0
  800257c:	601a      	str	r2, [r3, #0]
  800257e:	605a      	str	r2, [r3, #4]
-
-  /* USER CODE BEGIN TIM2_Init 1 */
-
-  /* USER CODE END TIM2_Init 1 */
-  htim2.Instance = TIM2;
  8002580:	4b1e      	ldr	r3, [pc, #120]	; (80025fc <MX_TIM2_Init+0x98>)
  8002582:	f04f 4280 	mov.w	r2, #1073741824	; 0x40000000
  8002586:	601a      	str	r2, [r3, #0]
-  htim2.Init.Prescaler = 42000;
  8002588:	4b1c      	ldr	r3, [pc, #112]	; (80025fc <MX_TIM2_Init+0x98>)
  800258a:	f24a 4210 	movw	r2, #42000	; 0xa410
  800258e:	605a      	str	r2, [r3, #4]
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
  8002590:	4b1a      	ldr	r3, [pc, #104]	; (80025fc <MX_TIM2_Init+0x98>)
  8002592:	2200      	movs	r2, #0
  8002594:	609a      	str	r2, [r3, #8]
-  htim2.Init.Period = 1000;
  8002596:	4b19      	ldr	r3, [pc, #100]	; (80025fc <MX_TIM2_Init+0x98>)
  8002598:	f44f 727a 	mov.w	r2, #1000	; 0x3e8
  800259c:	60da      	str	r2, [r3, #12]
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
  800259e:	4b17      	ldr	r3, [pc, #92]	; (80025fc <MX_TIM2_Init+0x98>)
  80025a0:	2200      	movs	r2, #0
  80025a2:	611a      	str	r2, [r3, #16]
-  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
  80025a4:	4b15      	ldr	r3, [pc, #84]	; (80025fc <MX_TIM2_Init+0x98>)
  80025a6:	2200      	movs	r2, #0
  80025a8:	619a      	str	r2, [r3, #24]
-  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
  80025aa:	4814      	ldr	r0, [pc, #80]	; (80025fc <MX_TIM2_Init+0x98>)
  80025ac:	f005 fc41 	bl	8007e32 <HAL_TIM_Base_Init>
  80025b0:	4603      	mov	r3, r0
  80025b2:	2b00      	cmp	r3, #0
  80025b4:	d001      	beq.n	80025ba <MX_TIM2_Init+0x56>
-  {
-    Error_Handler();
  80025b6:	f001 fac5 	bl	8003b44 <Error_Handler>
-  }
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
  80025ba:	f44f 5380 	mov.w	r3, #4096	; 0x1000
  80025be:	60bb      	str	r3, [r7, #8]
-  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
  80025c0:	f107 0308 	add.w	r3, r7, #8
  80025c4:	4619      	mov	r1, r3
  80025c6:	480d      	ldr	r0, [pc, #52]	; (80025fc <MX_TIM2_Init+0x98>)
@@ -4042,17 +3726,11 @@ static void MX_TIM2_Init(void)
  80025cc:	4603      	mov	r3, r0
  80025ce:	2b00      	cmp	r3, #0
  80025d0:	d001      	beq.n	80025d6 <MX_TIM2_Init+0x72>
-  {
-    Error_Handler();
  80025d2:	f001 fab7 	bl	8003b44 <Error_Handler>
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
  80025d6:	2320      	movs	r3, #32
  80025d8:	603b      	str	r3, [r7, #0]
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
  80025da:	2300      	movs	r3, #0
  80025dc:	607b      	str	r3, [r7, #4]
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
  80025de:	463b      	mov	r3, r7
  80025e0:	4619      	mov	r1, r3
  80025e2:	4806      	ldr	r0, [pc, #24]	; (80025fc <MX_TIM2_Init+0x98>)
@@ -4060,15 +3738,7 @@ static void MX_TIM2_Init(void)
  80025e8:	4603      	mov	r3, r0
  80025ea:	2b00      	cmp	r3, #0
  80025ec:	d001      	beq.n	80025f2 <MX_TIM2_Init+0x8e>
-  {
-    Error_Handler();
  80025ee:	f001 faa9 	bl	8003b44 <Error_Handler>
-  }
-  /* USER CODE BEGIN TIM2_Init 2 */
-
-  /* USER CODE END TIM2_Init 2 */
-
-}
  80025f2:	bf00      	nop
  80025f4:	3718      	adds	r7, #24
  80025f6:	46bd      	mov	sp, r7
@@ -4077,16 +3747,9 @@ static void MX_TIM2_Init(void)
  80025fc:	20000200 	.word	0x20000200
 
 08002600 <MX_GPIO_Init>:
-  * @brief GPIO Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_GPIO_Init(void)
-{
  8002600:	b580      	push	{r7, lr}
  8002602:	b08a      	sub	sp, #40	; 0x28
  8002604:	af00      	add	r7, sp, #0
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
  8002606:	f107 0314 	add.w	r3, r7, #20
  800260a:	2200      	movs	r2, #0
  800260c:	601a      	str	r2, [r3, #0]
@@ -4094,11 +3757,6 @@ static void MX_GPIO_Init(void)
  8002610:	609a      	str	r2, [r3, #8]
  8002612:	60da      	str	r2, [r3, #12]
  8002614:	611a      	str	r2, [r3, #16]
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
-
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOH_CLK_ENABLE();
  8002616:	2300      	movs	r3, #0
  8002618:	613b      	str	r3, [r7, #16]
  800261a:	4b34      	ldr	r3, [pc, #208]	; (80026ec <MX_GPIO_Init+0xec>)
@@ -4111,7 +3769,6 @@ static void MX_GPIO_Init(void)
  800262a:	f003 0380 	and.w	r3, r3, #128	; 0x80
  800262e:	613b      	str	r3, [r7, #16]
  8002630:	693b      	ldr	r3, [r7, #16]
-  __HAL_RCC_GPIOD_CLK_ENABLE();
  8002632:	2300      	movs	r3, #0
  8002634:	60fb      	str	r3, [r7, #12]
  8002636:	4b2d      	ldr	r3, [pc, #180]	; (80026ec <MX_GPIO_Init+0xec>)
@@ -4124,7 +3781,6 @@ static void MX_GPIO_Init(void)
  8002646:	f003 0308 	and.w	r3, r3, #8
  800264a:	60fb      	str	r3, [r7, #12]
  800264c:	68fb      	ldr	r3, [r7, #12]
-  __HAL_RCC_GPIOC_CLK_ENABLE();
  800264e:	2300      	movs	r3, #0
  8002650:	60bb      	str	r3, [r7, #8]
  8002652:	4b26      	ldr	r3, [pc, #152]	; (80026ec <MX_GPIO_Init+0xec>)
@@ -4137,7 +3793,6 @@ static void MX_GPIO_Init(void)
  8002662:	f003 0304 	and.w	r3, r3, #4
  8002666:	60bb      	str	r3, [r7, #8]
  8002668:	68bb      	ldr	r3, [r7, #8]
-  __HAL_RCC_GPIOA_CLK_ENABLE();
  800266a:	2300      	movs	r3, #0
  800266c:	607b      	str	r3, [r7, #4]
  800266e:	4b1f      	ldr	r3, [pc, #124]	; (80026ec <MX_GPIO_Init+0xec>)
@@ -4150,7 +3805,6 @@ static void MX_GPIO_Init(void)
  800267e:	f003 0301 	and.w	r3, r3, #1
  8002682:	607b      	str	r3, [r7, #4]
  8002684:	687b      	ldr	r3, [r7, #4]
-  __HAL_RCC_GPIOB_CLK_ENABLE();
  8002686:	2300      	movs	r3, #0
  8002688:	603b      	str	r3, [r7, #0]
  800268a:	4b18      	ldr	r3, [pc, #96]	; (80026ec <MX_GPIO_Init+0xec>)
@@ -4163,52 +3817,32 @@ static void MX_GPIO_Init(void)
  800269a:	f003 0302 	and.w	r3, r3, #2
  800269e:	603b      	str	r3, [r7, #0]
  80026a0:	683b      	ldr	r3, [r7, #0]
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, Green_Pin|Orange_Pin|Red_Pin|Blue_Pin, GPIO_PIN_RESET);
  80026a2:	2200      	movs	r2, #0
  80026a4:	f44f 4170 	mov.w	r1, #61440	; 0xf000
  80026a8:	4811      	ldr	r0, [pc, #68]	; (80026f0 <MX_GPIO_Init+0xf0>)
  80026aa:	f002 fe2b 	bl	8005304 <HAL_GPIO_WritePin>
-
-  /*Configure GPIO pins : Green_Pin Orange_Pin Red_Pin Blue_Pin */
-  GPIO_InitStruct.Pin = Green_Pin|Orange_Pin|Red_Pin|Blue_Pin;
  80026ae:	f44f 4370 	mov.w	r3, #61440	; 0xf000
  80026b2:	617b      	str	r3, [r7, #20]
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
  80026b4:	2301      	movs	r3, #1
  80026b6:	61bb      	str	r3, [r7, #24]
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
  80026b8:	2300      	movs	r3, #0
  80026ba:	61fb      	str	r3, [r7, #28]
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
  80026bc:	2300      	movs	r3, #0
  80026be:	623b      	str	r3, [r7, #32]
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
  80026c0:	f107 0314 	add.w	r3, r7, #20
  80026c4:	4619      	mov	r1, r3
  80026c6:	480a      	ldr	r0, [pc, #40]	; (80026f0 <MX_GPIO_Init+0xf0>)
  80026c8:	f002 fc68 	bl	8004f9c <HAL_GPIO_Init>
-
-  /*Configure GPIO pins : Bt1_Pin Bt2_Pin */
-  GPIO_InitStruct.Pin = Bt1_Pin|Bt2_Pin;
  80026cc:	23c0      	movs	r3, #192	; 0xc0
  80026ce:	617b      	str	r3, [r7, #20]
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
  80026d0:	2300      	movs	r3, #0
  80026d2:	61bb      	str	r3, [r7, #24]
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
  80026d4:	2300      	movs	r3, #0
  80026d6:	61fb      	str	r3, [r7, #28]
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  80026d8:	f107 0314 	add.w	r3, r7, #20
  80026dc:	4619      	mov	r1, r3
  80026de:	4805      	ldr	r0, [pc, #20]	; (80026f4 <MX_GPIO_Init+0xf4>)
  80026e0:	f002 fc5c 	bl	8004f9c <HAL_GPIO_Init>
-
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
-}
  80026e4:	bf00      	nop
  80026e6:	3728      	adds	r7, #40	; 0x28
  80026e8:	46bd      	mov	sp, r7
@@ -4218,22 +3852,14 @@ static void MX_GPIO_Init(void)
  80026f4:	40020800 	.word	0x40020800
 
 080026f8 <Startup>:
-
-/* USER CODE BEGIN 4 */
-void Startup() {
  80026f8:	b580      	push	{r7, lr}
  80026fa:	b082      	sub	sp, #8
  80026fc:	af02      	add	r7, sp, #8
-    // Read a single byte from the flash memory at BrandNew_address and store it in Brand_new.
-    MY_FLASH_ReadN(BrandNew_address, &Brand_new, 1, DATA_TYPE_8);
  80026fe:	2300      	movs	r3, #0
  8002700:	2201      	movs	r2, #1
  8002702:	4927      	ldr	r1, [pc, #156]	; (80027a0 <Startup+0xa8>)
  8002704:	2000      	movs	r0, #0
  8002706:	f7ff fd29 	bl	800215c <MY_FLASH_ReadN>
-
-    // Draw the logo on the SSD1306 display at position (0,0) with dimensions 128x64 and color 1 (white).
-    SSD1306_DrawBitmap(0, 0, logo, 128, 64, 1);
  800270a:	2301      	movs	r3, #1
  800270c:	9301      	str	r3, [sp, #4]
  800270e:	2340      	movs	r3, #64	; 0x40
@@ -4243,104 +3869,51 @@ void Startup() {
  8002716:	2100      	movs	r1, #0
  8002718:	2000      	movs	r0, #0
  800271a:	f001 fa18 	bl	8003b4e <SSD1306_DrawBitmap>
-
-    // Update the SSD1306 display to show the drawn bitmap.
-    SSD1306_UpdateScreen();
  800271e:	f001 fb43 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    // Delay for 1000 milliseconds (1 second).
-    HAL_Delay(1000);
  8002722:	f44f 707a 	mov.w	r0, #1000	; 0x3e8
  8002726:	f002 f8e9 	bl	80048fc <HAL_Delay>
-
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  800272a:	f001 fde6 	bl	80042fa <SSD1306_Clear>
-
-    // Read 8 bytes from the flash memory at GlobalSalt_address and store it in GlobalSalt.
-    MY_FLASH_ReadN(GlobalSalt_address, GlobalSalt, 8, DATA_TYPE_8);
  800272e:	2300      	movs	r3, #0
  8002730:	2208      	movs	r2, #8
  8002732:	491d      	ldr	r1, [pc, #116]	; (80027a8 <Startup+0xb0>)
  8002734:	2003      	movs	r0, #3
  8002736:	f7ff fd11 	bl	800215c <MY_FLASH_ReadN>
-
-    // Check if the device is brand new.
-    if (Brand_new == 0) {
  800273a:	4b19      	ldr	r3, [pc, #100]	; (80027a0 <Startup+0xa8>)
  800273c:	781b      	ldrb	r3, [r3, #0]
  800273e:	2b00      	cmp	r3, #0
  8002740:	d125      	bne.n	800278e <Startup+0x96>
-        // Print the Brand_new value for debugging purposes.
-        printf("Brand new = %02x\n", Brand_new);
  8002742:	4b17      	ldr	r3, [pc, #92]	; (80027a0 <Startup+0xa8>)
  8002744:	781b      	ldrb	r3, [r3, #0]
  8002746:	4619      	mov	r1, r3
  8002748:	4818      	ldr	r0, [pc, #96]	; (80027ac <Startup+0xb4>)
  800274a:	f00a f92f 	bl	800c9ac <iprintf>
-
-        // Clear the SSD1306 display.
-        SSD1306_Clear();
  800274e:	f001 fdd4 	bl	80042fa <SSD1306_Clear>
-
-        // Set the cursor position on the SSD1306 display.
-        SSD1306_GotoXY(15, 25);
  8002752:	2119      	movs	r1, #25
  8002754:	200f      	movs	r0, #15
  8002756:	f001 fbcd 	bl	8003ef4 <SSD1306_GotoXY>
-
-        // Display "Brand new" text on the SSD1306 display using Font_11x18.
-        SSD1306_Puts("Brand new", &Font_11x18, 1);
  800275a:	2201      	movs	r2, #1
  800275c:	4914      	ldr	r1, [pc, #80]	; (80027b0 <Startup+0xb8>)
  800275e:	4815      	ldr	r0, [pc, #84]	; (80027b4 <Startup+0xbc>)
  8002760:	f001 fc5e 	bl	8004020 <SSD1306_Puts>
-
-        // Update the SSD1306 display to show the text.
-        SSD1306_UpdateScreen();
  8002764:	f001 fb20 	bl	8003da8 <SSD1306_UpdateScreen>
-
-        // Delay for 2000 milliseconds (2 seconds).
-        HAL_Delay(2000);
  8002768:	f44f 60fa 	mov.w	r0, #2000	; 0x7d0
  800276c:	f002 f8c6 	bl	80048fc <HAL_Delay>
-
-        // Clear the SSD1306 display.
-        SSD1306_Clear();
  8002770:	f001 fdc3 	bl	80042fa <SSD1306_Clear>
-
-        // Generate a random number and store it in GlobalSalt.
-        Get_rng(GlobalSalt, 2);
  8002774:	2102      	movs	r1, #2
  8002776:	480c      	ldr	r0, [pc, #48]	; (80027a8 <Startup+0xb0>)
  8002778:	f001 f962 	bl	8003a40 <Get_rng>
-
-        // Save the generated GlobalSalt to the flash memory at GlobalSalt_address.
-        write_flash(GlobalSalt_address, GlobalSalt, 8);
  800277c:	2208      	movs	r2, #8
  800277e:	490a      	ldr	r1, [pc, #40]	; (80027a8 <Startup+0xb0>)
  8002780:	2003      	movs	r0, #3
  8002782:	f7ff fd47 	bl	8002214 <write_flash>
-
-        // Set the system state to Enrollment.
-        state = Enrollment;
  8002786:	4b0c      	ldr	r3, [pc, #48]	; (80027b8 <Startup+0xc0>)
  8002788:	2203      	movs	r2, #3
  800278a:	701a      	strb	r2, [r3, #0]
-        wrong_LEDs();
-
-        // Set the system state to Lock.
-        state = Lock;
-    }
-}
  800278c:	e004      	b.n	8002798 <Startup+0xa0>
-        wrong_LEDs();
  800278e:	f000 fe6b 	bl	8003468 <wrong_LEDs>
-        state = Lock;
  8002792:	4b09      	ldr	r3, [pc, #36]	; (80027b8 <Startup+0xc0>)
  8002794:	2200      	movs	r2, #0
  8002796:	701a      	strb	r2, [r3, #0]
-}
  8002798:	bf00      	nop
  800279a:	46bd      	mov	sp, r7
  800279c:	bd80      	pop	{r7, pc}
@@ -4354,64 +3927,42 @@ void Startup() {
  80027b8:	200002c1 	.word	0x200002c1
 
 080027bc <MainMenu>:
-
-
-void MainMenu() {
  80027bc:	b580      	push	{r7, lr}
  80027be:	b084      	sub	sp, #16
  80027c0:	af02      	add	r7, sp, #8
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  80027c2:	f001 fd9a 	bl	80042fa <SSD1306_Clear>
-
-    // Display the menu options at specified coordinates using Font_7x10.
-    SSD1306_GotoXY(50, 9);
  80027c6:	2109      	movs	r1, #9
  80027c8:	2032      	movs	r0, #50	; 0x32
  80027ca:	f001 fb93 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("lock", &Font_7x10, 1);
  80027ce:	2201      	movs	r2, #1
  80027d0:	496b      	ldr	r1, [pc, #428]	; (8002980 <MainMenu+0x1c4>)
  80027d2:	486c      	ldr	r0, [pc, #432]	; (8002984 <MainMenu+0x1c8>)
  80027d4:	f001 fc24 	bl	8004020 <SSD1306_Puts>
-
-    SSD1306_GotoXY(46, 21);
  80027d8:	2115      	movs	r1, #21
  80027da:	202e      	movs	r0, #46	; 0x2e
  80027dc:	f001 fb8a 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Reset", &Font_7x10, 1);
  80027e0:	2201      	movs	r2, #1
  80027e2:	4967      	ldr	r1, [pc, #412]	; (8002980 <MainMenu+0x1c4>)
  80027e4:	4868      	ldr	r0, [pc, #416]	; (8002988 <MainMenu+0x1cc>)
  80027e6:	f001 fc1b 	bl	8004020 <SSD1306_Puts>
-
-    SSD1306_GotoXY(39, 33);
  80027ea:	2121      	movs	r1, #33	; 0x21
  80027ec:	2027      	movs	r0, #39	; 0x27
  80027ee:	f001 fb81 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Timeout", &Font_7x10, 1);
  80027f2:	2201      	movs	r2, #1
  80027f4:	4962      	ldr	r1, [pc, #392]	; (8002980 <MainMenu+0x1c4>)
  80027f6:	4865      	ldr	r0, [pc, #404]	; (800298c <MainMenu+0x1d0>)
  80027f8:	f001 fc12 	bl	8004020 <SSD1306_Puts>
-
-    SSD1306_GotoXY(29, 45);
  80027fc:	212d      	movs	r1, #45	; 0x2d
  80027fe:	201d      	movs	r0, #29
  8002800:	f001 fb78 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Enrollment", &Font_7x10, 1);
  8002804:	2201      	movs	r2, #1
  8002806:	495e      	ldr	r1, [pc, #376]	; (8002980 <MainMenu+0x1c4>)
  8002808:	4861      	ldr	r0, [pc, #388]	; (8002990 <MainMenu+0x1d4>)
  800280a:	f001 fc09 	bl	8004020 <SSD1306_Puts>
-
-    // Highlight the current menu option based on MenuState.
-    if (MenuState == Lock) {
  800280e:	4b61      	ldr	r3, [pc, #388]	; (8002994 <MainMenu+0x1d8>)
  8002810:	781b      	ldrb	r3, [r3, #0]
  8002812:	2b00      	cmp	r3, #0
  8002814:	d110      	bne.n	8002838 <MainMenu+0x7c>
-        SSD1306_DrawFilledRectangle(27, 7, 78, 12, 1);
  8002816:	2301      	movs	r3, #1
  8002818:	9300      	str	r3, [sp, #0]
  800281a:	230c      	movs	r3, #12
@@ -4419,22 +3970,17 @@ void MainMenu() {
  800281e:	2107      	movs	r1, #7
  8002820:	201b      	movs	r0, #27
  8002822:	f001 fd1d 	bl	8004260 <SSD1306_DrawFilledRectangle>
-        SSD1306_GotoXY(50, 9);
  8002826:	2109      	movs	r1, #9
  8002828:	2032      	movs	r0, #50	; 0x32
  800282a:	f001 fb63 	bl	8003ef4 <SSD1306_GotoXY>
-        SSD1306_Puts("lock", &Font_7x10, 0);
  800282e:	2200      	movs	r2, #0
  8002830:	4953      	ldr	r1, [pc, #332]	; (8002980 <MainMenu+0x1c4>)
  8002832:	4854      	ldr	r0, [pc, #336]	; (8002984 <MainMenu+0x1c8>)
  8002834:	f001 fbf4 	bl	8004020 <SSD1306_Puts>
-    }
-    if (MenuState == Reset) {
  8002838:	4b56      	ldr	r3, [pc, #344]	; (8002994 <MainMenu+0x1d8>)
  800283a:	781b      	ldrb	r3, [r3, #0]
  800283c:	2b01      	cmp	r3, #1
  800283e:	d110      	bne.n	8002862 <MainMenu+0xa6>
-        SSD1306_DrawFilledRectangle(27, 19, 78, 12, 1);
  8002840:	2301      	movs	r3, #1
  8002842:	9300      	str	r3, [sp, #0]
  8002844:	230c      	movs	r3, #12
@@ -4442,22 +3988,17 @@ void MainMenu() {
  8002848:	2113      	movs	r1, #19
  800284a:	201b      	movs	r0, #27
  800284c:	f001 fd08 	bl	8004260 <SSD1306_DrawFilledRectangle>
-        SSD1306_GotoXY(46, 21);
  8002850:	2115      	movs	r1, #21
  8002852:	202e      	movs	r0, #46	; 0x2e
  8002854:	f001 fb4e 	bl	8003ef4 <SSD1306_GotoXY>
-        SSD1306_Puts("Reset", &Font_7x10, 0);
  8002858:	2200      	movs	r2, #0
  800285a:	4949      	ldr	r1, [pc, #292]	; (8002980 <MainMenu+0x1c4>)
  800285c:	484a      	ldr	r0, [pc, #296]	; (8002988 <MainMenu+0x1cc>)
  800285e:	f001 fbdf 	bl	8004020 <SSD1306_Puts>
-    }
-    if (MenuState == Timeout) {
  8002862:	4b4c      	ldr	r3, [pc, #304]	; (8002994 <MainMenu+0x1d8>)
  8002864:	781b      	ldrb	r3, [r3, #0]
  8002866:	2b02      	cmp	r3, #2
  8002868:	d110      	bne.n	800288c <MainMenu+0xd0>
-        SSD1306_DrawFilledRectangle(27, 31, 78, 12, 1);
  800286a:	2301      	movs	r3, #1
  800286c:	9300      	str	r3, [sp, #0]
  800286e:	230c      	movs	r3, #12
@@ -4465,22 +4006,17 @@ void MainMenu() {
  8002872:	211f      	movs	r1, #31
  8002874:	201b      	movs	r0, #27
  8002876:	f001 fcf3 	bl	8004260 <SSD1306_DrawFilledRectangle>
-        SSD1306_GotoXY(36, 33);
  800287a:	2121      	movs	r1, #33	; 0x21
  800287c:	2024      	movs	r0, #36	; 0x24
  800287e:	f001 fb39 	bl	8003ef4 <SSD1306_GotoXY>
-        SSD1306_Puts("Timeout", &Font_7x10, 0);
  8002882:	2200      	movs	r2, #0
  8002884:	493e      	ldr	r1, [pc, #248]	; (8002980 <MainMenu+0x1c4>)
  8002886:	4841      	ldr	r0, [pc, #260]	; (800298c <MainMenu+0x1d0>)
  8002888:	f001 fbca 	bl	8004020 <SSD1306_Puts>
-    }
-    if (MenuState == Enrollment) {
  800288c:	4b41      	ldr	r3, [pc, #260]	; (8002994 <MainMenu+0x1d8>)
  800288e:	781b      	ldrb	r3, [r3, #0]
  8002890:	2b03      	cmp	r3, #3
  8002892:	d110      	bne.n	80028b6 <MainMenu+0xfa>
-        SSD1306_DrawFilledRectangle(27, 43, 78, 12, 1);
  8002894:	2301      	movs	r3, #1
  8002896:	9300      	str	r3, [sp, #0]
  8002898:	230c      	movs	r3, #12
@@ -4488,58 +4024,36 @@ void MainMenu() {
  800289c:	212b      	movs	r1, #43	; 0x2b
  800289e:	201b      	movs	r0, #27
  80028a0:	f001 fcde 	bl	8004260 <SSD1306_DrawFilledRectangle>
-        SSD1306_GotoXY(29, 45);
  80028a4:	212d      	movs	r1, #45	; 0x2d
  80028a6:	201d      	movs	r0, #29
  80028a8:	f001 fb24 	bl	8003ef4 <SSD1306_GotoXY>
-        SSD1306_Puts("Enrollment", &Font_7x10, 0);
  80028ac:	2200      	movs	r2, #0
  80028ae:	4934      	ldr	r1, [pc, #208]	; (8002980 <MainMenu+0x1c4>)
  80028b0:	4837      	ldr	r0, [pc, #220]	; (8002990 <MainMenu+0x1d4>)
  80028b2:	f001 fbb5 	bl	8004020 <SSD1306_Puts>
-    }
-
-    // Update the SSD1306 display to show the menu.
-    SSD1306_UpdateScreen();
  80028b6:	f001 fa77 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    while (1) {
-        // If the device state is inactive, set the state to Lock and exit the loop.
-        if (!DeviceState) {
  80028ba:	4b37      	ldr	r3, [pc, #220]	; (8002998 <MainMenu+0x1dc>)
  80028bc:	781b      	ldrb	r3, [r3, #0]
  80028be:	f083 0301 	eor.w	r3, r3, #1
  80028c2:	b2db      	uxtb	r3, r3
  80028c4:	2b00      	cmp	r3, #0
  80028c6:	d003      	beq.n	80028d0 <MainMenu+0x114>
-            state = Lock;
  80028c8:	4b34      	ldr	r3, [pc, #208]	; (800299c <MainMenu+0x1e0>)
  80028ca:	2200      	movs	r2, #0
  80028cc:	701a      	strb	r2, [r3, #0]
-            break;
  80028ce:	e052      	b.n	8002976 <MainMenu+0x1ba>
-        }
-
-        // Check the button state.
-        uint8_t btn_state = checkButtons();
  80028d0:	f000 ffe2 	bl	8003898 <checkButtons>
  80028d4:	4603      	mov	r3, r0
  80028d6:	71fb      	strb	r3, [r7, #7]
-
-        // If the 'up' button is pressed, decrement the menu state.
-        if (btn_state == 0) { // up
  80028d8:	79fb      	ldrb	r3, [r7, #7]
  80028da:	2b00      	cmp	r3, #0
  80028dc:	d110      	bne.n	8002900 <MainMenu+0x144>
-            MenuState--;
  80028de:	4b2d      	ldr	r3, [pc, #180]	; (8002994 <MainMenu+0x1d8>)
  80028e0:	781b      	ldrb	r3, [r3, #0]
  80028e2:	3b01      	subs	r3, #1
  80028e4:	b2da      	uxtb	r2, r3
  80028e6:	4b2b      	ldr	r3, [pc, #172]	; (8002994 <MainMenu+0x1d8>)
  80028e8:	701a      	strb	r2, [r3, #0]
-            // If MenuState underflows, set it to the last menu option.
-            if (MenuState == 255) MenuState = 3;
  80028ea:	4b2a      	ldr	r3, [pc, #168]	; (8002994 <MainMenu+0x1d8>)
  80028ec:	781b      	ldrb	r3, [r3, #0]
  80028ee:	2bff      	cmp	r3, #255	; 0xff
@@ -4547,27 +4061,19 @@ void MainMenu() {
  80028f2:	4b28      	ldr	r3, [pc, #160]	; (8002994 <MainMenu+0x1d8>)
  80028f4:	2203      	movs	r2, #3
  80028f6:	701a      	strb	r2, [r3, #0]
-            state = Menu;
  80028f8:	4b28      	ldr	r3, [pc, #160]	; (800299c <MainMenu+0x1e0>)
  80028fa:	2204      	movs	r2, #4
  80028fc:	701a      	strb	r2, [r3, #0]
-            break;
  80028fe:	e03a      	b.n	8002976 <MainMenu+0x1ba>
-        }
-        // If the 'down' button is pressed, increment the menu state.
-        else if (btn_state == 1) { // down
  8002900:	79fb      	ldrb	r3, [r7, #7]
  8002902:	2b01      	cmp	r3, #1
  8002904:	d110      	bne.n	8002928 <MainMenu+0x16c>
-            MenuState++;
  8002906:	4b23      	ldr	r3, [pc, #140]	; (8002994 <MainMenu+0x1d8>)
  8002908:	781b      	ldrb	r3, [r3, #0]
  800290a:	3301      	adds	r3, #1
  800290c:	b2da      	uxtb	r2, r3
  800290e:	4b21      	ldr	r3, [pc, #132]	; (8002994 <MainMenu+0x1d8>)
  8002910:	701a      	strb	r2, [r3, #0]
-            // If MenuState overflows, set it to the first menu option.
-            if (MenuState == 4) MenuState = 0;
  8002912:	4b20      	ldr	r3, [pc, #128]	; (8002994 <MainMenu+0x1d8>)
  8002914:	781b      	ldrb	r3, [r3, #0]
  8002916:	2b04      	cmp	r3, #4
@@ -4575,19 +4081,13 @@ void MainMenu() {
  800291a:	4b1e      	ldr	r3, [pc, #120]	; (8002994 <MainMenu+0x1d8>)
  800291c:	2200      	movs	r2, #0
  800291e:	701a      	strb	r2, [r3, #0]
-            state = Menu;
  8002920:	4b1e      	ldr	r3, [pc, #120]	; (800299c <MainMenu+0x1e0>)
  8002922:	2204      	movs	r2, #4
  8002924:	701a      	strb	r2, [r3, #0]
-            break;
  8002926:	e026      	b.n	8002976 <MainMenu+0x1ba>
-        }
-        // If both buttons are pressed, set the state based on the current menu option.
-        else if (btn_state == 2) { // both
  8002928:	79fb      	ldrb	r3, [r7, #7]
  800292a:	2b02      	cmp	r3, #2
  800292c:	d1c5      	bne.n	80028ba <MainMenu+0xfe>
-            if (MenuState == 0) state = Lock;
  800292e:	4b19      	ldr	r3, [pc, #100]	; (8002994 <MainMenu+0x1d8>)
  8002930:	781b      	ldrb	r3, [r3, #0]
  8002932:	2b00      	cmp	r3, #0
@@ -4595,7 +4095,6 @@ void MainMenu() {
  8002936:	4b19      	ldr	r3, [pc, #100]	; (800299c <MainMenu+0x1e0>)
  8002938:	2200      	movs	r2, #0
  800293a:	701a      	strb	r2, [r3, #0]
-            if (MenuState == 1) state = Reset;
  800293c:	4b15      	ldr	r3, [pc, #84]	; (8002994 <MainMenu+0x1d8>)
  800293e:	781b      	ldrb	r3, [r3, #0]
  8002940:	2b01      	cmp	r3, #1
@@ -4603,7 +4102,6 @@ void MainMenu() {
  8002944:	4b15      	ldr	r3, [pc, #84]	; (800299c <MainMenu+0x1e0>)
  8002946:	2201      	movs	r2, #1
  8002948:	701a      	strb	r2, [r3, #0]
-            if (MenuState == 2) state = Timeout;
  800294a:	4b12      	ldr	r3, [pc, #72]	; (8002994 <MainMenu+0x1d8>)
  800294c:	781b      	ldrb	r3, [r3, #0]
  800294e:	2b02      	cmp	r3, #2
@@ -4611,7 +4109,6 @@ void MainMenu() {
  8002952:	4b12      	ldr	r3, [pc, #72]	; (800299c <MainMenu+0x1e0>)
  8002954:	2202      	movs	r2, #2
  8002956:	701a      	strb	r2, [r3, #0]
-            if (MenuState == 3) state = Enrollment;
  8002958:	4b0e      	ldr	r3, [pc, #56]	; (8002994 <MainMenu+0x1d8>)
  800295a:	781b      	ldrb	r3, [r3, #0]
  800295c:	2b03      	cmp	r3, #3
@@ -4619,7 +4116,6 @@ void MainMenu() {
  8002960:	4b0e      	ldr	r3, [pc, #56]	; (800299c <MainMenu+0x1e0>)
  8002962:	2203      	movs	r2, #3
  8002964:	701a      	strb	r2, [r3, #0]
-            if (MenuState == 4) state = Menu;
  8002966:	4b0b      	ldr	r3, [pc, #44]	; (8002994 <MainMenu+0x1d8>)
  8002968:	781b      	ldrb	r3, [r3, #0]
  800296a:	2b04      	cmp	r3, #4
@@ -4627,11 +4123,7 @@ void MainMenu() {
  800296e:	4b0b      	ldr	r3, [pc, #44]	; (800299c <MainMenu+0x1e0>)
  8002970:	2204      	movs	r2, #4
  8002972:	701a      	strb	r2, [r3, #0]
-            break;
  8002974:	bf00      	nop
-        }
-    }
-}
  8002976:	bf00      	nop
  8002978:	3708      	adds	r7, #8
  800297a:	46bd      	mov	sp, r7
@@ -4647,74 +4139,40 @@ void MainMenu() {
  800299c:	200002c1 	.word	0x200002c1
 
 080029a0 <TimeoutMenu>:
-
-
-void TimeoutMenu() {
  80029a0:	b580      	push	{r7, lr}
  80029a2:	b084      	sub	sp, #16
  80029a4:	af00      	add	r7, sp, #0
-    // Static variable to store the previous reverse timer value. Initialized to the maximum 32-bit unsigned integer value.
-    static uint32_t previousRevTimer = 0xFFFFFFFF;
-
-    // Calculate the remaining timeout value by subtracting the current timer value from the timeout value.
-    uint32_t RevTimer = TimeoutValue - Timer;
  80029a6:	4b15      	ldr	r3, [pc, #84]	; (80029fc <TimeoutMenu+0x5c>)
  80029a8:	681b      	ldr	r3, [r3, #0]
  80029aa:	f1c3 0378 	rsb	r3, r3, #120	; 0x78
  80029ae:	60fb      	str	r3, [r7, #12]
-
-    // If the current reverse timer value is different from the previous value, update the display.
-    if (RevTimer != previousRevTimer) {
  80029b0:	4b13      	ldr	r3, [pc, #76]	; (8002a00 <TimeoutMenu+0x60>)
  80029b2:	681b      	ldr	r3, [r3, #0]
  80029b4:	68fa      	ldr	r2, [r7, #12]
  80029b6:	429a      	cmp	r2, r3
  80029b8:	d01b      	beq.n	80029f2 <TimeoutMenu+0x52>
-        // Update the previous reverse timer value with the current value.
-        previousRevTimer = RevTimer;
  80029ba:	4a11      	ldr	r2, [pc, #68]	; (8002a00 <TimeoutMenu+0x60>)
  80029bc:	68fb      	ldr	r3, [r7, #12]
  80029be:	6013      	str	r3, [r2, #0]
-
-        // Clear the SSD1306 display.
-        SSD1306_Clear();
  80029c0:	f001 fc9b 	bl	80042fa <SSD1306_Clear>
-
-        // Set the cursor position on the SSD1306 display.
-        SSD1306_GotoXY(15, 27);
  80029c4:	211b      	movs	r1, #27
  80029c6:	200f      	movs	r0, #15
  80029c8:	f001 fa94 	bl	8003ef4 <SSD1306_GotoXY>
-
-        // Display the "Timeout in " text on the SSD1306 display using Font_7x10.
-        SSD1306_Puts("Timeout in ", &Font_7x10, 1);
  80029cc:	2201      	movs	r2, #1
  80029ce:	490d      	ldr	r1, [pc, #52]	; (8002a04 <TimeoutMenu+0x64>)
  80029d0:	480d      	ldr	r0, [pc, #52]	; (8002a08 <TimeoutMenu+0x68>)
  80029d2:	f001 fb25 	bl	8004020 <SSD1306_Puts>
-
-        // Convert the reverse timer value to a string.
-        char str[12];
-        itoa(RevTimer, str, 10);
  80029d6:	68fb      	ldr	r3, [r7, #12]
  80029d8:	4639      	mov	r1, r7
  80029da:	220a      	movs	r2, #10
  80029dc:	4618      	mov	r0, r3
  80029de:	f009 fedf 	bl	800c7a0 <itoa>
-
-        // Display the reverse timer value on the SSD1306 display using Font_7x10.
-        SSD1306_Puts(str, &Font_7x10, 1);
  80029e2:	463b      	mov	r3, r7
  80029e4:	2201      	movs	r2, #1
  80029e6:	4907      	ldr	r1, [pc, #28]	; (8002a04 <TimeoutMenu+0x64>)
  80029e8:	4618      	mov	r0, r3
  80029ea:	f001 fb19 	bl	8004020 <SSD1306_Puts>
-
-        // Update the SSD1306 display to show the new content.
-        SSD1306_UpdateScreen();
  80029ee:	f001 f9db 	bl	8003da8 <SSD1306_UpdateScreen>
-    }
-}
  80029f2:	bf00      	nop
  80029f4:	3710      	adds	r7, #16
  80029f6:	46bd      	mov	sp, r7
@@ -4726,34 +4184,19 @@ void TimeoutMenu() {
  8002a08:	0800d878 	.word	0x0800d878
 
 08002a0c <Enroll>:
-
-
-void Enroll() {
  8002a0c:	b590      	push	{r4, r7, lr}
  8002a0e:	b099      	sub	sp, #100	; 0x64
  8002a10:	af04      	add	r7, sp, #16
-    // Print "Enroll" for debugging purposes.
-    printf("Enroll\n");
  8002a12:	48b8      	ldr	r0, [pc, #736]	; (8002cf4 <Enroll+0x2e8>)
  8002a14:	f00a f838 	bl	800ca88 <puts>
-
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  8002a18:	f001 fc6f 	bl	80042fa <SSD1306_Clear>
-
-    // Display "Enter new pin" at the specified coordinates using Font_7x10.
-    SSD1306_GotoXY(20, 5);
  8002a1c:	2105      	movs	r1, #5
  8002a1e:	2014      	movs	r0, #20
  8002a20:	f001 fa68 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Enter new pin", &Font_7x10, 1);
  8002a24:	2201      	movs	r2, #1
  8002a26:	49b4      	ldr	r1, [pc, #720]	; (8002cf8 <Enroll+0x2ec>)
  8002a28:	48b4      	ldr	r0, [pc, #720]	; (8002cfc <Enroll+0x2f0>)
  8002a2a:	f001 faf9 	bl	8004020 <SSD1306_Puts>
-
-    // Draw a filled rectangle to create a box for the PIN input.
-    SSD1306_DrawFilledRectangle(3, 20, 122, 30, 1);
  8002a2e:	2301      	movs	r3, #1
  8002a30:	9300      	str	r3, [sp, #0]
  8002a32:	231e      	movs	r3, #30
@@ -4761,13 +4204,9 @@ void Enroll() {
  8002a36:	2114      	movs	r1, #20
  8002a38:	2003      	movs	r0, #3
  8002a3a:	f001 fc11 	bl	8004260 <SSD1306_DrawFilledRectangle>
-
-    // Draw lines to separate individual PIN input positions.
-    for (int i = 0; i < 12; i++) {
  8002a3e:	2300      	movs	r3, #0
  8002a40:	64fb      	str	r3, [r7, #76]	; 0x4c
  8002a42:	e01a      	b.n	8002a7a <Enroll+0x6e>
-        SSD1306_DrawLine(6 + i*10, 40, 12 + i*10, 40, 0);
  8002a44:	6cfb      	ldr	r3, [r7, #76]	; 0x4c
  8002a46:	b29b      	uxth	r3, r3
  8002a48:	461a      	mov	r2, r3
@@ -4791,66 +4230,41 @@ void Enroll() {
  8002a6c:	2328      	movs	r3, #40	; 0x28
  8002a6e:	2128      	movs	r1, #40	; 0x28
  8002a70:	f001 fafb 	bl	800406a <SSD1306_DrawLine>
-    for (int i = 0; i < 12; i++) {
  8002a74:	6cfb      	ldr	r3, [r7, #76]	; 0x4c
  8002a76:	3301      	adds	r3, #1
  8002a78:	64fb      	str	r3, [r7, #76]	; 0x4c
  8002a7a:	6cfb      	ldr	r3, [r7, #76]	; 0x4c
  8002a7c:	2b0b      	cmp	r3, #11
  8002a7e:	dde1      	ble.n	8002a44 <Enroll+0x38>
-    }
-
-    // Set the cursor to the first PIN input position and display '!' as a starting character.
-    SSD1306_GotoXY(6, 33);
  8002a80:	2121      	movs	r1, #33	; 0x21
  8002a82:	2006      	movs	r0, #6
  8002a84:	f001 fa36 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Putc('!', &Font_7x10, 0);
  8002a88:	2200      	movs	r2, #0
  8002a8a:	499b      	ldr	r1, [pc, #620]	; (8002cf8 <Enroll+0x2ec>)
  8002a8c:	2021      	movs	r0, #33	; 0x21
  8002a8e:	f001 fa47 	bl	8003f20 <SSD1306_Putc>
-
-    // Update the SSD1306 display to show the initial PIN entry screen.
-    SSD1306_UpdateScreen();
  8002a92:	f001 f989 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    // Initialize the flag to true to start the while loop, index to 0, and temp_num to 33 (ASCII '!')
-    bool flag = true;
  8002a96:	2301      	movs	r3, #1
  8002a98:	f887 304b 	strb.w	r3, [r7, #75]	; 0x4b
-    uint8_t index = 0;
  8002a9c:	2300      	movs	r3, #0
  8002a9e:	f887 304a 	strb.w	r3, [r7, #74]	; 0x4a
-    uint8_t temp_num = 33;
  8002aa2:	2321      	movs	r3, #33	; 0x21
  8002aa4:	f887 3049 	strb.w	r3, [r7, #73]	; 0x49
-
-    // Loop to handle PIN entry until the flag is set to false.
-    while (flag) {
  8002aa8:	e172      	b.n	8002d90 <Enroll+0x384>
-        // Check the state of the buttons.
-        uint8_t temp = checkButtons();
  8002aaa:	f000 fef5 	bl	8003898 <checkButtons>
  8002aae:	4603      	mov	r3, r0
  8002ab0:	f887 3048 	strb.w	r3, [r7, #72]	; 0x48
-
-        // If the 'up' button is pressed, increment temp_num and wrap around if it exceeds 126.
-        if (temp == 0) {
  8002ab4:	f897 3048 	ldrb.w	r3, [r7, #72]	; 0x48
  8002ab8:	2b00      	cmp	r3, #0
  8002aba:	d122      	bne.n	8002b02 <Enroll+0xf6>
-            temp_num++;
  8002abc:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002ac0:	3301      	adds	r3, #1
  8002ac2:	f887 3049 	strb.w	r3, [r7, #73]	; 0x49
-            if (temp_num == 127) temp_num = 33;
  8002ac6:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002aca:	2b7f      	cmp	r3, #127	; 0x7f
  8002acc:	d102      	bne.n	8002ad4 <Enroll+0xc8>
  8002ace:	2321      	movs	r3, #33	; 0x21
  8002ad0:	f887 3049 	strb.w	r3, [r7, #73]	; 0x49
-            SSD1306_GotoXY(6 + index*10, 33);
  8002ad4:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002ad8:	b29b      	uxth	r3, r3
  8002ada:	461a      	mov	r2, r3
@@ -4863,32 +4277,23 @@ void Enroll() {
  8002ae8:	2121      	movs	r1, #33	; 0x21
  8002aea:	4618      	mov	r0, r3
  8002aec:	f001 fa02 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
  8002af0:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002af4:	2200      	movs	r2, #0
  8002af6:	4980      	ldr	r1, [pc, #512]	; (8002cf8 <Enroll+0x2ec>)
  8002af8:	4618      	mov	r0, r3
  8002afa:	f001 fa11 	bl	8003f20 <SSD1306_Putc>
-            SSD1306_UpdateScreen();
  8002afe:	f001 f953 	bl	8003da8 <SSD1306_UpdateScreen>
-        }
-
-        // If the 'down' button is pressed, decrement temp_num and wrap around if it goes below 33.
-        if (temp == 1) {
  8002b02:	f897 3048 	ldrb.w	r3, [r7, #72]	; 0x48
  8002b06:	2b01      	cmp	r3, #1
  8002b08:	d122      	bne.n	8002b50 <Enroll+0x144>
-            temp_num--;
  8002b0a:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002b0e:	3b01      	subs	r3, #1
  8002b10:	f887 3049 	strb.w	r3, [r7, #73]	; 0x49
-            if (temp_num < 33) temp_num = 126;
  8002b14:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002b18:	2b20      	cmp	r3, #32
  8002b1a:	d802      	bhi.n	8002b22 <Enroll+0x116>
  8002b1c:	237e      	movs	r3, #126	; 0x7e
  8002b1e:	f887 3049 	strb.w	r3, [r7, #73]	; 0x49
-            SSD1306_GotoXY(6 + index*10, 33);
  8002b22:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002b26:	b29b      	uxth	r3, r3
  8002b28:	461a      	mov	r2, r3
@@ -4901,35 +4306,24 @@ void Enroll() {
  8002b36:	2121      	movs	r1, #33	; 0x21
  8002b38:	4618      	mov	r0, r3
  8002b3a:	f001 f9db 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
  8002b3e:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002b42:	2200      	movs	r2, #0
  8002b44:	496c      	ldr	r1, [pc, #432]	; (8002cf8 <Enroll+0x2ec>)
  8002b46:	4618      	mov	r0, r3
  8002b48:	f001 f9ea 	bl	8003f20 <SSD1306_Putc>
-            SSD1306_UpdateScreen();
  8002b4c:	f001 f92c 	bl	8003da8 <SSD1306_UpdateScreen>
-        }
-
-        // If both buttons are pressed, handle the PIN entry.
-        if (temp == 2) {
  8002b50:	f897 3048 	ldrb.w	r3, [r7, #72]	; 0x48
  8002b54:	2b02      	cmp	r3, #2
  8002b56:	f040 811b 	bne.w	8002d90 <Enroll+0x384>
-            // If the index is 11 (last position), save the entered PIN and exit the loop.
-            if (index == 11) {
  8002b5a:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002b5e:	2b0b      	cmp	r3, #11
  8002b60:	f040 80dc 	bne.w	8002d1c <Enroll+0x310>
-                password[index] = temp_num;
  8002b64:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002b68:	4965      	ldr	r1, [pc, #404]	; (8002d00 <Enroll+0x2f4>)
  8002b6a:	f897 2049 	ldrb.w	r2, [r7, #73]	; 0x49
  8002b6e:	54ca      	strb	r2, [r1, r3]
-                flag = false;
  8002b70:	2300      	movs	r3, #0
  8002b72:	f887 304b 	strb.w	r3, [r7, #75]	; 0x4b
-                SSD1306_GotoXY(6 + index*10, 33);
  8002b76:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002b7a:	b29b      	uxth	r3, r3
  8002b7c:	461a      	mov	r2, r3
@@ -4942,28 +4336,19 @@ void Enroll() {
  8002b8a:	2121      	movs	r1, #33	; 0x21
  8002b8c:	4618      	mov	r0, r3
  8002b8e:	f001 f9b1 	bl	8003ef4 <SSD1306_GotoXY>
-                SSD1306_Putc('*', &Font_7x10, 0);
  8002b92:	2200      	movs	r2, #0
  8002b94:	4958      	ldr	r1, [pc, #352]	; (8002cf8 <Enroll+0x2ec>)
  8002b96:	202a      	movs	r0, #42	; 0x2a
  8002b98:	f001 f9c2 	bl	8003f20 <SSD1306_Putc>
-                SSD1306_UpdateScreen();
  8002b9c:	f001 f904 	bl	8003da8 <SSD1306_UpdateScreen>
-
-                // Read the number of users from flash memory.
-                MY_FLASH_ReadN(Nusers_address, &user_num, 1, DATA_TYPE_8);
  8002ba0:	2300      	movs	r3, #0
  8002ba2:	2201      	movs	r2, #1
  8002ba4:	4957      	ldr	r1, [pc, #348]	; (8002d04 <Enroll+0x2f8>)
  8002ba6:	2001      	movs	r0, #1
  8002ba8:	f7ff fad8 	bl	800215c <MY_FLASH_ReadN>
-
-                // Generate and save a local salt.
-                Get_rng(LocalSalt, 2);
  8002bac:	2102      	movs	r1, #2
  8002bae:	4856      	ldr	r0, [pc, #344]	; (8002d08 <Enroll+0x2fc>)
  8002bb0:	f000 ff46 	bl	8003a40 <Get_rng>
-                write_flash(MemDatastartpoint + (user_num * 72), LocalSalt, 8);
  8002bb4:	4b53      	ldr	r3, [pc, #332]	; (8002d04 <Enroll+0x2f8>)
  8002bb6:	781b      	ldrb	r3, [r3, #0]
  8002bb8:	461a      	mov	r2, r3
@@ -4976,13 +4361,9 @@ void Enroll() {
  8002bc6:	4950      	ldr	r1, [pc, #320]	; (8002d08 <Enroll+0x2fc>)
  8002bc8:	4618      	mov	r0, r3
  8002bca:	f7ff fb23 	bl	8002214 <write_flash>
-
-                // Generate and save an initialization vector (IV).
-                Get_rng(IV, 4);
  8002bce:	2104      	movs	r1, #4
  8002bd0:	484e      	ldr	r0, [pc, #312]	; (8002d0c <Enroll+0x300>)
  8002bd2:	f000 ff35 	bl	8003a40 <Get_rng>
-                write_flash(MemDatastartpoint + 8 + (user_num * 72), IV, 16);
  8002bd6:	4b4b      	ldr	r3, [pc, #300]	; (8002d04 <Enroll+0x2f8>)
  8002bd8:	781b      	ldrb	r3, [r3, #0]
  8002bda:	461a      	mov	r2, r3
@@ -4995,23 +4376,15 @@ void Enroll() {
  8002be8:	4948      	ldr	r1, [pc, #288]	; (8002d0c <Enroll+0x300>)
  8002bea:	4618      	mov	r0, r3
  8002bec:	f7ff fb12 	bl	8002214 <write_flash>
-
-                // Read the global salt from flash memory.
-                MY_FLASH_ReadN(GlobalSalt_address, GlobalSalt, 8, DATA_TYPE_8);
  8002bf0:	2300      	movs	r3, #0
  8002bf2:	2208      	movs	r2, #8
  8002bf4:	4946      	ldr	r1, [pc, #280]	; (8002d10 <Enroll+0x304>)
  8002bf6:	2003      	movs	r0, #3
  8002bf8:	f7ff fab0 	bl	800215c <MY_FLASH_ReadN>
-
-                // Concatenate the global salt and password, and compute the SHA-256 hash.
-                uint8_t temp[20];
-                memcpy(temp, GlobalSalt, sizeof(GlobalSalt));
  8002bfc:	4a44      	ldr	r2, [pc, #272]	; (8002d10 <Enroll+0x304>)
  8002bfe:	f107 0334 	add.w	r3, r7, #52	; 0x34
  8002c02:	e892 0003 	ldmia.w	r2, {r0, r1}
  8002c06:	e883 0003 	stmia.w	r3, {r0, r1}
-                memcpy(temp + sizeof(GlobalSalt), password, sizeof(password));
  8002c0a:	f107 0334 	add.w	r3, r7, #52	; 0x34
  8002c0e:	3308      	adds	r3, #8
  8002c10:	4a3b      	ldr	r2, [pc, #236]	; (8002d00 <Enroll+0x2f4>)
@@ -5021,16 +4394,11 @@ void Enroll() {
  8002c18:	6020      	str	r0, [r4, #0]
  8002c1a:	6061      	str	r1, [r4, #4]
  8002c1c:	60a2      	str	r2, [r4, #8]
-                uint8_t computedSha256[32];
-                sha256(temp, computedSha256, sizeof(temp));
  8002c1e:	4639      	mov	r1, r7
  8002c20:	f107 0334 	add.w	r3, r7, #52	; 0x34
  8002c24:	2214      	movs	r2, #20
  8002c26:	4618      	mov	r0, r3
  8002c28:	f000 fdd4 	bl	80037d4 <sha256>
-
-                // Save the computed SHA-256 hash of the password.
-                write_flash(MemDatastartpoint + 8 + 16 + (user_num * 72), computedSha256, 32);
  8002c2c:	4b35      	ldr	r3, [pc, #212]	; (8002d04 <Enroll+0x2f8>)
  8002c2e:	781b      	ldrb	r3, [r3, #0]
  8002c30:	461a      	mov	r2, r3
@@ -5044,20 +4412,13 @@ void Enroll() {
  8002c40:	2220      	movs	r2, #32
  8002c42:	4619      	mov	r1, r3
  8002c44:	f7ff fae6 	bl	8002214 <write_flash>
-
-                // Generate a master key.
-                Get_rng(MasterKey, 4);
  8002c48:	2104      	movs	r1, #4
  8002c4a:	4832      	ldr	r0, [pc, #200]	; (8002d14 <Enroll+0x308>)
  8002c4c:	f000 fef8 	bl	8003a40 <Get_rng>
-
-                // Concatenate the local salt and password, and compute the SHA-256 hash.
-                memcpy(temp, LocalSalt, sizeof(LocalSalt));
  8002c50:	4a2d      	ldr	r2, [pc, #180]	; (8002d08 <Enroll+0x2fc>)
  8002c52:	f107 0334 	add.w	r3, r7, #52	; 0x34
  8002c56:	e892 0003 	ldmia.w	r2, {r0, r1}
  8002c5a:	e883 0003 	stmia.w	r3, {r0, r1}
-                memcpy(temp + sizeof(LocalSalt), password, sizeof(password));
  8002c5e:	f107 0334 	add.w	r3, r7, #52	; 0x34
  8002c62:	3308      	adds	r3, #8
  8002c64:	4a26      	ldr	r2, [pc, #152]	; (8002d00 <Enroll+0x2f4>)
@@ -5067,16 +4428,11 @@ void Enroll() {
  8002c6c:	6020      	str	r0, [r4, #0]
  8002c6e:	6061      	str	r1, [r4, #4]
  8002c70:	60a2      	str	r2, [r4, #8]
-                sha256(temp, computedSha256, sizeof(temp));
  8002c72:	4639      	mov	r1, r7
  8002c74:	f107 0334 	add.w	r3, r7, #52	; 0x34
  8002c78:	2214      	movs	r2, #20
  8002c7a:	4618      	mov	r0, r3
  8002c7c:	f000 fdaa 	bl	80037d4 <sha256>
-
-                // Encrypt the master key using AES-CBC.
-                uint8_t computedAES[16];
-                AESCBC(MasterKey, sizeof(MasterKey), computedSha256, sizeof(computedSha256), IV, sizeof(IV), computedAES);
  8002c80:	463a      	mov	r2, r7
  8002c82:	f107 0324 	add.w	r3, r7, #36	; 0x24
  8002c86:	9302      	str	r3, [sp, #8]
@@ -5088,9 +4444,6 @@ void Enroll() {
  8002c92:	2110      	movs	r1, #16
  8002c94:	481f      	ldr	r0, [pc, #124]	; (8002d14 <Enroll+0x308>)
  8002c96:	f000 fdb7 	bl	8003808 <AESCBC>
-
-                // Save the encrypted master key.
-                write_flash(MemDatastartpoint + 8 + 16 + 32 + (user_num * 72), computedAES, 16);
  8002c9a:	4b1a      	ldr	r3, [pc, #104]	; (8002d04 <Enroll+0x2f8>)
  8002c9c:	781b      	ldrb	r3, [r3, #0]
  8002c9e:	461a      	mov	r2, r3
@@ -5104,40 +4457,25 @@ void Enroll() {
  8002cb0:	2210      	movs	r2, #16
  8002cb2:	4619      	mov	r1, r3
  8002cb4:	f7ff faae 	bl	8002214 <write_flash>
-
-                // Update the "brand new" status in flash memory.
-                uint8_t value = 1;
  8002cb8:	2301      	movs	r3, #1
  8002cba:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
-                write_flash(BrandNew_address, &value, 1);
  8002cbe:	f107 0323 	add.w	r3, r7, #35	; 0x23
  8002cc2:	2201      	movs	r2, #1
  8002cc4:	4619      	mov	r1, r3
  8002cc6:	2000      	movs	r0, #0
  8002cc8:	f7ff faa4 	bl	8002214 <write_flash>
-
-                // Increment and save the number of users.
-                user_num++;
  8002ccc:	4b0d      	ldr	r3, [pc, #52]	; (8002d04 <Enroll+0x2f8>)
  8002cce:	781b      	ldrb	r3, [r3, #0]
  8002cd0:	3301      	adds	r3, #1
  8002cd2:	b2da      	uxtb	r2, r3
  8002cd4:	4b0b      	ldr	r3, [pc, #44]	; (8002d04 <Enroll+0x2f8>)
  8002cd6:	701a      	strb	r2, [r3, #0]
-                write_flash(Nusers_address, &user_num, 1);
  8002cd8:	2201      	movs	r2, #1
  8002cda:	490a      	ldr	r1, [pc, #40]	; (8002d04 <Enroll+0x2f8>)
  8002cdc:	2001      	movs	r0, #1
  8002cde:	f7ff fa99 	bl	8002214 <write_flash>
-
-                // Blink to indicate successful enrollment and clear the display.
-                blink();
  8002ce2:	f000 fc01 	bl	80034e8 <blink>
-                SSD1306_Clear();
  8002ce6:	f001 fb08 	bl	80042fa <SSD1306_Clear>
-
-                // Set the system state to Lock.
-                state = Lock;
  8002cea:	4b0b      	ldr	r3, [pc, #44]	; (8002d18 <Enroll+0x30c>)
  8002cec:	2200      	movs	r2, #0
  8002cee:	701a      	strb	r2, [r3, #0]
@@ -5153,17 +4491,12 @@ void Enroll() {
  8002d10:	2000024c 	.word	0x2000024c
  8002d14:	20000278 	.word	0x20000278
  8002d18:	200002c1 	.word	0x200002c1
-            } else {
-                // Save the entered character in the password array and move to the next position.
-                password[index] = temp_num;
  8002d1c:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002d20:	4920      	ldr	r1, [pc, #128]	; (8002da4 <Enroll+0x398>)
  8002d22:	f897 2049 	ldrb.w	r2, [r7, #73]	; 0x49
  8002d26:	54ca      	strb	r2, [r1, r3]
-                temp_num = 33;
  8002d28:	2321      	movs	r3, #33	; 0x21
  8002d2a:	f887 3049 	strb.w	r3, [r7, #73]	; 0x49
-                SSD1306_GotoXY(6 + index*10, 33);
  8002d2e:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002d32:	b29b      	uxth	r3, r3
  8002d34:	461a      	mov	r2, r3
@@ -5176,18 +4509,14 @@ void Enroll() {
  8002d42:	2121      	movs	r1, #33	; 0x21
  8002d44:	4618      	mov	r0, r3
  8002d46:	f001 f8d5 	bl	8003ef4 <SSD1306_GotoXY>
-                SSD1306_Putc('*', &Font_7x10, 0);
  8002d4a:	2200      	movs	r2, #0
  8002d4c:	4916      	ldr	r1, [pc, #88]	; (8002da8 <Enroll+0x39c>)
  8002d4e:	202a      	movs	r0, #42	; 0x2a
  8002d50:	f001 f8e6 	bl	8003f20 <SSD1306_Putc>
-                SSD1306_UpdateScreen();
  8002d54:	f001 f828 	bl	8003da8 <SSD1306_UpdateScreen>
-                index++;
  8002d58:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002d5c:	3301      	adds	r3, #1
  8002d5e:	f887 304a 	strb.w	r3, [r7, #74]	; 0x4a
-                SSD1306_GotoXY(6 + index*10, 33);
  8002d62:	f897 304a 	ldrb.w	r3, [r7, #74]	; 0x4a
  8002d66:	b29b      	uxth	r3, r3
  8002d68:	461a      	mov	r2, r3
@@ -5200,22 +4529,15 @@ void Enroll() {
  8002d76:	2121      	movs	r1, #33	; 0x21
  8002d78:	4618      	mov	r0, r3
  8002d7a:	f001 f8bb 	bl	8003ef4 <SSD1306_GotoXY>
-                SSD1306_Putc((char)temp_num, &Font_7x10, 0);
  8002d7e:	f897 3049 	ldrb.w	r3, [r7, #73]	; 0x49
  8002d82:	2200      	movs	r2, #0
  8002d84:	4908      	ldr	r1, [pc, #32]	; (8002da8 <Enroll+0x39c>)
  8002d86:	4618      	mov	r0, r3
  8002d88:	f001 f8ca 	bl	8003f20 <SSD1306_Putc>
-                SSD1306_UpdateScreen();
  8002d8c:	f001 f80c 	bl	8003da8 <SSD1306_UpdateScreen>
-    while (flag) {
  8002d90:	f897 304b 	ldrb.w	r3, [r7, #75]	; 0x4b
  8002d94:	2b00      	cmp	r3, #0
  8002d96:	f47f ae88 	bne.w	8002aaa <Enroll+0x9e>
-            }
-        }
-    }
-}
  8002d9a:	bf00      	nop
  8002d9c:	bf00      	nop
  8002d9e:	3754      	adds	r7, #84	; 0x54
@@ -5225,39 +4547,23 @@ void Enroll() {
  8002da8:	20000000 	.word	0x20000000
 
 08002dac <LockDevice>:
-
-
-void LockDevice() {
  8002dac:	b590      	push	{r4, r7, lr}
  8002dae:	b097      	sub	sp, #92	; 0x5c
  8002db0:	af04      	add	r7, sp, #16
-    // Set the device and timer states to false, indicating the device is locked and the timer is inactive.
-    DeviceState = false;
  8002db2:	4bc0      	ldr	r3, [pc, #768]	; (80030b4 <LockDevice+0x308>)
  8002db4:	2200      	movs	r2, #0
  8002db6:	701a      	strb	r2, [r3, #0]
-    TimerState = false;
  8002db8:	4bbf      	ldr	r3, [pc, #764]	; (80030b8 <LockDevice+0x30c>)
  8002dba:	2200      	movs	r2, #0
  8002dbc:	701a      	strb	r2, [r3, #0]
-
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  8002dbe:	f001 fa9c 	bl	80042fa <SSD1306_Clear>
-
-    // Display "Enter pin" at the specified coordinates using Font_7x10.
-    SSD1306_GotoXY(32, 5);
  8002dc2:	2105      	movs	r1, #5
  8002dc4:	2020      	movs	r0, #32
  8002dc6:	f001 f895 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Enter pin", &Font_7x10, 1);
  8002dca:	2201      	movs	r2, #1
  8002dcc:	49bb      	ldr	r1, [pc, #748]	; (80030bc <LockDevice+0x310>)
  8002dce:	48bc      	ldr	r0, [pc, #752]	; (80030c0 <LockDevice+0x314>)
  8002dd0:	f001 f926 	bl	8004020 <SSD1306_Puts>
-
-    // Draw a filled rectangle to create a box for the PIN input.
-    SSD1306_DrawFilledRectangle(3, 20, 122, 30, 1);
  8002dd4:	2301      	movs	r3, #1
  8002dd6:	9300      	str	r3, [sp, #0]
  8002dd8:	231e      	movs	r3, #30
@@ -5265,13 +4571,9 @@ void LockDevice() {
  8002ddc:	2114      	movs	r1, #20
  8002dde:	2003      	movs	r0, #3
  8002de0:	f001 fa3e 	bl	8004260 <SSD1306_DrawFilledRectangle>
-
-    // Draw lines to separate individual PIN input positions.
-    for (int i = 0; i < 12; i++) {
  8002de4:	2300      	movs	r3, #0
  8002de6:	647b      	str	r3, [r7, #68]	; 0x44
  8002de8:	e01a      	b.n	8002e20 <LockDevice+0x74>
-        SSD1306_DrawLine(6 + i*10, 40, 12 + i*10, 40, 0);
  8002dea:	6c7b      	ldr	r3, [r7, #68]	; 0x44
  8002dec:	b29b      	uxth	r3, r3
  8002dee:	461a      	mov	r2, r3
@@ -5295,66 +4597,41 @@ void LockDevice() {
  8002e12:	2328      	movs	r3, #40	; 0x28
  8002e14:	2128      	movs	r1, #40	; 0x28
  8002e16:	f001 f928 	bl	800406a <SSD1306_DrawLine>
-    for (int i = 0; i < 12; i++) {
  8002e1a:	6c7b      	ldr	r3, [r7, #68]	; 0x44
  8002e1c:	3301      	adds	r3, #1
  8002e1e:	647b      	str	r3, [r7, #68]	; 0x44
  8002e20:	6c7b      	ldr	r3, [r7, #68]	; 0x44
  8002e22:	2b0b      	cmp	r3, #11
  8002e24:	dde1      	ble.n	8002dea <LockDevice+0x3e>
-    }
-
-    // Set the cursor to the first PIN input position and display '!' as a starting character.
-    SSD1306_GotoXY(6, 33);
  8002e26:	2121      	movs	r1, #33	; 0x21
  8002e28:	2006      	movs	r0, #6
  8002e2a:	f001 f863 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Putc('!', &Font_7x10, 0);
  8002e2e:	2200      	movs	r2, #0
  8002e30:	49a2      	ldr	r1, [pc, #648]	; (80030bc <LockDevice+0x310>)
  8002e32:	2021      	movs	r0, #33	; 0x21
  8002e34:	f001 f874 	bl	8003f20 <SSD1306_Putc>
-
-    // Update the SSD1306 display to show the initial PIN entry screen.
-    SSD1306_UpdateScreen();
  8002e38:	f000 ffb6 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    // Initialize the flag to true to start the while loop, index to 0, and temp_num to 33 (ASCII '!').
-    bool flag = true;
  8002e3c:	2301      	movs	r3, #1
  8002e3e:	f887 3043 	strb.w	r3, [r7, #67]	; 0x43
-    uint8_t index = 0;
  8002e42:	2300      	movs	r3, #0
  8002e44:	f887 3042 	strb.w	r3, [r7, #66]	; 0x42
-    uint8_t temp_num = 33;
  8002e48:	2321      	movs	r3, #33	; 0x21
  8002e4a:	f887 3041 	strb.w	r3, [r7, #65]	; 0x41
-
-    // Loop to handle PIN entry until the flag is set to false.
-    while (flag) {
  8002e4e:	e1ad      	b.n	80031ac <LockDevice+0x400>
-        // Check the state of the buttons.
-        uint8_t temp = checkButtons();
  8002e50:	f000 fd22 	bl	8003898 <checkButtons>
  8002e54:	4603      	mov	r3, r0
  8002e56:	f887 303b 	strb.w	r3, [r7, #59]	; 0x3b
-
-        // If the 'up' button is pressed, increment temp_num and wrap around if it exceeds 126.
-        if (temp == 0) {
  8002e5a:	f897 303b 	ldrb.w	r3, [r7, #59]	; 0x3b
  8002e5e:	2b00      	cmp	r3, #0
  8002e60:	d122      	bne.n	8002ea8 <LockDevice+0xfc>
-            temp_num++;
  8002e62:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  8002e66:	3301      	adds	r3, #1
  8002e68:	f887 3041 	strb.w	r3, [r7, #65]	; 0x41
-            if (temp_num == 127) temp_num = 33;
  8002e6c:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  8002e70:	2b7f      	cmp	r3, #127	; 0x7f
  8002e72:	d102      	bne.n	8002e7a <LockDevice+0xce>
  8002e74:	2321      	movs	r3, #33	; 0x21
  8002e76:	f887 3041 	strb.w	r3, [r7, #65]	; 0x41
-            SSD1306_GotoXY(6 + index*10, 33);
  8002e7a:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8002e7e:	b29b      	uxth	r3, r3
  8002e80:	461a      	mov	r2, r3
@@ -5367,32 +4644,23 @@ void LockDevice() {
  8002e8e:	2121      	movs	r1, #33	; 0x21
  8002e90:	4618      	mov	r0, r3
  8002e92:	f001 f82f 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
  8002e96:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  8002e9a:	2200      	movs	r2, #0
  8002e9c:	4987      	ldr	r1, [pc, #540]	; (80030bc <LockDevice+0x310>)
  8002e9e:	4618      	mov	r0, r3
  8002ea0:	f001 f83e 	bl	8003f20 <SSD1306_Putc>
-            SSD1306_UpdateScreen();
  8002ea4:	f000 ff80 	bl	8003da8 <SSD1306_UpdateScreen>
-        }
-
-        // If the 'down' button is pressed, decrement temp_num and wrap around if it goes below 33.
-        if (temp == 1) {
  8002ea8:	f897 303b 	ldrb.w	r3, [r7, #59]	; 0x3b
  8002eac:	2b01      	cmp	r3, #1
  8002eae:	d122      	bne.n	8002ef6 <LockDevice+0x14a>
-            temp_num--;
  8002eb0:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  8002eb4:	3b01      	subs	r3, #1
  8002eb6:	f887 3041 	strb.w	r3, [r7, #65]	; 0x41
-            if (temp_num < 33) temp_num = 126;
  8002eba:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  8002ebe:	2b20      	cmp	r3, #32
  8002ec0:	d802      	bhi.n	8002ec8 <LockDevice+0x11c>
  8002ec2:	237e      	movs	r3, #126	; 0x7e
  8002ec4:	f887 3041 	strb.w	r3, [r7, #65]	; 0x41
-            SSD1306_GotoXY(6 + index*10, 33);
  8002ec8:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8002ecc:	b29b      	uxth	r3, r3
  8002ece:	461a      	mov	r2, r3
@@ -5405,35 +4673,24 @@ void LockDevice() {
  8002edc:	2121      	movs	r1, #33	; 0x21
  8002ede:	4618      	mov	r0, r3
  8002ee0:	f001 f808 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
  8002ee4:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  8002ee8:	2200      	movs	r2, #0
  8002eea:	4974      	ldr	r1, [pc, #464]	; (80030bc <LockDevice+0x310>)
  8002eec:	4618      	mov	r0, r3
  8002eee:	f001 f817 	bl	8003f20 <SSD1306_Putc>
-            SSD1306_UpdateScreen();
  8002ef2:	f000 ff59 	bl	8003da8 <SSD1306_UpdateScreen>
-        }
-
-        // If both buttons are pressed, handle the PIN entry.
-        if (temp == 2) {
  8002ef6:	f897 303b 	ldrb.w	r3, [r7, #59]	; 0x3b
  8002efa:	2b02      	cmp	r3, #2
  8002efc:	f040 8156 	bne.w	80031ac <LockDevice+0x400>
-            // If the index is 11 (last position), save the entered PIN and exit the loop.
-            if (index == 11) {
  8002f00:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8002f04:	2b0b      	cmp	r3, #11
  8002f06:	f040 8117 	bne.w	8003138 <LockDevice+0x38c>
-                password[index] = temp_num;
  8002f0a:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8002f0e:	496d      	ldr	r1, [pc, #436]	; (80030c4 <LockDevice+0x318>)
  8002f10:	f897 2041 	ldrb.w	r2, [r7, #65]	; 0x41
  8002f14:	54ca      	strb	r2, [r1, r3]
-                flag = false;
  8002f16:	2300      	movs	r3, #0
  8002f18:	f887 3043 	strb.w	r3, [r7, #67]	; 0x43
-                SSD1306_GotoXY(6 + index*10, 33);
  8002f1c:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8002f20:	b29b      	uxth	r3, r3
  8002f22:	461a      	mov	r2, r3
@@ -5446,22 +4703,15 @@ void LockDevice() {
  8002f30:	2121      	movs	r1, #33	; 0x21
  8002f32:	4618      	mov	r0, r3
  8002f34:	f000 ffde 	bl	8003ef4 <SSD1306_GotoXY>
-                SSD1306_Putc('*', &Font_7x10, 0);
  8002f38:	2200      	movs	r2, #0
  8002f3a:	4960      	ldr	r1, [pc, #384]	; (80030bc <LockDevice+0x310>)
  8002f3c:	202a      	movs	r0, #42	; 0x2a
  8002f3e:	f000 ffef 	bl	8003f20 <SSD1306_Putc>
-                SSD1306_UpdateScreen();
  8002f42:	f000 ff31 	bl	8003da8 <SSD1306_UpdateScreen>
-
-                // Check if the entered password is correct.
-                if (CheckPassword()) {
  8002f46:	f000 fb13 	bl	8003570 <CheckPassword>
  8002f4a:	4603      	mov	r3, r0
  8002f4c:	2b00      	cmp	r3, #0
  8002f4e:	d06d      	beq.n	800302c <LockDevice+0x280>
-                    // If the password is correct, load the user's salt, IV, and encrypted master key.
-                    MY_FLASH_ReadN(MemDatastartpoint + (CurrentUser*72), CurrentLocalSalt, 8, DATA_TYPE_8);
  8002f50:	4b5d      	ldr	r3, [pc, #372]	; (80030c8 <LockDevice+0x31c>)
  8002f52:	781b      	ldrb	r3, [r3, #0]
  8002f54:	461a      	mov	r2, r3
@@ -5475,7 +4725,6 @@ void LockDevice() {
  8002f64:	2208      	movs	r2, #8
  8002f66:	4959      	ldr	r1, [pc, #356]	; (80030cc <LockDevice+0x320>)
  8002f68:	f7ff f8f8 	bl	800215c <MY_FLASH_ReadN>
-                    MY_FLASH_ReadN(MemDatastartpoint + 8 + (CurrentUser*72), CurrentIV, 16, DATA_TYPE_8);
  8002f6c:	4b56      	ldr	r3, [pc, #344]	; (80030c8 <LockDevice+0x31c>)
  8002f6e:	781b      	ldrb	r3, [r3, #0]
  8002f70:	461a      	mov	r2, r3
@@ -5489,7 +4738,6 @@ void LockDevice() {
  8002f80:	2210      	movs	r2, #16
  8002f82:	4953      	ldr	r1, [pc, #332]	; (80030d0 <LockDevice+0x324>)
  8002f84:	f7ff f8ea 	bl	800215c <MY_FLASH_ReadN>
-                    MY_FLASH_ReadN(MemDatastartpoint + 8 + 16 + 32 + (CurrentUser*72), CurrentMasterKey, 16, DATA_TYPE_8);
  8002f88:	4b4f      	ldr	r3, [pc, #316]	; (80030c8 <LockDevice+0x31c>)
  8002f8a:	781b      	ldrb	r3, [r3, #0]
  8002f8c:	461a      	mov	r2, r3
@@ -5503,15 +4751,10 @@ void LockDevice() {
  8002f9c:	2210      	movs	r2, #16
  8002f9e:	494d      	ldr	r1, [pc, #308]	; (80030d4 <LockDevice+0x328>)
  8002fa0:	f7ff f8dc 	bl	800215c <MY_FLASH_ReadN>
-
-                    // Compute the SHA-256 hash of the concatenation of the local salt and password.
-                    uint8_t temp[20];
-                    memcpy(temp, CurrentLocalSalt, sizeof(CurrentLocalSalt));
  8002fa4:	4a49      	ldr	r2, [pc, #292]	; (80030cc <LockDevice+0x320>)
  8002fa6:	f107 0324 	add.w	r3, r7, #36	; 0x24
  8002faa:	e892 0003 	ldmia.w	r2, {r0, r1}
  8002fae:	e883 0003 	stmia.w	r3, {r0, r1}
-                    memcpy(temp + sizeof(CurrentLocalSalt), CurrentPassword, sizeof(CurrentPassword));
  8002fb2:	f107 0324 	add.w	r3, r7, #36	; 0x24
  8002fb6:	3308      	adds	r3, #8
  8002fb8:	4a47      	ldr	r2, [pc, #284]	; (80030d8 <LockDevice+0x32c>)
@@ -5521,16 +4764,11 @@ void LockDevice() {
  8002fc0:	6020      	str	r0, [r4, #0]
  8002fc2:	6061      	str	r1, [r4, #4]
  8002fc4:	60a2      	str	r2, [r4, #8]
-                    uint8_t computedSha256[32];
-                    sha256(temp, computedSha256, sizeof(temp));
  8002fc6:	1d39      	adds	r1, r7, #4
  8002fc8:	f107 0324 	add.w	r3, r7, #36	; 0x24
  8002fcc:	2214      	movs	r2, #20
  8002fce:	4618      	mov	r0, r3
  8002fd0:	f000 fc00 	bl	80037d4 <sha256>
-
-                    // Decrypt the master key using AES with the computed SHA-256 hash as the key.
-                    DecryptAES(CurrentMasterKey, sizeof(CurrentMasterKey), computedSha256, sizeof(computedSha256), CurrentIV, sizeof(CurrentIV), CurrentMasterKey);
  8002fd4:	1d3a      	adds	r2, r7, #4
  8002fd6:	4b3f      	ldr	r3, [pc, #252]	; (80030d4 <LockDevice+0x328>)
  8002fd8:	9302      	str	r3, [sp, #8]
@@ -5542,12 +4780,8 @@ void LockDevice() {
  8002fe4:	2110      	movs	r1, #16
  8002fe6:	483b      	ldr	r0, [pc, #236]	; (80030d4 <LockDevice+0x328>)
  8002fe8:	f000 fc32 	bl	8003850 <DecryptAES>
-
-                    // Print the decrypted master key for debugging purposes.
-                    printf("DECKey: \n");
  8002fec:	483b      	ldr	r0, [pc, #236]	; (80030dc <LockDevice+0x330>)
  8002fee:	f009 fd4b 	bl	800ca88 <puts>
-                    for (int i = 0; i < 16; i++) printf("%02x ", CurrentMasterKey[i]);
  8002ff2:	2300      	movs	r3, #0
  8002ff4:	63fb      	str	r3, [r7, #60]	; 0x3c
  8002ff6:	e00a      	b.n	800300e <LockDevice+0x262>
@@ -5564,45 +4798,31 @@ void LockDevice() {
  800300e:	6bfb      	ldr	r3, [r7, #60]	; 0x3c
  8003010:	2b0f      	cmp	r3, #15
  8003012:	ddf1      	ble.n	8002ff8 <LockDevice+0x24c>
-                    printf("\n");
  8003014:	200a      	movs	r0, #10
  8003016:	f009 fcdb 	bl	800c9d0 <putchar>
-
-                    // Blink to indicate successful decryption, set the device state to true, and change the state to Menu.
-                    blink();
  800301a:	f000 fa65 	bl	80034e8 <blink>
-                    DeviceState = true;
  800301e:	4b25      	ldr	r3, [pc, #148]	; (80030b4 <LockDevice+0x308>)
  8003020:	2201      	movs	r2, #1
  8003022:	701a      	strb	r2, [r3, #0]
-                    state = Menu;
  8003024:	4b2f      	ldr	r3, [pc, #188]	; (80030e4 <LockDevice+0x338>)
  8003026:	2204      	movs	r2, #4
  8003028:	701a      	strb	r2, [r3, #0]
  800302a:	e082      	b.n	8003132 <LockDevice+0x386>
-                } else {
-                    // If the password is incorrect, increment the wrong password counter.
-                    MY_FLASH_ReadN(WrongPassword_address, &WrongPassword, 1, DATA_TYPE_8);
  800302c:	2300      	movs	r3, #0
  800302e:	2201      	movs	r2, #1
  8003030:	492d      	ldr	r1, [pc, #180]	; (80030e8 <LockDevice+0x33c>)
  8003032:	2002      	movs	r0, #2
  8003034:	f7ff f892 	bl	800215c <MY_FLASH_ReadN>
-                    WrongPassword++;
  8003038:	4b2b      	ldr	r3, [pc, #172]	; (80030e8 <LockDevice+0x33c>)
  800303a:	781b      	ldrb	r3, [r3, #0]
  800303c:	3301      	adds	r3, #1
  800303e:	b2da      	uxtb	r2, r3
  8003040:	4b29      	ldr	r3, [pc, #164]	; (80030e8 <LockDevice+0x33c>)
  8003042:	701a      	strb	r2, [r3, #0]
-
-                    // If the wrong password counter is less than 5, update the corresponding LED and flash memory.
-                    if (WrongPassword < 5) {
  8003044:	4b28      	ldr	r3, [pc, #160]	; (80030e8 <LockDevice+0x33c>)
  8003046:	781b      	ldrb	r3, [r3, #0]
  8003048:	2b04      	cmp	r3, #4
  800304a:	d851      	bhi.n	80030f0 <LockDevice+0x344>
-                        if (WrongPassword == 1) HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
  800304c:	4b26      	ldr	r3, [pc, #152]	; (80030e8 <LockDevice+0x33c>)
  800304e:	781b      	ldrb	r3, [r3, #0]
  8003050:	2b01      	cmp	r3, #1
@@ -5611,7 +4831,6 @@ void LockDevice() {
  8003056:	f44f 4100 	mov.w	r1, #32768	; 0x8000
  800305a:	4824      	ldr	r0, [pc, #144]	; (80030ec <LockDevice+0x340>)
  800305c:	f002 f952 	bl	8005304 <HAL_GPIO_WritePin>
-                        if (WrongPassword == 2) HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
  8003060:	4b21      	ldr	r3, [pc, #132]	; (80030e8 <LockDevice+0x33c>)
  8003062:	781b      	ldrb	r3, [r3, #0]
  8003064:	2b02      	cmp	r3, #2
@@ -5620,7 +4839,6 @@ void LockDevice() {
  800306a:	f44f 5180 	mov.w	r1, #4096	; 0x1000
  800306e:	481f      	ldr	r0, [pc, #124]	; (80030ec <LockDevice+0x340>)
  8003070:	f002 f948 	bl	8005304 <HAL_GPIO_WritePin>
-                        if (WrongPassword == 3) HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_SET);
  8003074:	4b1c      	ldr	r3, [pc, #112]	; (80030e8 <LockDevice+0x33c>)
  8003076:	781b      	ldrb	r3, [r3, #0]
  8003078:	2b03      	cmp	r3, #3
@@ -5629,7 +4847,6 @@ void LockDevice() {
  800307e:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  8003082:	481a      	ldr	r0, [pc, #104]	; (80030ec <LockDevice+0x340>)
  8003084:	f002 f93e 	bl	8005304 <HAL_GPIO_WritePin>
-                        if (WrongPassword == 4) HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
  8003088:	4b17      	ldr	r3, [pc, #92]	; (80030e8 <LockDevice+0x33c>)
  800308a:	781b      	ldrb	r3, [r3, #0]
  800308c:	2b04      	cmp	r3, #4
@@ -5638,16 +4855,11 @@ void LockDevice() {
  8003092:	f44f 4180 	mov.w	r1, #16384	; 0x4000
  8003096:	4815      	ldr	r0, [pc, #84]	; (80030ec <LockDevice+0x340>)
  8003098:	f002 f934 	bl	8005304 <HAL_GPIO_WritePin>
-                        write_flash(WrongPassword_address, &WrongPassword, 1);
  800309c:	2201      	movs	r2, #1
  800309e:	4912      	ldr	r1, [pc, #72]	; (80030e8 <LockDevice+0x33c>)
  80030a0:	2002      	movs	r0, #2
  80030a2:	f7ff f8b7 	bl	8002214 <write_flash>
-
-                        // Trigger an alarm on the OLED and reset the state to Lock.
-                        OledAlarm();
  80030a6:	f000 f96b 	bl	8003380 <OledAlarm>
-                        state = Lock;
  80030aa:	4b0e      	ldr	r3, [pc, #56]	; (80030e4 <LockDevice+0x338>)
  80030ac:	2200      	movs	r2, #0
  80030ae:	701a      	strb	r2, [r3, #0]
@@ -5668,58 +4880,36 @@ void LockDevice() {
  80030e4:	200002c1 	.word	0x200002c1
  80030e8:	200002c0 	.word	0x200002c0
  80030ec:	40020c00 	.word	0x40020c00
-                    } else {
-                        // If the wrong password counter reaches 5, erase memory and reset the LEDs.
-                        EraseAlaram();
  80030f0:	f000 f978 	bl	80033e4 <EraseAlaram>
-                        EraseMem();
  80030f4:	f000 f99a 	bl	800342c <EraseMem>
-                        blink();
  80030f8:	f000 f9f6 	bl	80034e8 <blink>
-                        HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
  80030fc:	2200      	movs	r2, #0
  80030fe:	f44f 4100 	mov.w	r1, #32768	; 0x8000
  8003102:	482f      	ldr	r0, [pc, #188]	; (80031c0 <LockDevice+0x414>)
  8003104:	f002 f8fe 	bl	8005304 <HAL_GPIO_WritePin>
-                        HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
  8003108:	2200      	movs	r2, #0
  800310a:	f44f 5180 	mov.w	r1, #4096	; 0x1000
  800310e:	482c      	ldr	r0, [pc, #176]	; (80031c0 <LockDevice+0x414>)
  8003110:	f002 f8f8 	bl	8005304 <HAL_GPIO_WritePin>
-                        HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
  8003114:	2200      	movs	r2, #0
  8003116:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  800311a:	4829      	ldr	r0, [pc, #164]	; (80031c0 <LockDevice+0x414>)
  800311c:	f002 f8f2 	bl	8005304 <HAL_GPIO_WritePin>
-                        HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
  8003120:	2200      	movs	r2, #0
  8003122:	f44f 4180 	mov.w	r1, #16384	; 0x4000
  8003126:	4826      	ldr	r0, [pc, #152]	; (80031c0 <LockDevice+0x414>)
  8003128:	f002 f8ec 	bl	8005304 <HAL_GPIO_WritePin>
-
-                        // Set the state to Enrollment for re-enrollment.
-                        state = Enrollment;
  800312c:	4b25      	ldr	r3, [pc, #148]	; (80031c4 <LockDevice+0x418>)
  800312e:	2203      	movs	r2, #3
  8003130:	701a      	strb	r2, [r3, #0]
-                    }
-                }
-
-                // Clear the SSD1306 display.
-                SSD1306_Clear();
  8003132:	f001 f8e2 	bl	80042fa <SSD1306_Clear>
  8003136:	e039      	b.n	80031ac <LockDevice+0x400>
-            } else {
-                // Save the entered character in the password array and move to the next position.
-                password[index] = temp_num;
  8003138:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  800313c:	4922      	ldr	r1, [pc, #136]	; (80031c8 <LockDevice+0x41c>)
  800313e:	f897 2041 	ldrb.w	r2, [r7, #65]	; 0x41
  8003142:	54ca      	strb	r2, [r1, r3]
-                temp_num = 33;
  8003144:	2321      	movs	r3, #33	; 0x21
  8003146:	f887 3041 	strb.w	r3, [r7, #65]	; 0x41
-                SSD1306_GotoXY(6 + index*10, 33);
  800314a:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  800314e:	b29b      	uxth	r3, r3
  8003150:	461a      	mov	r2, r3
@@ -5732,18 +4922,14 @@ void LockDevice() {
  800315e:	2121      	movs	r1, #33	; 0x21
  8003160:	4618      	mov	r0, r3
  8003162:	f000 fec7 	bl	8003ef4 <SSD1306_GotoXY>
-                SSD1306_Putc('*', &Font_7x10, 0);
  8003166:	2200      	movs	r2, #0
  8003168:	4918      	ldr	r1, [pc, #96]	; (80031cc <LockDevice+0x420>)
  800316a:	202a      	movs	r0, #42	; 0x2a
  800316c:	f000 fed8 	bl	8003f20 <SSD1306_Putc>
-                SSD1306_UpdateScreen();
  8003170:	f000 fe1a 	bl	8003da8 <SSD1306_UpdateScreen>
-                index++;
  8003174:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8003178:	3301      	adds	r3, #1
  800317a:	f887 3042 	strb.w	r3, [r7, #66]	; 0x42
-                SSD1306_GotoXY(6 + index*10, 33);
  800317e:	f897 3042 	ldrb.w	r3, [r7, #66]	; 0x42
  8003182:	b29b      	uxth	r3, r3
  8003184:	461a      	mov	r2, r3
@@ -5756,22 +4942,15 @@ void LockDevice() {
  8003192:	2121      	movs	r1, #33	; 0x21
  8003194:	4618      	mov	r0, r3
  8003196:	f000 fead 	bl	8003ef4 <SSD1306_GotoXY>
-                SSD1306_Putc((char)temp_num, &Font_7x10, 0);
  800319a:	f897 3041 	ldrb.w	r3, [r7, #65]	; 0x41
  800319e:	2200      	movs	r2, #0
  80031a0:	490a      	ldr	r1, [pc, #40]	; (80031cc <LockDevice+0x420>)
  80031a2:	4618      	mov	r0, r3
  80031a4:	f000 febc 	bl	8003f20 <SSD1306_Putc>
-                SSD1306_UpdateScreen();
  80031a8:	f000 fdfe 	bl	8003da8 <SSD1306_UpdateScreen>
-    while (flag) {
  80031ac:	f897 3043 	ldrb.w	r3, [r7, #67]	; 0x43
  80031b0:	2b00      	cmp	r3, #0
  80031b2:	f47f ae4d 	bne.w	8002e50 <LockDevice+0xa4>
-            }
-        }
-    }
-}
  80031b6:	bf00      	nop
  80031b8:	bf00      	nop
  80031ba:	374c      	adds	r7, #76	; 0x4c
@@ -5783,18 +4962,10 @@ void LockDevice() {
  80031cc:	20000000 	.word	0x20000000
 
 080031d0 <ResetFactory>:
-
-
-void ResetFactory() {
  80031d0:	b580      	push	{r7, lr}
  80031d2:	b084      	sub	sp, #16
  80031d4:	af02      	add	r7, sp, #8
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  80031d6:	f001 f890 	bl	80042fa <SSD1306_Clear>
-
-    // Draw a filled rectangle around the "No" option.
-    SSD1306_DrawFilledRectangle(71, 35, 25, 12, 1);
  80031da:	2301      	movs	r3, #1
  80031dc:	9300      	str	r3, [sp, #0]
  80031de:	230c      	movs	r3, #12
@@ -5802,79 +4973,47 @@ void ResetFactory() {
  80031e2:	2123      	movs	r1, #35	; 0x23
  80031e4:	2047      	movs	r0, #71	; 0x47
  80031e6:	f001 f83b 	bl	8004260 <SSD1306_DrawFilledRectangle>
-
-    // Display "Reset factory" at the specified coordinates using Font_7x10.
-    SSD1306_GotoXY(18, 17);
  80031ea:	2111      	movs	r1, #17
  80031ec:	2012      	movs	r0, #18
  80031ee:	f000 fe81 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Reset factory", &Font_7x10, 1);
  80031f2:	2201      	movs	r2, #1
  80031f4:	495b      	ldr	r1, [pc, #364]	; (8003364 <ResetFactory+0x194>)
  80031f6:	485c      	ldr	r0, [pc, #368]	; (8003368 <ResetFactory+0x198>)
  80031f8:	f000 ff12 	bl	8004020 <SSD1306_Puts>
-
-    // Display "Yes" and "No" options at the specified coordinates.
-    SSD1306_GotoXY(38, 37);
  80031fc:	2125      	movs	r1, #37	; 0x25
  80031fe:	2026      	movs	r0, #38	; 0x26
  8003200:	f000 fe78 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Yes", &Font_7x10, 1);
  8003204:	2201      	movs	r2, #1
  8003206:	4957      	ldr	r1, [pc, #348]	; (8003364 <ResetFactory+0x194>)
  8003208:	4858      	ldr	r0, [pc, #352]	; (800336c <ResetFactory+0x19c>)
  800320a:	f000 ff09 	bl	8004020 <SSD1306_Puts>
-    SSD1306_GotoXY(78, 37);
  800320e:	2125      	movs	r1, #37	; 0x25
  8003210:	204e      	movs	r0, #78	; 0x4e
  8003212:	f000 fe6f 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("No", &Font_7x10, 0);
  8003216:	2200      	movs	r2, #0
  8003218:	4952      	ldr	r1, [pc, #328]	; (8003364 <ResetFactory+0x194>)
  800321a:	4855      	ldr	r0, [pc, #340]	; (8003370 <ResetFactory+0x1a0>)
  800321c:	f000 ff00 	bl	8004020 <SSD1306_Puts>
-
-    // Update the SSD1306 display to show the initial reset factory screen.
-    SSD1306_UpdateScreen();
  8003220:	f000 fdc2 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    // Initialize the YesNo flag to false, indicating "No" is currently selected.
-    bool YesNo = false;
  8003224:	2300      	movs	r3, #0
  8003226:	71fb      	strb	r3, [r7, #7]
-
-    // Loop to handle user input until the device state changes or the user makes a selection.
-    while (1) {
-        // If the device is locked, change the state to Lock and break the loop.
-        if (!DeviceState) {
  8003228:	4b52      	ldr	r3, [pc, #328]	; (8003374 <ResetFactory+0x1a4>)
  800322a:	781b      	ldrb	r3, [r3, #0]
  800322c:	f083 0301 	eor.w	r3, r3, #1
  8003230:	b2db      	uxtb	r3, r3
  8003232:	2b00      	cmp	r3, #0
  8003234:	d003      	beq.n	800323e <ResetFactory+0x6e>
-            state = Lock;
  8003236:	4b50      	ldr	r3, [pc, #320]	; (8003378 <ResetFactory+0x1a8>)
  8003238:	2200      	movs	r2, #0
  800323a:	701a      	strb	r2, [r3, #0]
-            break;
  800323c:	e08e      	b.n	800335c <ResetFactory+0x18c>
-        }
-
-        // Check the state of the buttons.
-        uint8_t btn_state = checkButtons();
  800323e:	f000 fb2b 	bl	8003898 <checkButtons>
  8003242:	4603      	mov	r3, r0
  8003244:	71bb      	strb	r3, [r7, #6]
-
-        // If the 'up' button is pressed, select "Yes" and update the display.
-        if (btn_state == 0) { // up
  8003246:	79bb      	ldrb	r3, [r7, #6]
  8003248:	2b00      	cmp	r3, #0
  800324a:	d129      	bne.n	80032a0 <ResetFactory+0xd0>
-            SSD1306_Clear();
  800324c:	f001 f855 	bl	80042fa <SSD1306_Clear>
-            SSD1306_DrawFilledRectangle(36, 35, 25, 12, 1);
  8003250:	2301      	movs	r3, #1
  8003252:	9300      	str	r3, [sp, #0]
  8003254:	230c      	movs	r3, #12
@@ -5882,49 +5021,35 @@ void ResetFactory() {
  8003258:	2123      	movs	r1, #35	; 0x23
  800325a:	2024      	movs	r0, #36	; 0x24
  800325c:	f001 f800 	bl	8004260 <SSD1306_DrawFilledRectangle>
-            SSD1306_GotoXY(18, 17);
  8003260:	2111      	movs	r1, #17
  8003262:	2012      	movs	r0, #18
  8003264:	f000 fe46 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Puts("Reset factory", &Font_7x10, 1);
  8003268:	2201      	movs	r2, #1
  800326a:	493e      	ldr	r1, [pc, #248]	; (8003364 <ResetFactory+0x194>)
  800326c:	483e      	ldr	r0, [pc, #248]	; (8003368 <ResetFactory+0x198>)
  800326e:	f000 fed7 	bl	8004020 <SSD1306_Puts>
-            SSD1306_GotoXY(38, 37);
  8003272:	2125      	movs	r1, #37	; 0x25
  8003274:	2026      	movs	r0, #38	; 0x26
  8003276:	f000 fe3d 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Puts("Yes", &Font_7x10, 0);
  800327a:	2200      	movs	r2, #0
  800327c:	4939      	ldr	r1, [pc, #228]	; (8003364 <ResetFactory+0x194>)
  800327e:	483b      	ldr	r0, [pc, #236]	; (800336c <ResetFactory+0x19c>)
  8003280:	f000 fece 	bl	8004020 <SSD1306_Puts>
-            SSD1306_GotoXY(78, 37);
  8003284:	2125      	movs	r1, #37	; 0x25
  8003286:	204e      	movs	r0, #78	; 0x4e
  8003288:	f000 fe34 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Puts("No", &Font_7x10, 1);
  800328c:	2201      	movs	r2, #1
  800328e:	4935      	ldr	r1, [pc, #212]	; (8003364 <ResetFactory+0x194>)
  8003290:	4837      	ldr	r0, [pc, #220]	; (8003370 <ResetFactory+0x1a0>)
  8003292:	f000 fec5 	bl	8004020 <SSD1306_Puts>
-            SSD1306_UpdateScreen();
  8003296:	f000 fd87 	bl	8003da8 <SSD1306_UpdateScreen>
-            YesNo = true;
  800329a:	2301      	movs	r3, #1
  800329c:	71fb      	strb	r3, [r7, #7]
  800329e:	e7c3      	b.n	8003228 <ResetFactory+0x58>
-        }
-
-        // If the 'down' button is pressed, select "No" and update the display.
-        else if (btn_state == 1) { // down
  80032a0:	79bb      	ldrb	r3, [r7, #6]
  80032a2:	2b01      	cmp	r3, #1
  80032a4:	d129      	bne.n	80032fa <ResetFactory+0x12a>
-            SSD1306_Clear();
  80032a6:	f001 f828 	bl	80042fa <SSD1306_Clear>
-            SSD1306_DrawFilledRectangle(71, 35, 25, 12, 1);
  80032aa:	2301      	movs	r3, #1
  80032ac:	9300      	str	r3, [sp, #0]
  80032ae:	230c      	movs	r3, #12
@@ -5932,103 +5057,68 @@ void ResetFactory() {
  80032b2:	2123      	movs	r1, #35	; 0x23
  80032b4:	2047      	movs	r0, #71	; 0x47
  80032b6:	f000 ffd3 	bl	8004260 <SSD1306_DrawFilledRectangle>
-            SSD1306_GotoXY(18, 17);
  80032ba:	2111      	movs	r1, #17
  80032bc:	2012      	movs	r0, #18
  80032be:	f000 fe19 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Puts("Reset factory", &Font_7x10, 1);
  80032c2:	2201      	movs	r2, #1
  80032c4:	4927      	ldr	r1, [pc, #156]	; (8003364 <ResetFactory+0x194>)
  80032c6:	4828      	ldr	r0, [pc, #160]	; (8003368 <ResetFactory+0x198>)
  80032c8:	f000 feaa 	bl	8004020 <SSD1306_Puts>
-            SSD1306_GotoXY(38, 37);
  80032cc:	2125      	movs	r1, #37	; 0x25
  80032ce:	2026      	movs	r0, #38	; 0x26
  80032d0:	f000 fe10 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Puts("Yes", &Font_7x10, 1);
  80032d4:	2201      	movs	r2, #1
  80032d6:	4923      	ldr	r1, [pc, #140]	; (8003364 <ResetFactory+0x194>)
  80032d8:	4824      	ldr	r0, [pc, #144]	; (800336c <ResetFactory+0x19c>)
  80032da:	f000 fea1 	bl	8004020 <SSD1306_Puts>
-            SSD1306_GotoXY(78, 37);
  80032de:	2125      	movs	r1, #37	; 0x25
  80032e0:	204e      	movs	r0, #78	; 0x4e
  80032e2:	f000 fe07 	bl	8003ef4 <SSD1306_GotoXY>
-            SSD1306_Puts("No", &Font_7x10, 0);
  80032e6:	2200      	movs	r2, #0
  80032e8:	491e      	ldr	r1, [pc, #120]	; (8003364 <ResetFactory+0x194>)
  80032ea:	4821      	ldr	r0, [pc, #132]	; (8003370 <ResetFactory+0x1a0>)
  80032ec:	f000 fe98 	bl	8004020 <SSD1306_Puts>
-            SSD1306_UpdateScreen();
  80032f0:	f000 fd5a 	bl	8003da8 <SSD1306_UpdateScreen>
-            YesNo = false;
  80032f4:	2300      	movs	r3, #0
  80032f6:	71fb      	strb	r3, [r7, #7]
  80032f8:	e796      	b.n	8003228 <ResetFactory+0x58>
-        }
-
-        // If both buttons are pressed, perform the action based on the selected option.
-        else if (btn_state == 2) { // both
  80032fa:	79bb      	ldrb	r3, [r7, #6]
  80032fc:	2b02      	cmp	r3, #2
  80032fe:	d193      	bne.n	8003228 <ResetFactory+0x58>
-            // If "Yes" is selected, erase alarms and memory, reset LEDs, and change state to Enrollment.
-            if (YesNo) {
  8003300:	79fb      	ldrb	r3, [r7, #7]
  8003302:	2b00      	cmp	r3, #0
  8003304:	d020      	beq.n	8003348 <ResetFactory+0x178>
-                EraseAlaram();
  8003306:	f000 f86d 	bl	80033e4 <EraseAlaram>
-                EraseMem();
  800330a:	f000 f88f 	bl	800342c <EraseMem>
-                blink();
  800330e:	f000 f8eb 	bl	80034e8 <blink>
-                HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
  8003312:	2200      	movs	r2, #0
  8003314:	f44f 4100 	mov.w	r1, #32768	; 0x8000
  8003318:	4818      	ldr	r0, [pc, #96]	; (800337c <ResetFactory+0x1ac>)
  800331a:	f001 fff3 	bl	8005304 <HAL_GPIO_WritePin>
-                HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
  800331e:	2200      	movs	r2, #0
  8003320:	f44f 5180 	mov.w	r1, #4096	; 0x1000
  8003324:	4815      	ldr	r0, [pc, #84]	; (800337c <ResetFactory+0x1ac>)
  8003326:	f001 ffed 	bl	8005304 <HAL_GPIO_WritePin>
-                HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
  800332a:	2200      	movs	r2, #0
  800332c:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  8003330:	4812      	ldr	r0, [pc, #72]	; (800337c <ResetFactory+0x1ac>)
  8003332:	f001 ffe7 	bl	8005304 <HAL_GPIO_WritePin>
-                HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
  8003336:	2200      	movs	r2, #0
  8003338:	f44f 4180 	mov.w	r1, #16384	; 0x4000
  800333c:	480f      	ldr	r0, [pc, #60]	; (800337c <ResetFactory+0x1ac>)
  800333e:	f001 ffe1 	bl	8005304 <HAL_GPIO_WritePin>
-                state = Enrollment;
  8003342:	4b0d      	ldr	r3, [pc, #52]	; (8003378 <ResetFactory+0x1a8>)
  8003344:	2203      	movs	r2, #3
  8003346:	701a      	strb	r2, [r3, #0]
-            }
-
-            // If "No" is selected, change the state back to Menu.
-            if (!YesNo) {
  8003348:	79fb      	ldrb	r3, [r7, #7]
  800334a:	f083 0301 	eor.w	r3, r3, #1
  800334e:	b2db      	uxtb	r3, r3
  8003350:	2b00      	cmp	r3, #0
  8003352:	d002      	beq.n	800335a <ResetFactory+0x18a>
-                // printf("resetCanceled\n");
-                state = Menu;
  8003354:	4b08      	ldr	r3, [pc, #32]	; (8003378 <ResetFactory+0x1a8>)
  8003356:	2204      	movs	r2, #4
  8003358:	701a      	strb	r2, [r3, #0]
-            }
-
-            // Break the loop after making a selection.
-            break;
  800335a:	bf00      	nop
-        }
-    }
-}
  800335c:	bf00      	nop
  800335e:	3708      	adds	r7, #8
  8003360:	46bd      	mov	sp, r7
@@ -6042,32 +5132,19 @@ void ResetFactory() {
  800337c:	40020c00 	.word	0x40020c00
 
 08003380 <OledAlarm>:
-
-
-void OledAlarm() {
  8003380:	b580      	push	{r7, lr}
  8003382:	af00      	add	r7, sp, #0
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  8003384:	f000 ffb9 	bl	80042fa <SSD1306_Clear>
-
-    // Display "Warning" message at the specified coordinates using Font_11x18.
-    SSD1306_GotoXY(25, 0);
  8003388:	2100      	movs	r1, #0
  800338a:	2019      	movs	r0, #25
  800338c:	f000 fdb2 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Warning", &Font_11x18, 1);
  8003390:	2201      	movs	r2, #1
  8003392:	490f      	ldr	r1, [pc, #60]	; (80033d0 <OledAlarm+0x50>)
  8003394:	480f      	ldr	r0, [pc, #60]	; (80033d4 <OledAlarm+0x54>)
  8003396:	f000 fe43 	bl	8004020 <SSD1306_Puts>
-
-    // Calculate the remaining attempts and display it.
-    SSD1306_GotoXY(11, 36);
  800339a:	2124      	movs	r1, #36	; 0x24
  800339c:	200b      	movs	r0, #11
  800339e:	f000 fda9 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Putc(4 - WrongPassword + '0', &Font_7x10, 1);  // Display the number of remaining attempts.
  80033a2:	4b0d      	ldr	r3, [pc, #52]	; (80033d8 <OledAlarm+0x58>)
  80033a4:	781b      	ldrb	r3, [r3, #0]
  80033a6:	f1c3 0334 	rsb	r3, r3, #52	; 0x34
@@ -6076,23 +5153,13 @@ void OledAlarm() {
  80033ae:	490b      	ldr	r1, [pc, #44]	; (80033dc <OledAlarm+0x5c>)
  80033b0:	4618      	mov	r0, r3
  80033b2:	f000 fdb5 	bl	8003f20 <SSD1306_Putc>
-
-    // Display " more attempts" message at the specified coordinates using Font_7x10.
-    SSD1306_Puts(" more attempts", &Font_7x10, 1);
  80033b6:	2201      	movs	r2, #1
  80033b8:	4908      	ldr	r1, [pc, #32]	; (80033dc <OledAlarm+0x5c>)
  80033ba:	4809      	ldr	r0, [pc, #36]	; (80033e0 <OledAlarm+0x60>)
  80033bc:	f000 fe30 	bl	8004020 <SSD1306_Puts>
-
-    // Update the SSD1306 display to show the warning message and remaining attempts.
-    SSD1306_UpdateScreen();
  80033c0:	f000 fcf2 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    // Delay for 3000 milliseconds (3 seconds) to allow the user to read the warning message.
-    HAL_Delay(3000);
  80033c4:	f640 30b8 	movw	r0, #3000	; 0xbb8
  80033c8:	f001 fa98 	bl	80048fc <HAL_Delay>
-}
  80033cc:	bf00      	nop
  80033ce:	bd80      	pop	{r7, pc}
  80033d0:	20000008 	.word	0x20000008
@@ -6102,46 +5169,26 @@ void OledAlarm() {
  80033e0:	0800d8dc 	.word	0x0800d8dc
 
 080033e4 <EraseAlaram>:
-
-
-void EraseAlaram() {
  80033e4:	b580      	push	{r7, lr}
  80033e6:	af00      	add	r7, sp, #0
-    // Clear the SSD1306 display.
-    SSD1306_Clear();
  80033e8:	f000 ff87 	bl	80042fa <SSD1306_Clear>
-
-    // Display "Memory" message at the specified coordinates using Font_11x18.
-    SSD1306_GotoXY(31, 14);
  80033ec:	210e      	movs	r1, #14
  80033ee:	201f      	movs	r0, #31
  80033f0:	f000 fd80 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("Memory", &Font_11x18, 1);
  80033f4:	2201      	movs	r2, #1
  80033f6:	490a      	ldr	r1, [pc, #40]	; (8003420 <EraseAlaram+0x3c>)
  80033f8:	480a      	ldr	r0, [pc, #40]	; (8003424 <EraseAlaram+0x40>)
  80033fa:	f000 fe11 	bl	8004020 <SSD1306_Puts>
-
-    // Display "erasing:(" message at the specified coordinates using Font_11x18.
-    SSD1306_GotoXY(14, 32);
  80033fe:	2120      	movs	r1, #32
  8003400:	200e      	movs	r0, #14
  8003402:	f000 fd77 	bl	8003ef4 <SSD1306_GotoXY>
-    SSD1306_Puts("erasing:(", &Font_11x18, 1);
  8003406:	2201      	movs	r2, #1
  8003408:	4905      	ldr	r1, [pc, #20]	; (8003420 <EraseAlaram+0x3c>)
  800340a:	4807      	ldr	r0, [pc, #28]	; (8003428 <EraseAlaram+0x44>)
  800340c:	f000 fe08 	bl	8004020 <SSD1306_Puts>
-
-    // Update the SSD1306 display to show the memory erasing message.
-    SSD1306_UpdateScreen();
  8003410:	f000 fcca 	bl	8003da8 <SSD1306_UpdateScreen>
-
-    // Delay for 3000 milliseconds (3 seconds) to allow the user to read the memory erasing message.
-    HAL_Delay(3000);
  8003414:	f640 30b8 	movw	r0, #3000	; 0xbb8
  8003418:	f001 fa70 	bl	80048fc <HAL_Delay>
-}
  800341c:	bf00      	nop
  800341e:	bd80      	pop	{r7, pc}
  8003420:	20000008 	.word	0x20000008
@@ -6149,13 +5196,9 @@ void EraseAlaram() {
  8003428:	0800d8f4 	.word	0x0800d8f4
 
 0800342c <EraseMem>:
-
-
-void EraseMem(){
  800342c:	b580      	push	{r7, lr}
  800342e:	f5ad 7d7a 	sub.w	sp, sp, #1000	; 0x3e8
  8003432:	af00      	add	r7, sp, #0
-	uint8_t All_0[1000] = {0};
  8003434:	f507 737a 	add.w	r3, r7, #1000	; 0x3e8
  8003438:	f5a3 737a 	sub.w	r3, r3, #1000	; 0x3e8
  800343c:	2200      	movs	r2, #0
@@ -6165,13 +5208,11 @@ void EraseMem(){
  8003446:	2100      	movs	r1, #0
  8003448:	4618      	mov	r0, r3
  800344a:	f009 fc0d 	bl	800cc68 <memset>
-	write_flash(0, All_0, 1000);
  800344e:	463b      	mov	r3, r7
  8003450:	f44f 727a 	mov.w	r2, #1000	; 0x3e8
  8003454:	4619      	mov	r1, r3
  8003456:	2000      	movs	r0, #0
  8003458:	f7fe fedc 	bl	8002214 <write_flash>
-}
  800345c:	bf00      	nop
  800345e:	f507 777a 	add.w	r7, r7, #1000	; 0x3e8
  8003462:	46bd      	mov	sp, r7
@@ -6179,79 +5220,52 @@ void EraseMem(){
 	...
 
 08003468 <wrong_LEDs>:
-
-
-void wrong_LEDs() {
  8003468:	b580      	push	{r7, lr}
  800346a:	b082      	sub	sp, #8
  800346c:	af00      	add	r7, sp, #0
-    // Read the number of wrong password attempts from flash memory.
-    MY_FLASH_ReadN(WrongPassword_address, &WrongPassword, 1, DATA_TYPE_8);
  800346e:	2300      	movs	r3, #0
  8003470:	2201      	movs	r2, #1
  8003472:	491b      	ldr	r1, [pc, #108]	; (80034e0 <wrong_LEDs+0x78>)
  8003474:	2002      	movs	r0, #2
  8003476:	f7fe fe71 	bl	800215c <MY_FLASH_ReadN>
-
-    // Iterate through the number of wrong password attempts and set the corresponding LEDs.
-    for(int i = WrongPassword; i >= 0; i--) {
  800347a:	4b19      	ldr	r3, [pc, #100]	; (80034e0 <wrong_LEDs+0x78>)
  800347c:	781b      	ldrb	r3, [r3, #0]
  800347e:	607b      	str	r3, [r7, #4]
  8003480:	e026      	b.n	80034d0 <wrong_LEDs+0x68>
-        if (i == 1) {
  8003482:	687b      	ldr	r3, [r7, #4]
  8003484:	2b01      	cmp	r3, #1
  8003486:	d105      	bne.n	8003494 <wrong_LEDs+0x2c>
-            // Set the blue LED.
-            HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
  8003488:	2201      	movs	r2, #1
  800348a:	f44f 4100 	mov.w	r1, #32768	; 0x8000
  800348e:	4815      	ldr	r0, [pc, #84]	; (80034e4 <wrong_LEDs+0x7c>)
  8003490:	f001 ff38 	bl	8005304 <HAL_GPIO_WritePin>
-        }
-        if (i == 2) {
  8003494:	687b      	ldr	r3, [r7, #4]
  8003496:	2b02      	cmp	r3, #2
  8003498:	d105      	bne.n	80034a6 <wrong_LEDs+0x3e>
-            // Set the green LED.
-            HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
  800349a:	2201      	movs	r2, #1
  800349c:	f44f 5180 	mov.w	r1, #4096	; 0x1000
  80034a0:	4810      	ldr	r0, [pc, #64]	; (80034e4 <wrong_LEDs+0x7c>)
  80034a2:	f001 ff2f 	bl	8005304 <HAL_GPIO_WritePin>
-        }
-        if (i == 3) {
  80034a6:	687b      	ldr	r3, [r7, #4]
  80034a8:	2b03      	cmp	r3, #3
  80034aa:	d105      	bne.n	80034b8 <wrong_LEDs+0x50>
-            // Set the orange LED.
-            HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_SET);
  80034ac:	2201      	movs	r2, #1
  80034ae:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  80034b2:	480c      	ldr	r0, [pc, #48]	; (80034e4 <wrong_LEDs+0x7c>)
  80034b4:	f001 ff26 	bl	8005304 <HAL_GPIO_WritePin>
-        }
-        if (i == 4) {
  80034b8:	687b      	ldr	r3, [r7, #4]
  80034ba:	2b04      	cmp	r3, #4
  80034bc:	d105      	bne.n	80034ca <wrong_LEDs+0x62>
-            // Set the red LED.
-            HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
  80034be:	2201      	movs	r2, #1
  80034c0:	f44f 4180 	mov.w	r1, #16384	; 0x4000
  80034c4:	4807      	ldr	r0, [pc, #28]	; (80034e4 <wrong_LEDs+0x7c>)
  80034c6:	f001 ff1d 	bl	8005304 <HAL_GPIO_WritePin>
-    for(int i = WrongPassword; i >= 0; i--) {
  80034ca:	687b      	ldr	r3, [r7, #4]
  80034cc:	3b01      	subs	r3, #1
  80034ce:	607b      	str	r3, [r7, #4]
  80034d0:	687b      	ldr	r3, [r7, #4]
  80034d2:	2b00      	cmp	r3, #0
  80034d4:	dad5      	bge.n	8003482 <wrong_LEDs+0x1a>
-        }
-    }
-}
  80034d6:	bf00      	nop
  80034d8:	bf00      	nop
  80034da:	3708      	adds	r7, #8
@@ -6261,71 +5275,49 @@ void wrong_LEDs() {
  80034e4:	40020c00 	.word	0x40020c00
 
 080034e8 <blink>:
-
-
-void blink() {
  80034e8:	b580      	push	{r7, lr}
  80034ea:	b082      	sub	sp, #8
  80034ec:	af00      	add	r7, sp, #0
-    // Reset all LEDs to off state.
-    HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
  80034ee:	2200      	movs	r2, #0
  80034f0:	f44f 4100 	mov.w	r1, #32768	; 0x8000
  80034f4:	481d      	ldr	r0, [pc, #116]	; (800356c <blink+0x84>)
  80034f6:	f001 ff05 	bl	8005304 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
  80034fa:	2200      	movs	r2, #0
  80034fc:	f44f 5180 	mov.w	r1, #4096	; 0x1000
  8003500:	481a      	ldr	r0, [pc, #104]	; (800356c <blink+0x84>)
  8003502:	f001 feff 	bl	8005304 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
  8003506:	2200      	movs	r2, #0
  8003508:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  800350c:	4817      	ldr	r0, [pc, #92]	; (800356c <blink+0x84>)
  800350e:	f001 fef9 	bl	8005304 <HAL_GPIO_WritePin>
-    HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
  8003512:	2200      	movs	r2, #0
  8003514:	f44f 4180 	mov.w	r1, #16384	; 0x4000
  8003518:	4814      	ldr	r0, [pc, #80]	; (800356c <blink+0x84>)
  800351a:	f001 fef3 	bl	8005304 <HAL_GPIO_WritePin>
-
-    // Toggle LEDs in sequence for visual blinking effect.
-    for (int i = 0; i < 6; i++) {
  800351e:	2300      	movs	r3, #0
  8003520:	607b      	str	r3, [r7, #4]
  8003522:	e01a      	b.n	800355a <blink+0x72>
-        HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
  8003524:	f44f 5180 	mov.w	r1, #4096	; 0x1000
  8003528:	4810      	ldr	r0, [pc, #64]	; (800356c <blink+0x84>)
  800352a:	f001 ff04 	bl	8005336 <HAL_GPIO_TogglePin>
-        HAL_GPIO_TogglePin(Orange_GPIO_Port, Orange_Pin);
  800352e:	f44f 5100 	mov.w	r1, #8192	; 0x2000
  8003532:	480e      	ldr	r0, [pc, #56]	; (800356c <blink+0x84>)
  8003534:	f001 feff 	bl	8005336 <HAL_GPIO_TogglePin>
-        HAL_GPIO_TogglePin(Red_GPIO_Port, Red_Pin);
  8003538:	f44f 4180 	mov.w	r1, #16384	; 0x4000
  800353c:	480b      	ldr	r0, [pc, #44]	; (800356c <blink+0x84>)
  800353e:	f001 fefa 	bl	8005336 <HAL_GPIO_TogglePin>
-        HAL_GPIO_TogglePin(Blue_GPIO_Port, Blue_Pin);
  8003542:	f44f 4100 	mov.w	r1, #32768	; 0x8000
  8003546:	4809      	ldr	r0, [pc, #36]	; (800356c <blink+0x84>)
  8003548:	f001 fef5 	bl	8005336 <HAL_GPIO_TogglePin>
-        HAL_Delay(300); // Delay to control blink speed
  800354c:	f44f 7096 	mov.w	r0, #300	; 0x12c
  8003550:	f001 f9d4 	bl	80048fc <HAL_Delay>
-    for (int i = 0; i < 6; i++) {
  8003554:	687b      	ldr	r3, [r7, #4]
  8003556:	3301      	adds	r3, #1
  8003558:	607b      	str	r3, [r7, #4]
  800355a:	687b      	ldr	r3, [r7, #4]
  800355c:	2b05      	cmp	r3, #5
  800355e:	dde1      	ble.n	8003524 <blink+0x3c>
-    }
-
-    // After blinking, update LEDs according to the number of wrong password attempts.
-    wrong_LEDs();
  8003560:	f7ff ff82 	bl	8003468 <wrong_LEDs>
-}
  8003564:	bf00      	nop
  8003566:	3708      	adds	r7, #8
  8003568:	46bd      	mov	sp, r7
@@ -6333,35 +5325,21 @@ void blink() {
  800356c:	40020c00 	.word	0x40020c00
 
 08003570 <CheckPassword>:
-
-
-bool CheckPassword() {
  8003570:	b590      	push	{r4, r7, lr}
  8003572:	b097      	sub	sp, #92	; 0x5c
  8003574:	af00      	add	r7, sp, #0
-    uint8_t tempPassword[32]; // Buffer to hold a hashed password read from memory
-
-    // Read the number of users stored in flash memory
-    MY_FLASH_ReadN(Nusers_address, &user_num, 1, DATA_TYPE_8);
  8003576:	2300      	movs	r3, #0
  8003578:	2201      	movs	r2, #1
  800357a:	4927      	ldr	r1, [pc, #156]	; (8003618 <CheckPassword+0xa8>)
  800357c:	2001      	movs	r0, #1
  800357e:	f7fe fded 	bl	800215c <MY_FLASH_ReadN>
-
-    // Iterate through each user's stored password to check against the provided password
-    for (int i = 0; i < user_num; i++) {
  8003582:	2300      	movs	r3, #0
  8003584:	657b      	str	r3, [r7, #84]	; 0x54
  8003586:	e03c      	b.n	8003602 <CheckPassword+0x92>
-        // Construct the hash of the provided password combined with the global salt
-        uint8_t temp[20];
-        memcpy(temp, GlobalSalt, sizeof(GlobalSalt)); // Copy global salt into temp buffer
  8003588:	4a24      	ldr	r2, [pc, #144]	; (800361c <CheckPassword+0xac>)
  800358a:	f107 0320 	add.w	r3, r7, #32
  800358e:	e892 0003 	ldmia.w	r2, {r0, r1}
  8003592:	e883 0003 	stmia.w	r3, {r0, r1}
-        memcpy(temp + sizeof(GlobalSalt), password, sizeof(password)); // Append password to temp buffer
  8003596:	f107 0320 	add.w	r3, r7, #32
  800359a:	3308      	adds	r3, #8
  800359c:	4a20      	ldr	r2, [pc, #128]	; (8003620 <CheckPassword+0xb0>)
@@ -6371,16 +5349,11 @@ bool CheckPassword() {
  80035a4:	6020      	str	r0, [r4, #0]
  80035a6:	6061      	str	r1, [r4, #4]
  80035a8:	60a2      	str	r2, [r4, #8]
-        uint8_t computedSha256[32];
-        sha256(temp, computedSha256, sizeof(temp)); // Compute SHA-256 hash of temp buffer
  80035aa:	4639      	mov	r1, r7
  80035ac:	f107 0320 	add.w	r3, r7, #32
  80035b0:	2214      	movs	r2, #20
  80035b2:	4618      	mov	r0, r3
  80035b4:	f000 f90e 	bl	80037d4 <sha256>
-
-        // Read the stored hashed password from flash memory
-        MY_FLASH_ReadN(MemDatastartpoint + 8 + 16 + (i * 72), tempPassword, 32, DATA_TYPE_8);
  80035b8:	6d7a      	ldr	r2, [r7, #84]	; 0x54
  80035ba:	4613      	mov	r3, r2
  80035bc:	00db      	lsls	r3, r3, #3
@@ -6392,9 +5365,6 @@ bool CheckPassword() {
  80035ca:	2300      	movs	r3, #0
  80035cc:	2220      	movs	r2, #32
  80035ce:	f7fe fdc5 	bl	800215c <MY_FLASH_ReadN>
-
-        // Compare computed hash with stored hashed password
-        if (memcmp(tempPassword, computedSha256, 32) == 0) {
  80035d2:	4639      	mov	r1, r7
  80035d4:	f107 0334 	add.w	r3, r7, #52	; 0x34
  80035d8:	2220      	movs	r2, #32
@@ -6403,21 +5373,16 @@ bool CheckPassword() {
  80035e0:	4603      	mov	r3, r0
  80035e2:	2b00      	cmp	r3, #0
  80035e4:	d10a      	bne.n	80035fc <CheckPassword+0x8c>
-            // If passwords match, store the current user and password for future reference
-            CurrentUser = i;
  80035e6:	6d7b      	ldr	r3, [r7, #84]	; 0x54
  80035e8:	b2da      	uxtb	r2, r3
  80035ea:	4b0e      	ldr	r3, [pc, #56]	; (8003624 <CheckPassword+0xb4>)
  80035ec:	701a      	strb	r2, [r3, #0]
-            memcpy(CurrentPassword, password, sizeof(password));
  80035ee:	4b0e      	ldr	r3, [pc, #56]	; (8003628 <CheckPassword+0xb8>)
  80035f0:	4a0b      	ldr	r2, [pc, #44]	; (8003620 <CheckPassword+0xb0>)
  80035f2:	ca07      	ldmia	r2, {r0, r1, r2}
  80035f4:	e883 0007 	stmia.w	r3, {r0, r1, r2}
-            return true; // Password match found, return true
  80035f8:	2301      	movs	r3, #1
  80035fa:	e009      	b.n	8003610 <CheckPassword+0xa0>
-    for (int i = 0; i < user_num; i++) {
  80035fc:	6d7b      	ldr	r3, [r7, #84]	; 0x54
  80035fe:	3301      	adds	r3, #1
  8003600:	657b      	str	r3, [r7, #84]	; 0x54
@@ -6427,12 +5392,7 @@ bool CheckPassword() {
  8003608:	6d7b      	ldr	r3, [r7, #84]	; 0x54
  800360a:	4293      	cmp	r3, r2
  800360c:	dbbc      	blt.n	8003588 <CheckPassword+0x18>
-        }
-    }
-
-    return false; // No matching password found among stored hashes, return false
  800360e:	2300      	movs	r3, #0
-}
  8003610:	4618      	mov	r0, r3
  8003612:	375c      	adds	r7, #92	; 0x5c
  8003614:	46bd      	mov	sp, r7
@@ -6444,15 +5404,11 @@ bool CheckPassword() {
  8003628:	2000028c 	.word	0x2000028c
 
 0800362c <CDC_recieveCALLBACK>:
-
-
-void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
  800362c:	b5b0      	push	{r4, r5, r7, lr}
  800362e:	b09e      	sub	sp, #120	; 0x78
  8003630:	af00      	add	r7, sp, #0
  8003632:	6078      	str	r0, [r7, #4]
  8003634:	6039      	str	r1, [r7, #0]
-    uint8_t hwinfo[33] = {
  8003636:	4b62      	ldr	r3, [pc, #392]	; (80037c0 <CDC_recieveCALLBACK+0x194>)
  8003638:	f107 0448 	add.w	r4, r7, #72	; 0x48
  800363c:	461d      	mov	r5, r3
@@ -6462,117 +5418,80 @@ void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
  8003644:	c40f      	stmia	r4!, {r0, r1, r2, r3}
  8003646:	682b      	ldr	r3, [r5, #0]
  8003648:	7023      	strb	r3, [r4, #0]
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
-    };
-
-    if (buf[0] == 0) {
  800364a:	687b      	ldr	r3, [r7, #4]
  800364c:	781b      	ldrb	r3, [r3, #0]
  800364e:	2b00      	cmp	r3, #0
  8003650:	d12b      	bne.n	80036aa <CDC_recieveCALLBACK+0x7e>
-        // Command 0: Check device status
-        MY_FLASH_ReadN(BrandNew_address, &Brand_new, 1, DATA_TYPE_8);
  8003652:	2300      	movs	r3, #0
  8003654:	2201      	movs	r2, #1
  8003656:	495b      	ldr	r1, [pc, #364]	; (80037c4 <CDC_recieveCALLBACK+0x198>)
  8003658:	2000      	movs	r0, #0
  800365a:	f7fe fd7f 	bl	800215c <MY_FLASH_ReadN>
-        if (Brand_new == 0) {
  800365e:	4b59      	ldr	r3, [pc, #356]	; (80037c4 <CDC_recieveCALLBACK+0x198>)
  8003660:	781b      	ldrb	r3, [r3, #0]
  8003662:	2b00      	cmp	r3, #0
  8003664:	d109      	bne.n	800367a <CDC_recieveCALLBACK+0x4e>
-            hwinfo[0] = 2; // Brand new device status
  8003666:	2302      	movs	r3, #2
  8003668:	f887 3048 	strb.w	r3, [r7, #72]	; 0x48
-            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
  800366c:	f107 0348 	add.w	r3, r7, #72	; 0x48
  8003670:	2121      	movs	r1, #33	; 0x21
  8003672:	4618      	mov	r0, r3
  8003674:	f008 fc20 	bl	800beb8 <CDC_Transmit_FS>
-
-            // Transmit the computed hash
-            CDC_Transmit_FS(computed_hash, 32);
-        }
-    }
-}
  8003678:	e09e      	b.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-        } else if (DeviceState) {
  800367a:	4b53      	ldr	r3, [pc, #332]	; (80037c8 <CDC_recieveCALLBACK+0x19c>)
  800367c:	781b      	ldrb	r3, [r3, #0]
  800367e:	2b00      	cmp	r3, #0
  8003680:	d009      	beq.n	8003696 <CDC_recieveCALLBACK+0x6a>
-            hwinfo[0] = 1; // Device unlocked status
  8003682:	2301      	movs	r3, #1
  8003684:	f887 3048 	strb.w	r3, [r7, #72]	; 0x48
-            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
  8003688:	f107 0348 	add.w	r3, r7, #72	; 0x48
  800368c:	2121      	movs	r1, #33	; 0x21
  800368e:	4618      	mov	r0, r3
  8003690:	f008 fc12 	bl	800beb8 <CDC_Transmit_FS>
-}
  8003694:	e090      	b.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-            hwinfo[0] = 0; // Device locked status
  8003696:	2300      	movs	r3, #0
  8003698:	f887 3048 	strb.w	r3, [r7, #72]	; 0x48
-            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
  800369c:	f107 0348 	add.w	r3, r7, #72	; 0x48
  80036a0:	2121      	movs	r1, #33	; 0x21
  80036a2:	4618      	mov	r0, r3
  80036a4:	f008 fc08 	bl	800beb8 <CDC_Transmit_FS>
-}
  80036a8:	e086      	b.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-    } else if (buf[0] == 1) {
  80036aa:	687b      	ldr	r3, [r7, #4]
  80036ac:	781b      	ldrb	r3, [r3, #0]
  80036ae:	2b01      	cmp	r3, #1
  80036b0:	d11d      	bne.n	80036ee <CDC_recieveCALLBACK+0xc2>
-        if (DeviceState) {
  80036b2:	4b45      	ldr	r3, [pc, #276]	; (80037c8 <CDC_recieveCALLBACK+0x19c>)
  80036b4:	781b      	ldrb	r3, [r3, #0]
  80036b6:	2b00      	cmp	r3, #0
  80036b8:	d00f      	beq.n	80036da <CDC_recieveCALLBACK+0xae>
-            hwinfo[0] = 0; // Lock device
  80036ba:	2300      	movs	r3, #0
  80036bc:	f887 3048 	strb.w	r3, [r7, #72]	; 0x48
-            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
  80036c0:	f107 0348 	add.w	r3, r7, #72	; 0x48
  80036c4:	2121      	movs	r1, #33	; 0x21
  80036c6:	4618      	mov	r0, r3
  80036c8:	f008 fbf6 	bl	800beb8 <CDC_Transmit_FS>
-            DeviceState = 0; // Set device state to locked
  80036cc:	4b3e      	ldr	r3, [pc, #248]	; (80037c8 <CDC_recieveCALLBACK+0x19c>)
  80036ce:	2200      	movs	r2, #0
  80036d0:	701a      	strb	r2, [r3, #0]
-            TimerState = 1; // Start timer
  80036d2:	4b3e      	ldr	r3, [pc, #248]	; (80037cc <CDC_recieveCALLBACK+0x1a0>)
  80036d4:	2201      	movs	r2, #1
  80036d6:	701a      	strb	r2, [r3, #0]
-}
  80036d8:	e06e      	b.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-            hwinfo[0] = 1; // device is a lock
  80036da:	2301      	movs	r3, #1
  80036dc:	f887 3048 	strb.w	r3, [r7, #72]	; 0x48
-            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
  80036e0:	f107 0348 	add.w	r3, r7, #72	; 0x48
  80036e4:	2121      	movs	r1, #33	; 0x21
  80036e6:	4618      	mov	r0, r3
  80036e8:	f008 fbe6 	bl	800beb8 <CDC_Transmit_FS>
-}
  80036ec:	e064      	b.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-    } else if (buf[0] == 2) {
  80036ee:	687b      	ldr	r3, [r7, #4]
  80036f0:	781b      	ldrb	r3, [r3, #0]
  80036f2:	2b02      	cmp	r3, #2
  80036f4:	d160      	bne.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-        if (DeviceState) {
  80036f6:	4b34      	ldr	r3, [pc, #208]	; (80037c8 <CDC_recieveCALLBACK+0x19c>)
  80036f8:	781b      	ldrb	r3, [r3, #0]
  80036fa:	2b00      	cmp	r3, #0
  80036fc:	d05c      	beq.n	80037b8 <CDC_recieveCALLBACK+0x18c>
-            uint8_t Key[9] = { buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7], buf[8], buf[9] };
  80036fe:	687b      	ldr	r3, [r7, #4]
  8003700:	785b      	ldrb	r3, [r3, #1]
  8003702:	f887 303c 	strb.w	r3, [r7, #60]	; 0x3c
@@ -6600,14 +5519,11 @@ void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
  800373e:	687b      	ldr	r3, [r7, #4]
  8003740:	7a5b      	ldrb	r3, [r3, #9]
  8003742:	f887 3044 	strb.w	r3, [r7, #68]	; 0x44
-            uint32_t carry = 0;
  8003746:	2300      	movs	r3, #0
  8003748:	677b      	str	r3, [r7, #116]	; 0x74
-            for (int i = 0; i < 16; i++) {
  800374a:	2300      	movs	r3, #0
  800374c:	673b      	str	r3, [r7, #112]	; 0x70
  800374e:	e022      	b.n	8003796 <CDC_recieveCALLBACK+0x16a>
-                uint32_t sum = CurrentMasterKey[i] + (i < 9 ? Key[i] : 0) + carry;
  8003750:	4a1f      	ldr	r2, [pc, #124]	; (80037d0 <CDC_recieveCALLBACK+0x1a4>)
  8003752:	6f3b      	ldr	r3, [r7, #112]	; 0x70
  8003754:	4413      	add	r3, r2
@@ -6627,7 +5543,6 @@ void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
  8003772:	6f7b      	ldr	r3, [r7, #116]	; 0x74
  8003774:	4413      	add	r3, r2
  8003776:	66fb      	str	r3, [r7, #108]	; 0x6c
-                result[i] = sum & 0xFF;
  8003778:	6efb      	ldr	r3, [r7, #108]	; 0x6c
  800377a:	b2d9      	uxtb	r1, r3
  800377c:	f107 022c 	add.w	r2, r7, #44	; 0x2c
@@ -6635,30 +5550,25 @@ void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
  8003782:	4413      	add	r3, r2
  8003784:	460a      	mov	r2, r1
  8003786:	701a      	strb	r2, [r3, #0]
-                carry = (sum >> 8) & 0xFF;
  8003788:	6efb      	ldr	r3, [r7, #108]	; 0x6c
  800378a:	0a1b      	lsrs	r3, r3, #8
  800378c:	b2db      	uxtb	r3, r3
  800378e:	677b      	str	r3, [r7, #116]	; 0x74
-            for (int i = 0; i < 16; i++) {
  8003790:	6f3b      	ldr	r3, [r7, #112]	; 0x70
  8003792:	3301      	adds	r3, #1
  8003794:	673b      	str	r3, [r7, #112]	; 0x70
  8003796:	6f3b      	ldr	r3, [r7, #112]	; 0x70
  8003798:	2b0f      	cmp	r3, #15
  800379a:	ddd9      	ble.n	8003750 <CDC_recieveCALLBACK+0x124>
-            sha256(result, computed_hash, sizeof(result));
  800379c:	f107 010c 	add.w	r1, r7, #12
  80037a0:	f107 032c 	add.w	r3, r7, #44	; 0x2c
  80037a4:	2210      	movs	r2, #16
  80037a6:	4618      	mov	r0, r3
  80037a8:	f000 f814 	bl	80037d4 <sha256>
-            CDC_Transmit_FS(computed_hash, 32);
  80037ac:	f107 030c 	add.w	r3, r7, #12
  80037b0:	2120      	movs	r1, #32
  80037b2:	4618      	mov	r0, r3
  80037b4:	f008 fb80 	bl	800beb8 <CDC_Transmit_FS>
-}
  80037b8:	bf00      	nop
  80037ba:	3778      	adds	r7, #120	; 0x78
  80037bc:	46bd      	mov	sp, r7
@@ -6670,9 +5580,6 @@ void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
  80037d0:	20000298 	.word	0x20000298
 
 080037d4 <sha256>:
-
-
-void sha256(uint8_t *data,uint8_t *result,uint8_t DataSize){
  80037d4:	b580      	push	{r7, lr}
  80037d6:	b088      	sub	sp, #32
  80037d8:	af02      	add	r7, sp, #8
@@ -6680,8 +5587,6 @@ void sha256(uint8_t *data,uint8_t *result,uint8_t DataSize){
  80037dc:	60b9      	str	r1, [r7, #8]
  80037de:	4613      	mov	r3, r2
  80037e0:	71fb      	strb	r3, [r7, #7]
-	size_t computed_size;
-    cmox_hash_compute(CMOX_SHA256_ALGO,                /* Use SHA256 algorithm */
  80037e2:	4b08      	ldr	r3, [pc, #32]	; (8003804 <sha256+0x30>)
  80037e4:	6818      	ldr	r0, [r3, #0]
  80037e6:	79fa      	ldrb	r2, [r7, #7]
@@ -6692,11 +5597,6 @@ void sha256(uint8_t *data,uint8_t *result,uint8_t DataSize){
  80037f2:	68bb      	ldr	r3, [r7, #8]
  80037f4:	68f9      	ldr	r1, [r7, #12]
  80037f6:	f7fd fa5b 	bl	8000cb0 <cmox_hash_compute>
-    						 data, DataSize,           /* Message to digest */
-							 result,                   /* Data buffer to receive digest data */
-							 CMOX_SHA256_SIZE,         /* Expected digest size */
-							 &computed_size);          /* Size of computed digest */
-}
  80037fa:	bf00      	nop
  80037fc:	3718      	adds	r7, #24
  80037fe:	46bd      	mov	sp, r7
@@ -6705,8 +5605,6 @@ void sha256(uint8_t *data,uint8_t *result,uint8_t DataSize){
  8003804:	0800d9e8 	.word	0x0800d9e8
 
 08003808 <AESCBC>:
-
-void AESCBC(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, uint8_t *IVF,uint8_t IVFSize, uint8_t *result){
  8003808:	b590      	push	{r4, r7, lr}
  800380a:	b08d      	sub	sp, #52	; 0x34
  800380c:	af06      	add	r7, sp, #24
@@ -6717,8 +5615,6 @@ void AESCBC(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, uint
  8003816:	72fb      	strb	r3, [r7, #11]
  8003818:	4613      	mov	r3, r2
  800381a:	72bb      	strb	r3, [r7, #10]
-	size_t computed_size;
-	cmox_cipher_encrypt(CMOX_AES_CBC_ENC_ALGO,                      /* Use AES CBC algorithm */
  800381c:	4b0b      	ldr	r3, [pc, #44]	; (800384c <AESCBC+0x44>)
  800381e:	6818      	ldr	r0, [r3, #0]
  8003820:	7afc      	ldrb	r4, [r7, #11]
@@ -6736,11 +5632,6 @@ void AESCBC(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, uint
  800383c:	4622      	mov	r2, r4
  800383e:	68f9      	ldr	r1, [r7, #12]
  8003840:	f7fc ff4a 	bl	80006d8 <cmox_cipher_encrypt>
-										 Data, DataSize,            /* Plaintext to encrypt */
-										 Key, KeySize,              /* AES key to use */
-										 IVF, IVFSize,              /* Initialization vector */
-										 result, &computed_size);   /* Data buffer to receive generated ciphertext */
-}
  8003844:	bf00      	nop
  8003846:	371c      	adds	r7, #28
  8003848:	46bd      	mov	sp, r7
@@ -6748,8 +5639,6 @@ void AESCBC(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, uint
  800384c:	0800d980 	.word	0x0800d980
 
 08003850 <DecryptAES>:
-
-void DecryptAES(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, uint8_t *IVF,uint8_t IVFSize, uint8_t *result){
  8003850:	b590      	push	{r4, r7, lr}
  8003852:	b08d      	sub	sp, #52	; 0x34
  8003854:	af06      	add	r7, sp, #24
@@ -6760,8 +5649,6 @@ void DecryptAES(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, 
  800385e:	72fb      	strb	r3, [r7, #11]
  8003860:	4613      	mov	r3, r2
  8003862:	72bb      	strb	r3, [r7, #10]
-	size_t computed_size;
-	cmox_cipher_decrypt(CMOX_AES_CBC_DEC_ALGO,                 /* Use AES CBC algorithm */
  8003864:	4b0b      	ldr	r3, [pc, #44]	; (8003894 <DecryptAES+0x44>)
  8003866:	6818      	ldr	r0, [r3, #0]
  8003868:	7afc      	ldrb	r4, [r7, #11]
@@ -6779,11 +5666,6 @@ void DecryptAES(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, 
  8003884:	4622      	mov	r2, r4
  8003886:	68f9      	ldr	r1, [r7, #12]
  8003888:	f7fc ff52 	bl	8000730 <cmox_cipher_decrypt>
-								   Data, DataSize,             /* Ciphertext to decrypt */
-	                               Key, KeySize,               /* AES key to use */
-								   IVF, IVFSize,               /* Initialization vector */
-								   result, &computed_size);    /* Data buffer to receive generated plaintext */
-}
  800388c:	bf00      	nop
  800388e:	371c      	adds	r7, #28
  8003890:	46bd      	mov	sp, r7
@@ -6791,22 +5673,15 @@ void DecryptAES(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, 
  8003894:	0800d974 	.word	0x0800d974
 
 08003898 <checkButtons>:
-
-int checkButtons(){
  8003898:	b580      	push	{r7, lr}
  800389a:	b082      	sub	sp, #8
  800389c:	af00      	add	r7, sp, #0
-	bool flag_bt1  = true;
  800389e:	2301      	movs	r3, #1
  80038a0:	71fb      	strb	r3, [r7, #7]
-	bool flag_bt2  = true;
  80038a2:	2301      	movs	r3, #1
  80038a4:	71bb      	strb	r3, [r7, #6]
-	bool flag_both = true;
  80038a6:	2301      	movs	r3, #1
  80038a8:	717b      	strb	r3, [r7, #5]
-	while(1){
-		if(!DeviceState && TimerState){state=Lock;break;}
  80038aa:	4b40      	ldr	r3, [pc, #256]	; (80039ac <checkButtons+0x114>)
  80038ac:	781b      	ldrb	r3, [r3, #0]
  80038ae:	f083 0301 	eor.w	r3, r3, #1
@@ -6821,15 +5696,8 @@ int checkButtons(){
  80038c2:	2200      	movs	r2, #0
  80038c4:	701a      	strb	r2, [r3, #0]
  80038c6:	bf00      	nop
-		}else if(!read_Bt2() && !flag_bt2 && flag_both){
-			flag_bt2  = true;
-			return 1;
-		}
-	}
-	return 3;//nothing
  80038c8:	2303      	movs	r3, #3
  80038ca:	e06a      	b.n	80039a2 <checkButtons+0x10a>
-		if(read_Bt1() && read_Bt2() && flag_both){
  80038cc:	f000 f874 	bl	80039b8 <read_Bt1>
  80038d0:	4603      	mov	r3, r0
  80038d2:	2b00      	cmp	r3, #0
@@ -6841,11 +5709,9 @@ int checkButtons(){
  80038e0:	797b      	ldrb	r3, [r7, #5]
  80038e2:	2b00      	cmp	r3, #0
  80038e4:	d002      	beq.n	80038ec <checkButtons+0x54>
-			flag_both = false;
  80038e6:	2300      	movs	r3, #0
  80038e8:	717b      	strb	r3, [r7, #5]
  80038ea:	e059      	b.n	80039a0 <checkButtons+0x108>
-		}else if(read_Bt1() && flag_bt1){
  80038ec:	f000 f864 	bl	80039b8 <read_Bt1>
  80038f0:	4603      	mov	r3, r0
  80038f2:	2b00      	cmp	r3, #0
@@ -6853,11 +5719,9 @@ int checkButtons(){
  80038f6:	79fb      	ldrb	r3, [r7, #7]
  80038f8:	2b00      	cmp	r3, #0
  80038fa:	d002      	beq.n	8003902 <checkButtons+0x6a>
-			flag_bt1 = false;
  80038fc:	2300      	movs	r3, #0
  80038fe:	71fb      	strb	r3, [r7, #7]
  8003900:	e04e      	b.n	80039a0 <checkButtons+0x108>
-		}else if(read_Bt2() && flag_bt2){
  8003902:	f000 f86d 	bl	80039e0 <read_Bt2>
  8003906:	4603      	mov	r3, r0
  8003908:	2b00      	cmp	r3, #0
@@ -6865,11 +5729,9 @@ int checkButtons(){
  800390c:	79bb      	ldrb	r3, [r7, #6]
  800390e:	2b00      	cmp	r3, #0
  8003910:	d002      	beq.n	8003918 <checkButtons+0x80>
-			flag_bt2 = false;
  8003912:	2300      	movs	r3, #0
  8003914:	71bb      	strb	r3, [r7, #6]
  8003916:	e043      	b.n	80039a0 <checkButtons+0x108>
-		}else if(!read_Bt1() && !read_Bt2() && !flag_both){
  8003918:	f000 f84e 	bl	80039b8 <read_Bt1>
  800391c:	4603      	mov	r3, r0
  800391e:	f083 0301 	eor.w	r3, r3, #1
@@ -6887,13 +5749,10 @@ int checkButtons(){
  800393e:	b2db      	uxtb	r3, r3
  8003940:	2b00      	cmp	r3, #0
  8003942:	d003      	beq.n	800394c <checkButtons+0xb4>
-			flag_both = true;
  8003944:	2301      	movs	r3, #1
  8003946:	717b      	strb	r3, [r7, #5]
-			return 2;
  8003948:	2302      	movs	r3, #2
  800394a:	e02a      	b.n	80039a2 <checkButtons+0x10a>
-		}else if(!read_Bt1() && !flag_bt1 && flag_both){
  800394c:	f000 f834 	bl	80039b8 <read_Bt1>
  8003950:	4603      	mov	r3, r0
  8003952:	f083 0301 	eor.w	r3, r3, #1
@@ -6908,13 +5767,10 @@ int checkButtons(){
  8003968:	797b      	ldrb	r3, [r7, #5]
  800396a:	2b00      	cmp	r3, #0
  800396c:	d003      	beq.n	8003976 <checkButtons+0xde>
-			flag_bt1  = true;
  800396e:	2301      	movs	r3, #1
  8003970:	71fb      	strb	r3, [r7, #7]
-			return 0;
  8003972:	2300      	movs	r3, #0
  8003974:	e015      	b.n	80039a2 <checkButtons+0x10a>
-		}else if(!read_Bt2() && !flag_bt2 && flag_both){
  8003976:	f000 f833 	bl	80039e0 <read_Bt2>
  800397a:	4603      	mov	r3, r0
  800397c:	f083 0301 	eor.w	r3, r3, #1
@@ -6929,15 +5785,11 @@ int checkButtons(){
  8003992:	797b      	ldrb	r3, [r7, #5]
  8003994:	2b00      	cmp	r3, #0
  8003996:	d088      	beq.n	80038aa <checkButtons+0x12>
-			flag_bt2  = true;
  8003998:	2301      	movs	r3, #1
  800399a:	71bb      	strb	r3, [r7, #6]
-			return 1;
  800399c:	2301      	movs	r3, #1
  800399e:	e000      	b.n	80039a2 <checkButtons+0x10a>
-		if(!DeviceState && TimerState){state=Lock;break;}
  80039a0:	e783      	b.n	80038aa <checkButtons+0x12>
-}
  80039a2:	4618      	mov	r0, r3
  80039a4:	3708      	adds	r7, #8
  80039a6:	46bd      	mov	sp, r7
@@ -6948,14 +5800,10 @@ int checkButtons(){
  80039b4:	200002c1 	.word	0x200002c1
 
 080039b8 <read_Bt1>:
-
-bool read_Bt1(){
  80039b8:	b580      	push	{r7, lr}
  80039ba:	af00      	add	r7, sp, #0
-	HAL_Delay(5);
  80039bc:	2005      	movs	r0, #5
  80039be:	f000 ff9d 	bl	80048fc <HAL_Delay>
-	return HAL_GPIO_ReadPin(Bt1_GPIO_Port, Bt1_Pin);
  80039c2:	2140      	movs	r1, #64	; 0x40
  80039c4:	4805      	ldr	r0, [pc, #20]	; (80039dc <read_Bt1+0x24>)
  80039c6:	f001 fc85 	bl	80052d4 <HAL_GPIO_ReadPin>
@@ -6965,21 +5813,16 @@ bool read_Bt1(){
  80039d0:	2301      	movne	r3, #1
  80039d2:	2300      	moveq	r3, #0
  80039d4:	b2db      	uxtb	r3, r3
-}
  80039d6:	4618      	mov	r0, r3
  80039d8:	bd80      	pop	{r7, pc}
  80039da:	bf00      	nop
  80039dc:	40020800 	.word	0x40020800
 
 080039e0 <read_Bt2>:
-
-bool read_Bt2(){
  80039e0:	b580      	push	{r7, lr}
  80039e2:	af00      	add	r7, sp, #0
-	HAL_Delay(5);
  80039e4:	2005      	movs	r0, #5
  80039e6:	f000 ff89 	bl	80048fc <HAL_Delay>
-	return HAL_GPIO_ReadPin(Bt2_GPIO_Port, Bt2_Pin);
  80039ea:	2180      	movs	r1, #128	; 0x80
  80039ec:	4805      	ldr	r0, [pc, #20]	; (8003a04 <read_Bt2+0x24>)
  80039ee:	f001 fc71 	bl	80052d4 <HAL_GPIO_ReadPin>
@@ -6989,34 +5832,27 @@ bool read_Bt2(){
  80039f8:	2301      	movne	r3, #1
  80039fa:	2300      	moveq	r3, #0
  80039fc:	b2db      	uxtb	r3, r3
-}
  80039fe:	4618      	mov	r0, r3
  8003a00:	bd80      	pop	{r7, pc}
  8003a02:	bf00      	nop
  8003a04:	40020800 	.word	0x40020800
 
 08003a08 <_write>:
-
-int _write(int file, char *ptr, int len){
  8003a08:	b580      	push	{r7, lr}
  8003a0a:	b086      	sub	sp, #24
  8003a0c:	af00      	add	r7, sp, #0
  8003a0e:	60f8      	str	r0, [r7, #12]
  8003a10:	60b9      	str	r1, [r7, #8]
  8003a12:	607a      	str	r2, [r7, #4]
- int DataIdx;
- for (DataIdx = 0; DataIdx < len; DataIdx++){
  8003a14:	2300      	movs	r3, #0
  8003a16:	617b      	str	r3, [r7, #20]
  8003a18:	e009      	b.n	8003a2e <_write+0x26>
-	 ITM_SendChar(*ptr++);
  8003a1a:	68bb      	ldr	r3, [r7, #8]
  8003a1c:	1c5a      	adds	r2, r3, #1
  8003a1e:	60ba      	str	r2, [r7, #8]
  8003a20:	781b      	ldrb	r3, [r3, #0]
  8003a22:	4618      	mov	r0, r3
  8003a24:	f7fe fc68 	bl	80022f8 <ITM_SendChar>
- for (DataIdx = 0; DataIdx < len; DataIdx++){
  8003a28:	697b      	ldr	r3, [r7, #20]
  8003a2a:	3301      	adds	r3, #1
  8003a2c:	617b      	str	r3, [r7, #20]
@@ -7024,32 +5860,24 @@ int _write(int file, char *ptr, int len){
  8003a30:	687b      	ldr	r3, [r7, #4]
  8003a32:	429a      	cmp	r2, r3
  8003a34:	dbf1      	blt.n	8003a1a <_write+0x12>
- }
- return len;
  8003a36:	687b      	ldr	r3, [r7, #4]
-}
  8003a38:	4618      	mov	r0, r3
  8003a3a:	3718      	adds	r7, #24
  8003a3c:	46bd      	mov	sp, r7
  8003a3e:	bd80      	pop	{r7, pc}
 
 08003a40 <Get_rng>:
-
-void Get_rng(uint8_t *rng,uint8_t NumRNG){
  8003a40:	b580      	push	{r7, lr}
  8003a42:	b086      	sub	sp, #24
  8003a44:	af00      	add	r7, sp, #0
  8003a46:	6078      	str	r0, [r7, #4]
  8003a48:	460b      	mov	r3, r1
  8003a4a:	70fb      	strb	r3, [r7, #3]
-	for(int i=0;i<NumRNG;i++){
  8003a4c:	2300      	movs	r3, #0
  8003a4e:	617b      	str	r3, [r7, #20]
  8003a50:	e02b      	b.n	8003aaa <Get_rng+0x6a>
-		HAL_RNG_GenerateRandomNumber_IT(&hrng);
  8003a52:	481a      	ldr	r0, [pc, #104]	; (8003abc <Get_rng+0x7c>)
  8003a54:	f004 f954 	bl	8007d00 <HAL_RNG_GenerateRandomNumber_IT>
-		while(!rngflag);
  8003a58:	bf00      	nop
  8003a5a:	4b19      	ldr	r3, [pc, #100]	; (8003ac0 <Get_rng+0x80>)
  8003a5c:	781b      	ldrb	r3, [r3, #0]
@@ -7057,19 +5885,15 @@ void Get_rng(uint8_t *rng,uint8_t NumRNG){
  8003a62:	b2db      	uxtb	r3, r3
  8003a64:	2b00      	cmp	r3, #0
  8003a66:	d1f8      	bne.n	8003a5a <Get_rng+0x1a>
-		rngflag =0;
  8003a68:	4b15      	ldr	r3, [pc, #84]	; (8003ac0 <Get_rng+0x80>)
  8003a6a:	2200      	movs	r2, #0
  8003a6c:	701a      	strb	r2, [r3, #0]
-		uint32_t temp_rng = HAL_RNG_ReadLastRandomNumber(&hrng);
  8003a6e:	4813      	ldr	r0, [pc, #76]	; (8003abc <Get_rng+0x7c>)
  8003a70:	f004 f9c9 	bl	8007e06 <HAL_RNG_ReadLastRandomNumber>
  8003a74:	60f8      	str	r0, [r7, #12]
-		for(int j=0;j<4;j++){
  8003a76:	2300      	movs	r3, #0
  8003a78:	613b      	str	r3, [r7, #16]
  8003a7a:	e010      	b.n	8003a9e <Get_rng+0x5e>
-			rng[j+i*4] = (uint8_t)(temp_rng >> (j*8));
  8003a7c:	693b      	ldr	r3, [r7, #16]
  8003a7e:	00db      	lsls	r3, r3, #3
  8003a80:	68fa      	ldr	r2, [r7, #12]
@@ -7083,14 +5907,12 @@ void Get_rng(uint8_t *rng,uint8_t NumRNG){
  8003a92:	4413      	add	r3, r2
  8003a94:	b2ca      	uxtb	r2, r1
  8003a96:	701a      	strb	r2, [r3, #0]
-		for(int j=0;j<4;j++){
  8003a98:	693b      	ldr	r3, [r7, #16]
  8003a9a:	3301      	adds	r3, #1
  8003a9c:	613b      	str	r3, [r7, #16]
  8003a9e:	693b      	ldr	r3, [r7, #16]
  8003aa0:	2b03      	cmp	r3, #3
  8003aa2:	ddeb      	ble.n	8003a7c <Get_rng+0x3c>
-	for(int i=0;i<NumRNG;i++){
  8003aa4:	697b      	ldr	r3, [r7, #20]
  8003aa6:	3301      	adds	r3, #1
  8003aa8:	617b      	str	r3, [r7, #20]
@@ -7098,9 +5920,6 @@ void Get_rng(uint8_t *rng,uint8_t NumRNG){
  8003aac:	697a      	ldr	r2, [r7, #20]
  8003aae:	429a      	cmp	r2, r3
  8003ab0:	dbcf      	blt.n	8003a52 <Get_rng+0x12>
-		}
-	}
-}
  8003ab2:	bf00      	nop
  8003ab4:	bf00      	nop
  8003ab6:	3718      	adds	r7, #24
@@ -7110,23 +5929,14 @@ void Get_rng(uint8_t *rng,uint8_t NumRNG){
  8003ac0:	20000289 	.word	0x20000289
 
 08003ac4 <HAL_RNG_ReadyDataCallback>:
-
-void HAL_RNG_ReadyDataCallback(RNG_HandleTypeDef *hrng, uint32_t random32bit){
  8003ac4:	b480      	push	{r7}
  8003ac6:	b083      	sub	sp, #12
  8003ac8:	af00      	add	r7, sp, #0
  8003aca:	6078      	str	r0, [r7, #4]
  8003acc:	6039      	str	r1, [r7, #0]
-  UNUSED(hrng);
-  UNUSED(random32bit);
-  /* NOTE : This function should not be modified. When the callback is needed,
-            function HAL_RNG_ReadyDataCallback must be implemented in the user file.
-   */
-  rngflag =1;
  8003ace:	4b04      	ldr	r3, [pc, #16]	; (8003ae0 <HAL_RNG_ReadyDataCallback+0x1c>)
  8003ad0:	2201      	movs	r2, #1
  8003ad2:	701a      	strb	r2, [r3, #0]
-}
  8003ad4:	bf00      	nop
  8003ad6:	370c      	adds	r7, #12
  8003ad8:	46bd      	mov	sp, r7
@@ -7135,61 +5945,39 @@ void HAL_RNG_ReadyDataCallback(RNG_HandleTypeDef *hrng, uint32_t random32bit){
  8003ae0:	20000289 	.word	0x20000289
 
 08003ae4 <HAL_TIM_PeriodElapsedCallback>:
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
  8003ae4:	b480      	push	{r7}
  8003ae6:	b083      	sub	sp, #12
  8003ae8:	af00      	add	r7, sp, #0
  8003aea:	6078      	str	r0, [r7, #4]
-  UNUSED(htim);
-
-  /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_TIM_PeriodElapsedCallback could be implemented in the user file
-   */
-  if(DeviceState){
  8003aec:	4b11      	ldr	r3, [pc, #68]	; (8003b34 <HAL_TIM_PeriodElapsedCallback+0x50>)
  8003aee:	781b      	ldrb	r3, [r3, #0]
  8003af0:	2b00      	cmp	r3, #0
  8003af2:	d015      	beq.n	8003b20 <HAL_TIM_PeriodElapsedCallback+0x3c>
-	  Timer++;
  8003af4:	4b10      	ldr	r3, [pc, #64]	; (8003b38 <HAL_TIM_PeriodElapsedCallback+0x54>)
  8003af6:	681b      	ldr	r3, [r3, #0]
  8003af8:	3301      	adds	r3, #1
  8003afa:	4a0f      	ldr	r2, [pc, #60]	; (8003b38 <HAL_TIM_PeriodElapsedCallback+0x54>)
  8003afc:	6013      	str	r3, [r2, #0]
-	  if(Timer == TimeoutValue){
  8003afe:	4b0e      	ldr	r3, [pc, #56]	; (8003b38 <HAL_TIM_PeriodElapsedCallback+0x54>)
  8003b00:	681b      	ldr	r3, [r3, #0]
  8003b02:	2b78      	cmp	r3, #120	; 0x78
  8003b04:	d10f      	bne.n	8003b26 <HAL_TIM_PeriodElapsedCallback+0x42>
-		  DeviceState=false;
  8003b06:	4b0b      	ldr	r3, [pc, #44]	; (8003b34 <HAL_TIM_PeriodElapsedCallback+0x50>)
  8003b08:	2200      	movs	r2, #0
  8003b0a:	701a      	strb	r2, [r3, #0]
-		  TimerState=true;		//false is lock, true unlock
  8003b0c:	4b0b      	ldr	r3, [pc, #44]	; (8003b3c <HAL_TIM_PeriodElapsedCallback+0x58>)
  8003b0e:	2201      	movs	r2, #1
  8003b10:	701a      	strb	r2, [r3, #0]
-		  state=Lock;
  8003b12:	4b0b      	ldr	r3, [pc, #44]	; (8003b40 <HAL_TIM_PeriodElapsedCallback+0x5c>)
  8003b14:	2200      	movs	r2, #0
  8003b16:	701a      	strb	r2, [r3, #0]
-		  Timer=0;
  8003b18:	4b07      	ldr	r3, [pc, #28]	; (8003b38 <HAL_TIM_PeriodElapsedCallback+0x54>)
  8003b1a:	2200      	movs	r2, #0
  8003b1c:	601a      	str	r2, [r3, #0]
-	  }
-  }else{
-	  Timer=0;
-  }
-}
  8003b1e:	e002      	b.n	8003b26 <HAL_TIM_PeriodElapsedCallback+0x42>
-	  Timer=0;
  8003b20:	4b05      	ldr	r3, [pc, #20]	; (8003b38 <HAL_TIM_PeriodElapsedCallback+0x54>)
  8003b22:	2200      	movs	r2, #0
  8003b24:	601a      	str	r2, [r3, #0]
-}
  8003b26:	bf00      	nop
  8003b28:	370c      	adds	r7, #12
  8003b2a:	46bd      	mov	sp, r7
@@ -7202,27 +5990,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  8003b40:	200002c1 	.word	0x200002c1
 
 08003b44 <Error_Handler>:
-/**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
-void Error_Handler(void)
-{
  8003b44:	b480      	push	{r7}
  8003b46:	af00      	add	r7, sp, #0
-  \details Disables IRQ interrupts by setting special-purpose register PRIMASK.
-           Can only be executed in Privileged modes.
- */
-__STATIC_FORCEINLINE void __disable_irq(void)
-{
-  __ASM volatile ("cpsid i" : : : "memory");
  8003b48:	b672      	cpsid	i
-}
  8003b4a:	bf00      	nop
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
  8003b4c:	e7fe      	b.n	8003b4c <Error_Handler+0x8>
 
 08003b4e <SSD1306_DrawBitmap>:
