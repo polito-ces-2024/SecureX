@@ -112,7 +112,7 @@ typedef enum
 #define WrongPassword_address 		2
 #define GlobalSalt_address			3
 #define MemDatastartpoint			11
-#define TimeoutValue						120	//in second
+#define TimeoutValue				120	//in second
 uint8_t Brand_new = 0;
 uint8_t GlobalSalt[8];
 uint8_t LocalSalt[8];
@@ -133,7 +133,7 @@ bool TimerState=false;		//false is lock true unlock
 bool DeviceState=false;		//false is lock true unlock
 uint32_t Timer =0;
 
-
+/*
 const uint8_t Message[] =
 {
 	0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10
@@ -162,6 +162,8 @@ const uint8_t Public_Exponent[] =
 {
   0x01, 0x00, 0x01
 };
+
+*/
 
 uint8_t Computed_Encryption[256];
 /* USER CODE END 0 */
@@ -204,7 +206,7 @@ int main(void)
   MY_FLASH_SetSectorAddrs(sector_name, sector_base_address);
   SSD1306_Init();
   HAL_TIM_Base_Start_IT(&htim2);
-  /*
+  	/*
     write_flash(BrandNew_address, &Brand_new, 1);
     write_flash(Nusers_address, &user_num, 1);
     write_flash(WrongPassword_address, &WrongPassword, 1);
@@ -447,527 +449,747 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void Startup(){
-	MY_FLASH_ReadN(BrandNew_address,&Brand_new,1,DATA_TYPE_8);
-	SSD1306_DrawBitmap(0,0,logo, 128, 64, 1);
-	SSD1306_UpdateScreen();
-	HAL_Delay (1000);
-	SSD1306_Clear();
-	MY_FLASH_ReadN(GlobalSalt_address,GlobalSalt,8,DATA_TYPE_8);
-	if(Brand_new == 0){
-		printf("Brand new = %02x\n",Brand_new);
-		SSD1306_Clear();
-	    SSD1306_GotoXY (15,25);
-	    SSD1306_Puts ("Brand new", &Font_11x18, 1);
-	    SSD1306_UpdateScreen();
-	    HAL_Delay (2000);
-	    SSD1306_Clear();
-		Get_rng(GlobalSalt,2);
-		write_flash(GlobalSalt_address, GlobalSalt, 8); //saving global salt
-	    state=Enrollment;
-	}else{
-		wrong_LEDs();
-		state=Lock;
-	}
+void Startup() {
+    // Read a single byte from the flash memory at BrandNew_address and store it in Brand_new.
+    MY_FLASH_ReadN(BrandNew_address, &Brand_new, 1, DATA_TYPE_8);
+
+    // Draw the logo on the SSD1306 display at position (0,0) with dimensions 128x64 and color 1 (white).
+    SSD1306_DrawBitmap(0, 0, logo, 128, 64, 1);
+
+    // Update the SSD1306 display to show the drawn bitmap.
+    SSD1306_UpdateScreen();
+
+    // Delay for 1000 milliseconds (1 second).
+    HAL_Delay(1000);
+
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
+
+    // Read 8 bytes from the flash memory at GlobalSalt_address and store it in GlobalSalt.
+    MY_FLASH_ReadN(GlobalSalt_address, GlobalSalt, 8, DATA_TYPE_8);
+
+    // Check if the device is brand new.
+    if (Brand_new == 0) {
+        // Print the Brand_new value for debugging purposes.
+        printf("Brand new = %02x\n", Brand_new);
+
+        // Clear the SSD1306 display.
+        SSD1306_Clear();
+
+        // Set the cursor position on the SSD1306 display.
+        SSD1306_GotoXY(15, 25);
+
+        // Display "Brand new" text on the SSD1306 display using Font_11x18.
+        SSD1306_Puts("Brand new", &Font_11x18, 1);
+
+        // Update the SSD1306 display to show the text.
+        SSD1306_UpdateScreen();
+
+        // Delay for 2000 milliseconds (2 seconds).
+        HAL_Delay(2000);
+
+        // Clear the SSD1306 display.
+        SSD1306_Clear();
+
+        // Generate a random number and store it in GlobalSalt.
+        Get_rng(GlobalSalt, 2);
+
+        // Save the generated GlobalSalt to the flash memory at GlobalSalt_address.
+        write_flash(GlobalSalt_address, GlobalSalt, 8);
+
+        // Set the system state to Enrollment.
+        state = Enrollment;
+    } else {
+        // If the device is not brand new, activate the wrong LEDs indication.
+        wrong_LEDs();
+
+        // Set the system state to Lock.
+        state = Lock;
+    }
 }
 
-void MainMenu(){
-	SSD1306_Clear();
-	SSD1306_GotoXY (50,9);
-	SSD1306_Puts ("lock",&Font_7x10, 1);
-	SSD1306_GotoXY (46,21);
-	SSD1306_Puts ("Reset",&Font_7x10, 1);
-	SSD1306_GotoXY (39,33);
-	SSD1306_Puts ("Timeout",&Font_7x10, 1);
-	SSD1306_GotoXY (29,45);
-	SSD1306_Puts ("Enrollment",&Font_7x10, 1);
-	if(MenuState == Lock){SSD1306_DrawFilledRectangle(27,7,78,12,1);SSD1306_GotoXY (50,9);SSD1306_Puts ("lock",&Font_7x10, 0);}
-	if(MenuState == Reset){SSD1306_DrawFilledRectangle(27,19,78,12,1);SSD1306_GotoXY (46,21);SSD1306_Puts ("Reset",&Font_7x10, 0);}
-	if(MenuState == Timeout){SSD1306_DrawFilledRectangle(27,31,78,12,1);SSD1306_GotoXY (36,33);SSD1306_Puts ("Timeout",&Font_7x10, 0);}
-	if(MenuState == Enrollment){SSD1306_DrawFilledRectangle(27,43,78,12,1);SSD1306_GotoXY (29,45);SSD1306_Puts ("Enrollment",&Font_7x10, 0);}
-	SSD1306_UpdateScreen();
-	while(1){
-		if(!DeviceState){state=Lock;break;}
-		uint8_t btn_state =checkButtons();
-		if(btn_state==0){//up
-			MenuState--;
-			if(MenuState==255)MenuState=3;
-			state = Menu;
-			break;
-		}else if(btn_state == 1){//down
-			MenuState++;
-			if(MenuState==4)MenuState=0;
-			state = Menu;
-			break;
-		}else if(btn_state ==2){//both
-			if(MenuState==0)state=Lock;
-			if(MenuState==1)state=Reset;
-			if(MenuState==2)state=Timeout;
-			if(MenuState==3)state=Enrollment;
-			if(MenuState==4)state=Menu;
-			break;
-		}
-	}
+
+void MainMenu() {
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
+
+    // Display the menu options at specified coordinates using Font_7x10.
+    SSD1306_GotoXY(50, 9);
+    SSD1306_Puts("lock", &Font_7x10, 1);
+
+    SSD1306_GotoXY(46, 21);
+    SSD1306_Puts("Reset", &Font_7x10, 1);
+
+    SSD1306_GotoXY(39, 33);
+    SSD1306_Puts("Timeout", &Font_7x10, 1);
+
+    SSD1306_GotoXY(29, 45);
+    SSD1306_Puts("Enrollment", &Font_7x10, 1);
+
+    // Highlight the current menu option based on MenuState.
+    if (MenuState == Lock) {
+        SSD1306_DrawFilledRectangle(27, 7, 78, 12, 1);
+        SSD1306_GotoXY(50, 9);
+        SSD1306_Puts("lock", &Font_7x10, 0);
+    }
+    if (MenuState == Reset) {
+        SSD1306_DrawFilledRectangle(27, 19, 78, 12, 1);
+        SSD1306_GotoXY(46, 21);
+        SSD1306_Puts("Reset", &Font_7x10, 0);
+    }
+    if (MenuState == Timeout) {
+        SSD1306_DrawFilledRectangle(27, 31, 78, 12, 1);
+        SSD1306_GotoXY(36, 33);
+        SSD1306_Puts("Timeout", &Font_7x10, 0);
+    }
+    if (MenuState == Enrollment) {
+        SSD1306_DrawFilledRectangle(27, 43, 78, 12, 1);
+        SSD1306_GotoXY(29, 45);
+        SSD1306_Puts("Enrollment", &Font_7x10, 0);
+    }
+
+    // Update the SSD1306 display to show the menu.
+    SSD1306_UpdateScreen();
+
+    while (1) {
+        // If the device state is inactive, set the state to Lock and exit the loop.
+        if (!DeviceState) {
+            state = Lock;
+            break;
+        }
+
+        // Check the button state.
+        uint8_t btn_state = checkButtons();
+
+        // If the 'up' button is pressed, decrement the menu state.
+        if (btn_state == 0) { // up
+            MenuState--;
+            // If MenuState underflows, set it to the last menu option.
+            if (MenuState == 255) MenuState = 3;
+            state = Menu;
+            break;
+        }
+        // If the 'down' button is pressed, increment the menu state.
+        else if (btn_state == 1) { // down
+            MenuState++;
+            // If MenuState overflows, set it to the first menu option.
+            if (MenuState == 4) MenuState = 0;
+            state = Menu;
+            break;
+        }
+        // If both buttons are pressed, set the state based on the current menu option.
+        else if (btn_state == 2) { // both
+            if (MenuState == 0) state = Lock;
+            if (MenuState == 1) state = Reset;
+            if (MenuState == 2) state = Timeout;
+            if (MenuState == 3) state = Enrollment;
+            if (MenuState == 4) state = Menu;
+            break;
+        }
+    }
 }
+
 
 void TimeoutMenu() {
-	static uint32_t previousRevTimer = 0xFFFFFFFF;
-	uint32_t RevTimer = TimeoutValue - Timer;
-	if (RevTimer != previousRevTimer) {
-		previousRevTimer = RevTimer;
-		SSD1306_Clear();
-		SSD1306_GotoXY(15, 27);
-		SSD1306_Puts("Timeout in ", &Font_7x10, 1);
-		char str[12];
-		itoa(RevTimer, str, 10);
-		SSD1306_Puts(str, &Font_7x10, 1);
-		SSD1306_UpdateScreen();
-	}
-}
-void Enroll(){
-	printf("Enroll\n");
-	SSD1306_Clear();
-	SSD1306_GotoXY (20,5);
-	SSD1306_Puts ("Enter new pin", &Font_7x10, 1);
-	SSD1306_DrawFilledRectangle(3,20,122,30,1);
-	SSD1306_DrawLine(6 ,40,12,40,0);
-	SSD1306_DrawLine(16,40,22,40,0);
-	SSD1306_DrawLine(26,40,32,40,0);
-	SSD1306_DrawLine(36,40,42,40,0);
-	SSD1306_DrawLine(46,40,52,40,0);
-	SSD1306_DrawLine(56,40,62,40,0);
-	SSD1306_DrawLine(66,40,72,40,0);
-	SSD1306_DrawLine(76,40,82,40,0);
-	SSD1306_DrawLine(86,40,92,40,0);
-	SSD1306_DrawLine(96,40,102,40,0);
-	SSD1306_DrawLine(106,40,112,40,0);
-	SSD1306_DrawLine(116,40,122,40,0);
-	SSD1306_GotoXY (6,33);
-	SSD1306_Putc('!',&Font_7x10,0);
-	SSD1306_UpdateScreen();
-	bool flag = true;
-	uint8_t index=0;
-	uint8_t temp_num=33;
+    // Static variable to store the previous reverse timer value. Initialized to the maximum 32-bit unsigned integer value.
+    static uint32_t previousRevTimer = 0xFFFFFFFF;
 
-	while(flag){
-		//if(!DeviceState){state=Lock;break;}
-		uint8_t temp =checkButtons();
-		if(temp == 0){
-			//printf("Up\n");
-			temp_num++;
-			if(temp_num==127)temp_num=33;
-			SSD1306_GotoXY (6+index*10,33);
-			SSD1306_Putc((char)temp_num,&Font_7x10,0);
-			SSD1306_UpdateScreen();
+    // Calculate the remaining timeout value by subtracting the current timer value from the timeout value.
+    uint32_t RevTimer = TimeoutValue - Timer;
 
-		}
-		if(temp == 1){
-			//printf("Down\n");
-			temp_num--;
-			if(temp_num<33)temp_num=126;
-			SSD1306_GotoXY (6+index*10,33);
-			SSD1306_Putc((char)temp_num,&Font_7x10,0);
-			SSD1306_UpdateScreen();
+    // If the current reverse timer value is different from the previous value, update the display.
+    if (RevTimer != previousRevTimer) {
+        // Update the previous reverse timer value with the current value.
+        previousRevTimer = RevTimer;
 
-			}
-		if(temp == 2){
-			//printf("Both\n");
-			if(index == 11){
-				password[index]=temp_num;
-				flag = false;
-				SSD1306_GotoXY (6+index*10,33);
-				SSD1306_Putc('*',&Font_7x10,0);
-				SSD1306_UpdateScreen();
-				MY_FLASH_ReadN(Nusers_address,&user_num,1,DATA_TYPE_8);
-				Get_rng(LocalSalt,2);
-				write_flash(MemDatastartpoint + (user_num*72), LocalSalt, 8); //saving local salt
-				Get_rng(IV,4);
-				write_flash(MemDatastartpoint + 8 + (user_num*72), IV, 16); //saving local IV
-				MY_FLASH_ReadN(GlobalSalt_address,GlobalSalt,8,DATA_TYPE_8);
-				/*
-				printf("GS: \n");
-				for(int i=0;i<8;i++)printf("%02x ",GlobalSalt[i]);
-				printf("\n");
-				*/
-				uint8_t temp[20];
-				memcpy(temp, GlobalSalt, sizeof(GlobalSalt));
-				memcpy(temp + sizeof(GlobalSalt), password, sizeof(password));
-				/*
-				printf("temp: \n");
-				for(int i=0;i<20;i++)printf("%02x",temp[i]);
-				printf("\n");
-				*/
-				uint8_t computedSha256[32];
-				sha256(temp, computedSha256,sizeof(temp));
-				/*
-				printf("SHA256: \n");
-				for(int i=0;i<32;i++)printf("%02x ",computedSha256[i]);
-				printf("\n");
-				*/
-				write_flash(MemDatastartpoint + 8 + 16 + (user_num*72), computedSha256, 32); //saving password
-				Get_rng(MasterKey,4);
+        // Clear the SSD1306 display.
+        SSD1306_Clear();
 
-				printf("Master: \n");
-				for(int i=0;i<16;i++)printf("%02x ",MasterKey[i]);
-				printf("\n");
-				/*
-				printf("LS: \n");
-				for(int i=0;i<8;i++)printf("%02x ",LocalSalt[i]);
-				printf("\n");
-				*/
-				memcpy(temp, LocalSalt, sizeof(LocalSalt));
-				memcpy(temp + sizeof(LocalSalt), password, sizeof(password));
-				/*
-				printf("temp: \n");
-				for(int i=0;i<20;i++)printf("%02x",temp[i]);
-				printf("\n");
-				*/
-				sha256(temp, computedSha256,sizeof(temp));
-				/*
-				printf("SHA256: \n");
-				for(int i=0;i<32;i++)printf("%02x ",computedSha256[i]);
-				printf("\n");
-				printf("IV: \n");
-				for(int i=0;i<16;i++)printf("%02x ",IV[i]);
-				printf("\n");
-				*/
-				uint8_t computedAES[16];
-				AESCBC(MasterKey, sizeof(MasterKey), computedSha256, sizeof(computedSha256),IV, sizeof(IV),computedAES);
-				/*
-				printf("AESCBC: \n");
-				for(int i=0;i<16;i++)printf("%02x ",computedAES[i]);
-				printf("\n");
-				*/
-				write_flash(MemDatastartpoint + 8 + 16 + 32 + (user_num*72), computedAES, 16); //saving master
-				uint8_t value =1;
-				write_flash(BrandNew_address, &value, 1);	//update brand new
-				user_num++;
-				write_flash(Nusers_address, &user_num, 1);	//update numusers
-				blink();
-				SSD1306_Clear();
-				state=Lock;
+        // Set the cursor position on the SSD1306 display.
+        SSD1306_GotoXY(15, 27);
 
-			}else{
-				password[index]=temp_num;
-				temp_num = 33;
-				SSD1306_GotoXY (6+index*10,33);
-				SSD1306_Putc('*',&Font_7x10,0);
-				SSD1306_UpdateScreen();
-				index++;
-				SSD1306_GotoXY (6+index*10,33);
-				SSD1306_Putc((char)temp_num,&Font_7x10,0);
-				SSD1306_UpdateScreen();
-			}
-		}
-	}
+        // Display the "Timeout in " text on the SSD1306 display using Font_7x10.
+        SSD1306_Puts("Timeout in ", &Font_7x10, 1);
+
+        // Convert the reverse timer value to a string.
+        char str[12];
+        itoa(RevTimer, str, 10);
+
+        // Display the reverse timer value on the SSD1306 display using Font_7x10.
+        SSD1306_Puts(str, &Font_7x10, 1);
+
+        // Update the SSD1306 display to show the new content.
+        SSD1306_UpdateScreen();
+    }
 }
 
-void LockDevice(){
-	DeviceState=false;
-	TimerState=false;
-	SSD1306_Clear();
-	SSD1306_GotoXY (32,5);
-	SSD1306_Puts ("Enter pin", &Font_7x10, 1);
-	SSD1306_DrawFilledRectangle(3,20,122,30,1);
-	SSD1306_DrawLine(6 ,40,12,40,0);
-	SSD1306_DrawLine(16,40,22,40,0);
-	SSD1306_DrawLine(26,40,32,40,0);
-	SSD1306_DrawLine(36,40,42,40,0);
-	SSD1306_DrawLine(46,40,52,40,0);
-	SSD1306_DrawLine(56,40,62,40,0);
-	SSD1306_DrawLine(66,40,72,40,0);
-	SSD1306_DrawLine(76,40,82,40,0);
-	SSD1306_DrawLine(86,40,92,40,0);
-	SSD1306_DrawLine(96,40,102,40,0);
-	SSD1306_DrawLine(106,40,112,40,0);
-	SSD1306_DrawLine(116,40,122,40,0);
-	SSD1306_GotoXY (6,33);
-	SSD1306_Putc('!',&Font_7x10,0);
-	SSD1306_UpdateScreen();
-	bool flag = true;
-	uint8_t index=0;
-	uint8_t temp_num=33;
-	while(flag){
-		uint8_t temp =checkButtons();
-		if(temp == 0){
-			//printf("Up\n");
-			temp_num++;
-			if(temp_num==127)temp_num=33;
-			SSD1306_GotoXY (6+index*10,33);
-			SSD1306_Putc((char)temp_num,&Font_7x10,0);
-			SSD1306_UpdateScreen();
 
-		}
-		if(temp == 1){
-			//printf("Down\n");
-			temp_num--;
-			if(temp_num<33)temp_num=126;
-			SSD1306_GotoXY (6+index*10,33);
-			SSD1306_Putc((char)temp_num,&Font_7x10,0);
-			SSD1306_UpdateScreen();
+void Enroll() {
+    // Print "Enroll" for debugging purposes.
+    printf("Enroll\n");
 
-			}
-		if(temp == 2){
-			//printf("Both\n");
-			if(index == 11){
-				password[index]=temp_num;
-				flag = false;
-				SSD1306_GotoXY (6+index*10,33);
-				SSD1306_Putc('*',&Font_7x10,0);
-				SSD1306_UpdateScreen();
-				//check password
-				if(CheckPassword()){
-					MY_FLASH_ReadN(MemDatastartpoint + (CurrentUser*72), CurrentLocalSalt, 8, DATA_TYPE_8); //Loading local salt
-					MY_FLASH_ReadN(MemDatastartpoint + 8 + (CurrentUser*72), CurrentIV, 16, DATA_TYPE_8); //Loading local IV
-					MY_FLASH_ReadN(MemDatastartpoint + 8 + 16 + 32 + (CurrentUser*72), CurrentMasterKey, 16, DATA_TYPE_8); //Loading encrypted master key
-					uint8_t temp[20];
-					memcpy(temp, CurrentLocalSalt, sizeof(CurrentLocalSalt));
-					memcpy(temp + sizeof(CurrentLocalSalt), CurrentPassword, sizeof(CurrentPassword));
-					uint8_t computedSha256[32];
-					sha256(temp, computedSha256,sizeof(temp));
-					DecryptAES(CurrentMasterKey, sizeof(CurrentMasterKey), computedSha256, sizeof(computedSha256), CurrentIV, sizeof(CurrentIV), CurrentMasterKey);
-					printf("DECKey: \n");
-					for(int i=0;i<16;i++)printf("%02x ",CurrentMasterKey[i]);
-					printf("\n");
-//					while(1);
-				  	blink();
-				  	DeviceState=true;
-				  	state=Menu;
-				}
-				if(!CheckPassword()){
-					//printf("wrong\n");
-					MY_FLASH_ReadN(WrongPassword_address,&WrongPassword,1,DATA_TYPE_8);
-					WrongPassword++;
-					if(WrongPassword<5){
-						if(WrongPassword==1)HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
-						if(WrongPassword==2)HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
-						if(WrongPassword==3)HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_SET);
-						if(WrongPassword==4)HAL_GPIO_WritePin(Red_GPIO_Port,Red_Pin, GPIO_PIN_SET);
-						write_flash(WrongPassword_address, &WrongPassword, 1);
-						OledAlarm();
-						state=Lock;
-					}else{
-						//printf("Erasing\n");
-						EraseAlaram();
-						EraseMem();
-						blink();
-						HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
-						HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
-						HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
-						HAL_GPIO_WritePin(Red_GPIO_Port,Red_Pin, GPIO_PIN_RESET);
-						state=Enrollment;
-					}
-				}
-				SSD1306_Clear();
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
 
-			}else{
-				password[index]=temp_num;
-				temp_num = 33;
-				SSD1306_GotoXY (6+index*10,33);
-				SSD1306_Putc('*',&Font_7x10,0);
-				SSD1306_UpdateScreen();
-				index++;
-				SSD1306_GotoXY (6+index*10,33);
-				SSD1306_Putc((char)temp_num,&Font_7x10,0);
-				SSD1306_UpdateScreen();
-			}
-		}
-	}
+    // Display "Enter new pin" at the specified coordinates using Font_7x10.
+    SSD1306_GotoXY(20, 5);
+    SSD1306_Puts("Enter new pin", &Font_7x10, 1);
+
+    // Draw a filled rectangle to create a box for the PIN input.
+    SSD1306_DrawFilledRectangle(3, 20, 122, 30, 1);
+
+    // Draw lines to separate individual PIN input positions.
+    for (int i = 0; i < 12; i++) {
+        SSD1306_DrawLine(6 + i*10, 40, 12 + i*10, 40, 0);
+    }
+
+    // Set the cursor to the first PIN input position and display '!' as a starting character.
+    SSD1306_GotoXY(6, 33);
+    SSD1306_Putc('!', &Font_7x10, 0);
+
+    // Update the SSD1306 display to show the initial PIN entry screen.
+    SSD1306_UpdateScreen();
+
+    // Initialize the flag to true to start the while loop, index to 0, and temp_num to 33 (ASCII '!')
+    bool flag = true;
+    uint8_t index = 0;
+    uint8_t temp_num = 33;
+
+    // Loop to handle PIN entry until the flag is set to false.
+    while (flag) {
+        // Check the state of the buttons.
+        uint8_t temp = checkButtons();
+
+        // If the 'up' button is pressed, increment temp_num and wrap around if it exceeds 126.
+        if (temp == 0) {
+            temp_num++;
+            if (temp_num == 127) temp_num = 33;
+            SSD1306_GotoXY(6 + index*10, 33);
+            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
+            SSD1306_UpdateScreen();
+        }
+
+        // If the 'down' button is pressed, decrement temp_num and wrap around if it goes below 33.
+        if (temp == 1) {
+            temp_num--;
+            if (temp_num < 33) temp_num = 126;
+            SSD1306_GotoXY(6 + index*10, 33);
+            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
+            SSD1306_UpdateScreen();
+        }
+
+        // If both buttons are pressed, handle the PIN entry.
+        if (temp == 2) {
+            // If the index is 11 (last position), save the entered PIN and exit the loop.
+            if (index == 11) {
+                password[index] = temp_num;
+                flag = false;
+                SSD1306_GotoXY(6 + index*10, 33);
+                SSD1306_Putc('*', &Font_7x10, 0);
+                SSD1306_UpdateScreen();
+
+                // Read the number of users from flash memory.
+                MY_FLASH_ReadN(Nusers_address, &user_num, 1, DATA_TYPE_8);
+
+                // Generate and save a local salt.
+                Get_rng(LocalSalt, 2);
+                write_flash(MemDatastartpoint + (user_num * 72), LocalSalt, 8);
+
+                // Generate and save an initialization vector (IV).
+                Get_rng(IV, 4);
+                write_flash(MemDatastartpoint + 8 + (user_num * 72), IV, 16);
+
+                // Read the global salt from flash memory.
+                MY_FLASH_ReadN(GlobalSalt_address, GlobalSalt, 8, DATA_TYPE_8);
+
+                // Concatenate the global salt and password, and compute the SHA-256 hash.
+                uint8_t temp[20];
+                memcpy(temp, GlobalSalt, sizeof(GlobalSalt));
+                memcpy(temp + sizeof(GlobalSalt), password, sizeof(password));
+                uint8_t computedSha256[32];
+                sha256(temp, computedSha256, sizeof(temp));
+
+                // Save the computed SHA-256 hash of the password.
+                write_flash(MemDatastartpoint + 8 + 16 + (user_num * 72), computedSha256, 32);
+
+                // Generate a master key.
+                Get_rng(MasterKey, 4);
+
+                // Concatenate the local salt and password, and compute the SHA-256 hash.
+                memcpy(temp, LocalSalt, sizeof(LocalSalt));
+                memcpy(temp + sizeof(LocalSalt), password, sizeof(password));
+                sha256(temp, computedSha256, sizeof(temp));
+
+                // Encrypt the master key using AES-CBC.
+                uint8_t computedAES[16];
+                AESCBC(MasterKey, sizeof(MasterKey), computedSha256, sizeof(computedSha256), IV, sizeof(IV), computedAES);
+
+                // Save the encrypted master key.
+                write_flash(MemDatastartpoint + 8 + 16 + 32 + (user_num * 72), computedAES, 16);
+
+                // Update the "brand new" status in flash memory.
+                uint8_t value = 1;
+                write_flash(BrandNew_address, &value, 1);
+
+                // Increment and save the number of users.
+                user_num++;
+                write_flash(Nusers_address, &user_num, 1);
+
+                // Blink to indicate successful enrollment and clear the display.
+                blink();
+                SSD1306_Clear();
+
+                // Set the system state to Lock.
+                state = Lock;
+            } else {
+                // Save the entered character in the password array and move to the next position.
+                password[index] = temp_num;
+                temp_num = 33;
+                SSD1306_GotoXY(6 + index*10, 33);
+                SSD1306_Putc('*', &Font_7x10, 0);
+                SSD1306_UpdateScreen();
+                index++;
+                SSD1306_GotoXY(6 + index*10, 33);
+                SSD1306_Putc((char)temp_num, &Font_7x10, 0);
+                SSD1306_UpdateScreen();
+            }
+        }
+    }
 }
 
-void ResetFactory(){
-	SSD1306_Clear();
-	SSD1306_DrawFilledRectangle(71,35,25,12,1);
-	SSD1306_GotoXY (18,17);
-	SSD1306_Puts ("Reset factory",&Font_7x10, 1);
-	SSD1306_GotoXY (38,37);
-	SSD1306_Puts ("Yes",&Font_7x10, 1);
-	SSD1306_GotoXY (78,37);
-	SSD1306_Puts ("No",&Font_7x10, 0);
-	SSD1306_UpdateScreen();
-	bool YesNo = false;
-	while(1){
-		if(!DeviceState){state=Lock;break;}
-		uint8_t btn_state =checkButtons();
-		if(btn_state==0){//up
-			SSD1306_Clear();
-			SSD1306_DrawFilledRectangle(36,35,25,12,1);
-			SSD1306_GotoXY (18,17);
-			SSD1306_Puts ("Reset factory",&Font_7x10, 1);
-			SSD1306_GotoXY (38,37);
-			SSD1306_Puts ("Yes",&Font_7x10, 0);
-			SSD1306_GotoXY (78,37);
-			SSD1306_Puts ("No",&Font_7x10, 1);
-			SSD1306_UpdateScreen();
-			YesNo = true;
-		}else if(btn_state == 1){//down
-			SSD1306_Clear();
-			SSD1306_DrawFilledRectangle(71,35,25,12,1);
-			SSD1306_GotoXY (18,17);
-			SSD1306_Puts ("Reset factory",&Font_7x10, 1);
-			SSD1306_GotoXY (38,37);
-			SSD1306_Puts ("Yes",&Font_7x10, 1);
-			SSD1306_GotoXY (78,37);
-			SSD1306_Puts ("No",&Font_7x10, 0);
-			SSD1306_UpdateScreen();
-			YesNo = false;
-		}else if(btn_state ==2){//both
-			if(YesNo){
-				EraseAlaram();
-				EraseMem();
-				blink();
-				HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
-				HAL_GPIO_WritePin(Red_GPIO_Port,Red_Pin, GPIO_PIN_RESET);
-				state=Enrollment;
-			}
-			if(!YesNo){
-				//printf("resetCanceled\n");
-				state=Menu;
-			}
-			break;
-		}
-	}
+
+void LockDevice() {
+    // Set the device and timer states to false, indicating the device is locked and the timer is inactive.
+    DeviceState = false;
+    TimerState = false;
+
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
+
+    // Display "Enter pin" at the specified coordinates using Font_7x10.
+    SSD1306_GotoXY(32, 5);
+    SSD1306_Puts("Enter pin", &Font_7x10, 1);
+
+    // Draw a filled rectangle to create a box for the PIN input.
+    SSD1306_DrawFilledRectangle(3, 20, 122, 30, 1);
+
+    // Draw lines to separate individual PIN input positions.
+    for (int i = 0; i < 12; i++) {
+        SSD1306_DrawLine(6 + i*10, 40, 12 + i*10, 40, 0);
+    }
+
+    // Set the cursor to the first PIN input position and display '!' as a starting character.
+    SSD1306_GotoXY(6, 33);
+    SSD1306_Putc('!', &Font_7x10, 0);
+
+    // Update the SSD1306 display to show the initial PIN entry screen.
+    SSD1306_UpdateScreen();
+
+    // Initialize the flag to true to start the while loop, index to 0, and temp_num to 33 (ASCII '!').
+    bool flag = true;
+    uint8_t index = 0;
+    uint8_t temp_num = 33;
+
+    // Loop to handle PIN entry until the flag is set to false.
+    while (flag) {
+        // Check the state of the buttons.
+        uint8_t temp = checkButtons();
+
+        // If the 'up' button is pressed, increment temp_num and wrap around if it exceeds 126.
+        if (temp == 0) {
+            temp_num++;
+            if (temp_num == 127) temp_num = 33;
+            SSD1306_GotoXY(6 + index*10, 33);
+            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
+            SSD1306_UpdateScreen();
+        }
+
+        // If the 'down' button is pressed, decrement temp_num and wrap around if it goes below 33.
+        if (temp == 1) {
+            temp_num--;
+            if (temp_num < 33) temp_num = 126;
+            SSD1306_GotoXY(6 + index*10, 33);
+            SSD1306_Putc((char)temp_num, &Font_7x10, 0);
+            SSD1306_UpdateScreen();
+        }
+
+        // If both buttons are pressed, handle the PIN entry.
+        if (temp == 2) {
+            // If the index is 11 (last position), save the entered PIN and exit the loop.
+            if (index == 11) {
+                password[index] = temp_num;
+                flag = false;
+                SSD1306_GotoXY(6 + index*10, 33);
+                SSD1306_Putc('*', &Font_7x10, 0);
+                SSD1306_UpdateScreen();
+
+                // Check if the entered password is correct.
+                if (CheckPassword()) {
+                    // If the password is correct, load the user's salt, IV, and encrypted master key.
+                    MY_FLASH_ReadN(MemDatastartpoint + (CurrentUser*72), CurrentLocalSalt, 8, DATA_TYPE_8);
+                    MY_FLASH_ReadN(MemDatastartpoint + 8 + (CurrentUser*72), CurrentIV, 16, DATA_TYPE_8);
+                    MY_FLASH_ReadN(MemDatastartpoint + 8 + 16 + 32 + (CurrentUser*72), CurrentMasterKey, 16, DATA_TYPE_8);
+
+                    // Compute the SHA-256 hash of the concatenation of the local salt and password.
+                    uint8_t temp[20];
+                    memcpy(temp, CurrentLocalSalt, sizeof(CurrentLocalSalt));
+                    memcpy(temp + sizeof(CurrentLocalSalt), CurrentPassword, sizeof(CurrentPassword));
+                    uint8_t computedSha256[32];
+                    sha256(temp, computedSha256, sizeof(temp));
+
+                    // Decrypt the master key using AES with the computed SHA-256 hash as the key.
+                    DecryptAES(CurrentMasterKey, sizeof(CurrentMasterKey), computedSha256, sizeof(computedSha256), CurrentIV, sizeof(CurrentIV), CurrentMasterKey);
+
+                    // Print the decrypted master key for debugging purposes.
+                    printf("DECKey: \n");
+                    for (int i = 0; i < 16; i++) printf("%02x ", CurrentMasterKey[i]);
+                    printf("\n");
+
+                    // Blink to indicate successful decryption, set the device state to true, and change the state to Menu.
+                    blink();
+                    DeviceState = true;
+                    state = Menu;
+                } else {
+                    // If the password is incorrect, increment the wrong password counter.
+                    MY_FLASH_ReadN(WrongPassword_address, &WrongPassword, 1, DATA_TYPE_8);
+                    WrongPassword++;
+
+                    // If the wrong password counter is less than 5, update the corresponding LED and flash memory.
+                    if (WrongPassword < 5) {
+                        if (WrongPassword == 1) HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
+                        if (WrongPassword == 2) HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
+                        if (WrongPassword == 3) HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_SET);
+                        if (WrongPassword == 4) HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
+                        write_flash(WrongPassword_address, &WrongPassword, 1);
+
+                        // Trigger an alarm on the OLED and reset the state to Lock.
+                        OledAlarm();
+                        state = Lock;
+                    } else {
+                        // If the wrong password counter reaches 5, erase memory and reset the LEDs.
+                        EraseAlaram();
+                        EraseMem();
+                        blink();
+                        HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
+                        HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
+                        HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
+                        HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
+
+                        // Set the state to Enrollment for re-enrollment.
+                        state = Enrollment;
+                    }
+                }
+
+                // Clear the SSD1306 display.
+                SSD1306_Clear();
+            } else {
+                // Save the entered character in the password array and move to the next position.
+                password[index] = temp_num;
+                temp_num = 33;
+                SSD1306_GotoXY(6 + index*10, 33);
+                SSD1306_Putc('*', &Font_7x10, 0);
+                SSD1306_UpdateScreen();
+                index++;
+                SSD1306_GotoXY(6 + index*10, 33);
+                SSD1306_Putc((char)temp_num, &Font_7x10, 0);
+                SSD1306_UpdateScreen();
+            }
+        }
+    }
 }
 
-void OledAlarm(){
-	SSD1306_Clear();
-	SSD1306_GotoXY (25,0);
-	SSD1306_Puts ("Warning", &Font_11x18, 1);
-	SSD1306_GotoXY (11,36);
-	SSD1306_Putc (4 - WrongPassword + '0', &Font_7x10, 1);
-	SSD1306_Puts (" more attempts", &Font_7x10, 1);
-	SSD1306_UpdateScreen();
-	HAL_Delay(3000);
 
+void ResetFactory() {
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
+
+    // Draw a filled rectangle around the "No" option.
+    SSD1306_DrawFilledRectangle(71, 35, 25, 12, 1);
+
+    // Display "Reset factory" at the specified coordinates using Font_7x10.
+    SSD1306_GotoXY(18, 17);
+    SSD1306_Puts("Reset factory", &Font_7x10, 1);
+
+    // Display "Yes" and "No" options at the specified coordinates.
+    SSD1306_GotoXY(38, 37);
+    SSD1306_Puts("Yes", &Font_7x10, 1);
+    SSD1306_GotoXY(78, 37);
+    SSD1306_Puts("No", &Font_7x10, 0);
+
+    // Update the SSD1306 display to show the initial reset factory screen.
+    SSD1306_UpdateScreen();
+
+    // Initialize the YesNo flag to false, indicating "No" is currently selected.
+    bool YesNo = false;
+
+    // Loop to handle user input until the device state changes or the user makes a selection.
+    while (1) {
+        // If the device is locked, change the state to Lock and break the loop.
+        if (!DeviceState) {
+            state = Lock;
+            break;
+        }
+
+        // Check the state of the buttons.
+        uint8_t btn_state = checkButtons();
+
+        // If the 'up' button is pressed, select "Yes" and update the display.
+        if (btn_state == 0) { // up
+            SSD1306_Clear();
+            SSD1306_DrawFilledRectangle(36, 35, 25, 12, 1);
+            SSD1306_GotoXY(18, 17);
+            SSD1306_Puts("Reset factory", &Font_7x10, 1);
+            SSD1306_GotoXY(38, 37);
+            SSD1306_Puts("Yes", &Font_7x10, 0);
+            SSD1306_GotoXY(78, 37);
+            SSD1306_Puts("No", &Font_7x10, 1);
+            SSD1306_UpdateScreen();
+            YesNo = true;
+        }
+
+        // If the 'down' button is pressed, select "No" and update the display.
+        else if (btn_state == 1) { // down
+            SSD1306_Clear();
+            SSD1306_DrawFilledRectangle(71, 35, 25, 12, 1);
+            SSD1306_GotoXY(18, 17);
+            SSD1306_Puts("Reset factory", &Font_7x10, 1);
+            SSD1306_GotoXY(38, 37);
+            SSD1306_Puts("Yes", &Font_7x10, 1);
+            SSD1306_GotoXY(78, 37);
+            SSD1306_Puts("No", &Font_7x10, 0);
+            SSD1306_UpdateScreen();
+            YesNo = false;
+        }
+
+        // If both buttons are pressed, perform the action based on the selected option.
+        else if (btn_state == 2) { // both
+            // If "Yes" is selected, erase alarms and memory, reset LEDs, and change state to Enrollment.
+            if (YesNo) {
+                EraseAlaram();
+                EraseMem();
+                blink();
+                HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
+                HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
+                state = Enrollment;
+            }
+
+            // If "No" is selected, change the state back to Menu.
+            if (!YesNo) {
+                // printf("resetCanceled\n");
+                state = Menu;
+            }
+
+            // Break the loop after making a selection.
+            break;
+        }
+    }
 }
 
-void EraseAlaram(){
-	SSD1306_Clear();
-	SSD1306_GotoXY (31,14);
-	SSD1306_Puts ("Memory", &Font_11x18, 1);
-	SSD1306_GotoXY (14,32);
-	SSD1306_Puts ("erasing:(", &Font_11x18, 1);
-	SSD1306_UpdateScreen();
-	HAL_Delay(3000);
+
+void OledAlarm() {
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
+
+    // Display "Warning" message at the specified coordinates using Font_11x18.
+    SSD1306_GotoXY(25, 0);
+    SSD1306_Puts("Warning", &Font_11x18, 1);
+
+    // Calculate the remaining attempts and display it.
+    SSD1306_GotoXY(11, 36);
+    SSD1306_Putc(4 - WrongPassword + '0', &Font_7x10, 1);  // Display the number of remaining attempts.
+
+    // Display " more attempts" message at the specified coordinates using Font_7x10.
+    SSD1306_Puts(" more attempts", &Font_7x10, 1);
+
+    // Update the SSD1306 display to show the warning message and remaining attempts.
+    SSD1306_UpdateScreen();
+
+    // Delay for 3000 milliseconds (3 seconds) to allow the user to read the warning message.
+    HAL_Delay(3000);
 }
+
+
+void EraseAlaram() {
+    // Clear the SSD1306 display.
+    SSD1306_Clear();
+
+    // Display "Memory" message at the specified coordinates using Font_11x18.
+    SSD1306_GotoXY(31, 14);
+    SSD1306_Puts("Memory", &Font_11x18, 1);
+
+    // Display "erasing:(" message at the specified coordinates using Font_11x18.
+    SSD1306_GotoXY(14, 32);
+    SSD1306_Puts("erasing:(", &Font_11x18, 1);
+
+    // Update the SSD1306 display to show the memory erasing message.
+    SSD1306_UpdateScreen();
+
+    // Delay for 3000 milliseconds (3 seconds) to allow the user to read the memory erasing message.
+    HAL_Delay(3000);
+}
+
 
 void EraseMem(){
-	uint8_t All0[243] = {0};
-	write_flash(0, All0, 243);
+	uint8_t All_0[1000] = {0};
+	write_flash(0, All_0, 1000);
 }
 
-void wrong_LEDs(){
-	MY_FLASH_ReadN(WrongPassword_address,&WrongPassword,1,DATA_TYPE_8);
-	for(int i=WrongPassword;i>=0;i--){
-		if(i==1)HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
-		if(i==2)HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
-		if(i==3)HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_SET);
-		if(i==4)HAL_GPIO_WritePin(Red_GPIO_Port,Red_Pin, GPIO_PIN_SET);
-	}
+
+void wrong_LEDs() {
+    // Read the number of wrong password attempts from flash memory.
+    MY_FLASH_ReadN(WrongPassword_address, &WrongPassword, 1, DATA_TYPE_8);
+
+    // Iterate through the number of wrong password attempts and set the corresponding LEDs.
+    for(int i = WrongPassword; i >= 0; i--) {
+        if (i == 1) {
+            // Set the blue LED.
+            HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_SET);
+        }
+        if (i == 2) {
+            // Set the green LED.
+            HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_SET);
+        }
+        if (i == 3) {
+            // Set the orange LED.
+            HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_SET);
+        }
+        if (i == 4) {
+            // Set the red LED.
+            HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_SET);
+        }
+    }
 }
 
-void blink(){
-	HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(Red_GPIO_Port,Red_Pin, GPIO_PIN_RESET);
-	for(int i=0;i<6;i++){
-		HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
-		HAL_GPIO_TogglePin(Orange_GPIO_Port, Orange_Pin);
-		HAL_GPIO_TogglePin(Red_GPIO_Port, Red_Pin);
-		HAL_GPIO_TogglePin(Blue_GPIO_Port, Blue_Pin);
-		HAL_Delay(300);
-	}
-	wrong_LEDs();
+
+void blink() {
+    // Reset all LEDs to off state.
+    HAL_GPIO_WritePin(Blue_GPIO_Port, Blue_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(Green_GPIO_Port, Green_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(Orange_GPIO_Port, Orange_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(Red_GPIO_Port, Red_Pin, GPIO_PIN_RESET);
+
+    // Toggle LEDs in sequence for visual blinking effect.
+    for (int i = 0; i < 6; i++) {
+        HAL_GPIO_TogglePin(Green_GPIO_Port, Green_Pin);
+        HAL_GPIO_TogglePin(Orange_GPIO_Port, Orange_Pin);
+        HAL_GPIO_TogglePin(Red_GPIO_Port, Red_Pin);
+        HAL_GPIO_TogglePin(Blue_GPIO_Port, Blue_Pin);
+        HAL_Delay(300); // Delay to control blink speed
+    }
+
+    // After blinking, update LEDs according to the number of wrong password attempts.
+    wrong_LEDs();
 }
 
-bool CheckPassword(){
-  uint8_t tempPassword[32];
-  MY_FLASH_ReadN(Nusers_address,&user_num,1,DATA_TYPE_8);
-  for (int i=0;i<user_num;i++){
-	    //MY_FLASH_ReadN(GlobalSalt_address,GlobalSalt,8,DATA_TYPE_8);
-		uint8_t temp[20];
-		memcpy(temp, GlobalSalt, sizeof(GlobalSalt));
-		memcpy(temp + sizeof(GlobalSalt), password, sizeof(password));
-		uint8_t computedSha256[32];
-		sha256(temp, computedSha256,sizeof(temp));
-		MY_FLASH_ReadN(MemDatastartpoint + 8 + 16 + (i*72), tempPassword, 32, DATA_TYPE_8); //saving password
-	  if (memcmp(tempPassword, computedSha256, 32) == 0) {
-		  CurrentUser = i;
-		  memcpy(CurrentPassword, password, sizeof(password));
-		  return true;
-	  }
-  }
-  return false;
+
+bool CheckPassword() {
+    uint8_t tempPassword[32]; // Buffer to hold a hashed password read from memory
+
+    // Read the number of users stored in flash memory
+    MY_FLASH_ReadN(Nusers_address, &user_num, 1, DATA_TYPE_8);
+
+    // Iterate through each user's stored password to check against the provided password
+    for (int i = 0; i < user_num; i++) {
+        // Construct the hash of the provided password combined with the global salt
+        uint8_t temp[20];
+        memcpy(temp, GlobalSalt, sizeof(GlobalSalt)); // Copy global salt into temp buffer
+        memcpy(temp + sizeof(GlobalSalt), password, sizeof(password)); // Append password to temp buffer
+        uint8_t computedSha256[32];
+        sha256(temp, computedSha256, sizeof(temp)); // Compute SHA-256 hash of temp buffer
+
+        // Read the stored hashed password from flash memory
+        MY_FLASH_ReadN(MemDatastartpoint + 8 + 16 + (i * 72), tempPassword, 32, DATA_TYPE_8);
+
+        // Compare computed hash with stored hashed password
+        if (memcmp(tempPassword, computedSha256, 32) == 0) {
+            // If passwords match, store the current user and password for future reference
+            CurrentUser = i;
+            memcpy(CurrentPassword, password, sizeof(password));
+            return true; // Password match found, return true
+        }
+    }
+
+    return false; // No matching password found among stored hashes, return false
 }
 
-void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len){
-	//uint8_t status=0;	//0 lock 1 unlock 2 brand new
-	uint8_t hwinfo[33] = {
-	    0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
-	};
-	if(buf[0]==0){
-		MY_FLASH_ReadN(BrandNew_address,&Brand_new,1,DATA_TYPE_8);
-		if(Brand_new == 0){
-			hwinfo[0] = 2;
-			CDC_Transmit_FS(hwinfo, 33);
-		}else if(DeviceState){
-			hwinfo[0] = 1;
-			CDC_Transmit_FS(hwinfo, 33);
-		}else{
-			hwinfo[0] = 0;
-			CDC_Transmit_FS(hwinfo, 33);
-		}
-	}else if(buf[0]==1){
-		if(DeviceState){
-			hwinfo[0] = 0;
-			CDC_Transmit_FS(hwinfo, 33);
-			DeviceState=0;
-			TimerState = 1;
-		}else{
-			hwinfo[0] = 1;
-			CDC_Transmit_FS(hwinfo, 33);
-		}
-	}else if(buf[0]==2){
-		if(DeviceState){
-	    uint32_t carry = 0;
-	    uint8_t  result[16];
-	    uint8_t Key[9] = {buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7], buf[8], buf[9]};
-	    for (int i = 0; i < 16; i++) {
-	        uint32_t sum = CurrentMasterKey[i] + (i < 9 ? Key[i] : 0) + carry;
-	        result[i] = sum & 0xFF;
-	        carry = (sum >> 8) & 0xFF;
-	    }
-		uint8_t computed_hash[CMOX_SHA256_SIZE];
-		printf("result = ");
-		for (int i=0;i<16;i++)printf("%02x",result[i]);
-		printf("\n");
-		sha256(result, computed_hash, sizeof(result));
-		CDC_Transmit_FS(computed_hash, 32);
-		}
-	}
+
+void CDC_recieveCALLBACK(uint8_t *buf, uint32_t len) {
+    uint8_t hwinfo[33] = {
+        0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01,
+    };
+
+    if (buf[0] == 0) {
+        // Command 0: Check device status
+        MY_FLASH_ReadN(BrandNew_address, &Brand_new, 1, DATA_TYPE_8);
+        if (Brand_new == 0) {
+            hwinfo[0] = 2; // Brand new device status
+            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
+        } else if (DeviceState) {
+            hwinfo[0] = 1; // Device unlocked status
+            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
+        } else {
+            hwinfo[0] = 0; // Device locked status
+            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
+        }
+    } else if (buf[0] == 1) {
+        // Command 1: Toggle device state (Lock)
+        if (DeviceState) {
+            hwinfo[0] = 0; // Lock device
+            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
+            DeviceState = 0; // Set device state to locked
+            TimerState = 1; // Start timer
+        } else {
+            hwinfo[0] = 1; // device is a lock
+            CDC_Transmit_FS(hwinfo, 33); // Transmit status information
+        }
+    } else if (buf[0] == 2) {
+        // Command 2: Perform cryptographic operation
+        if (DeviceState) {
+            // Read the key from the received buffer
+            uint8_t Key[9] = { buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7], buf[8], buf[9] };
+
+            // Initialize variables for key generation operation
+            uint32_t carry = 0;
+            uint8_t result[16];
+
+            // Perform the key generation calculation
+            for (int i = 0; i < 16; i++) {
+                uint32_t sum = CurrentMasterKey[i] + (i < 9 ? Key[i] : 0) + carry;
+                result[i] = sum & 0xFF;
+                carry = (sum >> 8) & 0xFF;
+            }
+
+            // Calculate SHA-256 hash of the result
+            uint8_t computed_hash[32];
+            sha256(result, computed_hash, sizeof(result));
+
+            // Transmit the computed hash
+            CDC_Transmit_FS(computed_hash, 32);
+        }
+    }
 }
+
 
 void sha256(uint8_t *data,uint8_t *result,uint8_t DataSize){
 	size_t computed_size;
-    cmox_hash_compute(CMOX_SHA256_ALGO,         /* Use SHA256 algorithm */
-    						 data, DataSize, /* Message to digest */
-							 result,            /* Data buffer to receive digest data */
+    cmox_hash_compute(CMOX_SHA256_ALGO,                /* Use SHA256 algorithm */
+    						 data, DataSize,           /* Message to digest */
+							 result,                   /* Data buffer to receive digest data */
 							 CMOX_SHA256_SIZE,         /* Expected digest size */
 							 &computed_size);          /* Size of computed digest */
 }
 
 void AESCBC(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, uint8_t *IVF,uint8_t IVFSize, uint8_t *result){
 	size_t computed_size;
-	cmox_cipher_encrypt(CMOX_AES_CBC_ENC_ALGO,                  /* Use AES CBC algorithm */
-										 Data, DataSize,           /* Plaintext to encrypt */
-										 Key, KeySize,                       /* AES key to use */
-										 IVF, IVFSize,                         /* Initialization vector */
+	cmox_cipher_encrypt(CMOX_AES_CBC_ENC_ALGO,                      /* Use AES CBC algorithm */
+										 Data, DataSize,            /* Plaintext to encrypt */
+										 Key, KeySize,              /* AES key to use */
+										 IVF, IVFSize,              /* Initialization vector */
 										 result, &computed_size);   /* Data buffer to receive generated ciphertext */
 }
 
@@ -976,8 +1198,8 @@ void DecryptAES(uint8_t *Data, uint8_t DataSize, uint8_t *Key, uint8_t KeySize, 
 	cmox_cipher_decrypt(CMOX_AES_CBC_DEC_ALGO,                 /* Use AES CBC algorithm */
 								   Data, DataSize,             /* Ciphertext to decrypt */
 	                               Key, KeySize,               /* AES key to use */
-								   IVF, IVFSize,              /* Initialization vector */
-								   result, &computed_size);   /* Data buffer to receive generated plaintext */
+								   IVF, IVFSize,               /* Initialization vector */
+								   result, &computed_size);    /* Data buffer to receive generated plaintext */
 }
 
 int checkButtons(){
@@ -1030,10 +1252,8 @@ void Get_rng(uint8_t *rng,uint8_t NumRNG){
 		while(!rngflag);
 		rngflag =0;
 		uint32_t temp_rng = HAL_RNG_ReadLastRandomNumber(&hrng);
-		//printf("temp_rng %d=%08x\n",i,temp_rng);
 		for(int j=0;j<4;j++){
 			rng[j+i*4] = (uint8_t)(temp_rng >> (j*8));
-			//printf("temp_rng %d=%08x\n",j+i*4,rng[j+i*4]);
 		}
 	}
 }
@@ -1060,16 +1280,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	  Timer++;
 	  if(Timer == TimeoutValue){
 		  DeviceState=false;
-		  TimerState=true;		//false is lock true unlock
+		  TimerState=true;		//false is lock, true unlock
 		  state=Lock;
 		  Timer=0;
-		  //printf("Timeout happend\n");
 	  }
   }else{
-	  //TimerState=false;
 	  Timer=0;
   }
-  //HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
 }
 /* USER CODE END 4 */
 

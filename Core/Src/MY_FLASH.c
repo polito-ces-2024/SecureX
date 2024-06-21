@@ -119,7 +119,6 @@ void write_flash(uint32_t idx, uint8_t *wrBuf, uint32_t Nsize){
 	MY_FLASH_ReadN(0,temp_mem,500,DATA_TYPE_8);
 	for (int i=0;i<Nsize;i++){
 		temp_mem[idx+i] = wrBuf[i];
-		//printf("temp is = %02x\n",wrBuf[i]);
 	}
 	MY_FLASH_WriteN(0,temp_mem,500,DATA_TYPE_8);
 }
