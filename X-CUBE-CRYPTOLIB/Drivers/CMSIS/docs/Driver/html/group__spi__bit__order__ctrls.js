@@ -1,5 +1,3 @@
-var group__spi__bit__order__ctrls =
-[
-    [ "ARM_SPI_MSB_LSB", "group__spi__bit__order__ctrls.html#ga98228a708cbab6e214c7ac696f77dab6", null ],
-    [ "ARM_SPI_LSB_MSB", "group__spi__bit__order__ctrls.html#ga41c53c3b396a89ce78018467e561aaaf", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:8e5283bbf0ce27e7a151082cfdea8647a3770c458fe88175863838185b2189ac
+size 251

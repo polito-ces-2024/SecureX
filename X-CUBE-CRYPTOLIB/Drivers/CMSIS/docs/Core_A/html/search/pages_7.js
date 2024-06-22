@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['using_20cmsis_20with_20generic_20arm_20processors',['Using CMSIS with generic Arm Processors',['../using_ARM_pg.html',1,'using_pg']]],
-  ['using_20cmsis_20in_20embedded_20applications',['Using CMSIS in Embedded Applications',['../using_pg.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:c7eef36fe6264e3673027ccd17cb459275dfd7e99743141c6df2167b3c4dfdf7
+size 278

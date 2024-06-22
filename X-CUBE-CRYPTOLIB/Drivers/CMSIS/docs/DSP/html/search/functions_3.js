@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['getinput',['getinput',['../arm__signal__converge__example__f32_8c.html#afd2975c4763ec935771e6f63bfe7758b',1,'arm_signal_converge_example_f32.c']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:8e254f408dc8ee98c47d8fb87c62151229e9fb1891cbe0388270bbc8f1a332a9
+size 172

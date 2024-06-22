@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['thread_20management',['Thread Management',['../group__CMSIS__RTOS__ThreadMgmt.html',1,'']]],
-  ['timer_20management',['Timer Management',['../group__CMSIS__RTOS__TimerMgmt.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:2f99423459e2fcdced47a63d31b97e7cf47adeabe4b51588502874e44a1ea4e6
+size 211

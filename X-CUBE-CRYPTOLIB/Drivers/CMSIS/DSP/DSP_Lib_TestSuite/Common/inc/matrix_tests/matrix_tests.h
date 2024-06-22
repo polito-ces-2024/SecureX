@@ -1,17 +1,3 @@
-#ifndef _MATRIX_TESTS_H_
-#define _MATRIX_TESTS_H_
-
-/*--------------------------------------------------------------------------------*/
-/* Test/Group Declarations */
-/*--------------------------------------------------------------------------------*/
-JTEST_DECLARE_GROUP(mat_add_tests);
-JTEST_DECLARE_GROUP(mat_cmplx_mult_tests);
-JTEST_DECLARE_GROUP(mat_init_tests);
-JTEST_DECLARE_GROUP(mat_inverse_tests);
-JTEST_DECLARE_GROUP(mat_mult_tests);
-JTEST_DECLARE_GROUP(mat_mult_fast_tests);
-JTEST_DECLARE_GROUP(mat_sub_tests);
-JTEST_DECLARE_GROUP(mat_trans_tests);
-JTEST_DECLARE_GROUP(mat_scale_tests);
-
-#endif /* _MATRIX_TESTS_H_ */
+version https://git-lfs.github.com/spec/v1
+oid sha256:a6f5301f2800e07e7782e3f513179ebc45701e18563f91cfc6595e91aa87ffe4
+size 629

@@ -1,11 +1,3 @@
-#ifndef _SUPPORT_TESTS_H_
-#define _SUPPORT_TESTS_H_
-
-/*--------------------------------------------------------------------------------*/
-/* Test/Group Declarations */
-/*--------------------------------------------------------------------------------*/
-JTEST_DECLARE_GROUP(copy_tests);
-JTEST_DECLARE_GROUP(fill_tests);
-JTEST_DECLARE_GROUP(x_to_y_tests);
-
-#endif /* _SUPPORT_TESTS_H_ */
+version https://git-lfs.github.com/spec/v1
+oid sha256:6ffd9eb154c7db708c9022ac4b7710f890b66484dc08feb9026645798de5ec4e
+size 386

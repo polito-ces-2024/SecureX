@@ -1,4 +1,3 @@
-CMSIS DSP_Lib example arm_dotproduct_example for
-  Cortex-M0, Cortex-M3, Cortex-M4 with FPU and Cortex-M7 with single precision FPU.
-
-The example is configured for uVision Simulator.
+version https://git-lfs.github.com/spec/v1
+oid sha256:47ea6adf2cd5f6e63e46d316fd5f73eb41b307017194c8d4b799b638f5ba95fc
+size 183

@@ -1,13 +1,3 @@
-var NAVTREEINDEX0 =
-{
-"cm_revisionHistory.html":[1],
-"index.html":[],
-"index.html":[0],
-"index.html#CM_Components":[0,0],
-"index.html#CM_Pack_Content":[0,5],
-"index.html#CodingRules":[0,2],
-"index.html#License":[0,4],
-"index.html#Motivation":[0,1],
-"index.html#Validation":[0,3],
-"pages.html":[]
-};
+version https://git-lfs.github.com/spec/v1
+oid sha256:5701ad033fe4ced321dac5db9f48cb3a6776b03fdb8a5d16bd9e8d6a8c7350a3
+size 299

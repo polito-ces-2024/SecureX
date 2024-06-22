@@ -1,10 +1,3 @@
-var group__DAP__swo__gr =
-[
-    [ "DAP_SWO_Transport", "group__DAP__SWO__Transport.html", null ],
-    [ "DAP_SWO_Mode", "group__DAP__SWO__Mode.html", null ],
-    [ "DAP_SWO_Baudrate", "group__DAP__SWO__Baudrate.html", null ],
-    [ "DAP_SWO_Control", "group__DAP__SWO__Control.html", null ],
-    [ "DAP_SWO_Status", "group__DAP__SWO__Status.html", null ],
-    [ "DAP_SWO_ExtendedStatus", "group__DAP__SWO__ExtendedStatus.html", null ],
-    [ "DAP_SWO_Data", "group__DAP__SWO__Data.html", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:dd00ff0d1dfe644ea7c2b43ed452b47097a962820711a5be11cd2f837874d06e
+size 497

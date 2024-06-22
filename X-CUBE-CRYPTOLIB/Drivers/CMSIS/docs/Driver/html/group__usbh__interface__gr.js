@@ -1,5 +1,3 @@
-var group__usbh__interface__gr =
-[
-    [ "USB Host", "group__usbh__host__gr.html", "group__usbh__host__gr" ],
-    [ "USB OHCI/EHCI", "group__usbh__hci__gr.html", "group__usbh__hci__gr" ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:9b26f61afcd145dd925a828e40563e889319983cea1a27a77b3cb1cd0828e159
+size 189

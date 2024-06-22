@@ -1,8 +1,3 @@
-var createPackUtil =
-[
-    [ "packChk.exe", "packChk.html", [
-      [ "Error and Warning Messages", "packChk.html#packChkMessages", null ]
-    ] ],
-    [ "XML Editors", "cp_Editors.html", null ],
-    [ "ZIP Compression Tools", "cp_ZIPTool.html", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:d5fe14d7d953c4a08c6d17664a2017f84b08af8cb5b52afce8f98a8eccaa1198
+size 255

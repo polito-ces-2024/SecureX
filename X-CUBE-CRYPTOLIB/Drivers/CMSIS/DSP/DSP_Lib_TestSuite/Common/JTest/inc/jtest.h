@@ -1,17 +1,3 @@
-#ifndef _JTEST_H_
-#define _JTEST_H_
-
-/*--------------------------------------------------------------------------------*/
-/* Includes */
-/*--------------------------------------------------------------------------------*/
-
-#include "jtest_fw.h"
-#include "jtest_test.h"
-#include "jtest_test_define.h"
-#include "jtest_test_call.h"
-#include "jtest_group.h"
-#include "jtest_group_define.h"
-#include "jtest_group_call.h"
-#include "jtest_cycle.h"
-
-#endif /* _JTEST_H_ */
+version https://git-lfs.github.com/spec/v1
+oid sha256:04f7f2e6f6811da2f7bdbac716b935e8aca6eb5a6f79d3c7f776603c28515e4f
+size 465

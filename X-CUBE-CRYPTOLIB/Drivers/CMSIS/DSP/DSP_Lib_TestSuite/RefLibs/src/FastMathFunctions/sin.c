@@ -1,11 +1,3 @@
-#include "ref.h"
-
-q31_t ref_sin_q31(q31_t x)
-{
-	return (q31_t)(sinf((float32_t)x * 6.28318530717959f / 2147483648.0f) * 2147483648.0f);
-}
-
-q15_t ref_sin_q15(q15_t x)
-{
-	return (q15_t)(sinf((float32_t)x * 6.28318530717959f / 32768.0f) * 32768.0f);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:23cbf68771a2aad2f75810fd380bef33d9d148da4ae87ca207b4446181e1302d
+size 249

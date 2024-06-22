@@ -1,5 +1,3 @@
-var group__CMSIS__FPEXC =
-[
-    [ "__get_FPEXC", "group__CMSIS__FPEXC.html#gadde57667b9f81c468a49268513624b90", null ],
-    [ "__set_FPEXC", "group__CMSIS__FPEXC.html#ga14ba90beb9b4712454f35ac453c45f5d", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:f140ee5f166d5b45bb42d4ac2cb6a4415407ea79dbf7a0f1a4b57c7c16d16827
+size 213

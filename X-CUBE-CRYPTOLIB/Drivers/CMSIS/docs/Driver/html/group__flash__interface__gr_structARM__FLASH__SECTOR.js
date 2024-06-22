@@ -1,5 +1,3 @@
-var group__flash__interface__gr_structARM__FLASH__SECTOR =
-[
-    [ "start", "group__flash__interface__gr.html#a61eb63d26b2fa6c2971603ceccffb14b", null ],
-    [ "end", "group__flash__interface__gr.html#a204a3f4fa39b9c007f9784d3e4af4667", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:a86f4c8c438fd4a71ae0fdbe1fe2c28ce91ad7052fa6e3abb6d53bdff797ab15
+size 246

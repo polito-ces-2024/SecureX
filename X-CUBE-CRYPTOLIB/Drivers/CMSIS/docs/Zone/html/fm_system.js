@@ -1,10 +1,3 @@
-var fm_system =
-[
-    [ "processor[n] sequence element", "fm_processor.html", null ],
-    [ "../memory[n] sequence element", "fm_memory.html", null ],
-    [ "../peripheral[n] element", "fm_peripheral.html", null ],
-    [ "sau[n] sequence element", "fm_sau.html", null ],
-    [ "interrupt[n] sequence element", "fm_interrupt.html", null ],
-    [ "mpc_setup[n] element", "fm_mpc_setup.html", null ],
-    [ "reg_setup[n] element", "fm_reg_setup.html", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:b802c6f7cd457a7a28b769da9986926142bf52f93d00452f833e8862ecba7b5a
+size 458

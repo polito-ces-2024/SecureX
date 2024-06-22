@@ -1,22 +1,3 @@
-
-/*
- * Auto generated Run-Time-Environment Component Configuration File
- *      *** Do not modify ! ***
- *
- * Project: 'arm_nnexamples_gru' 
- * Target:  'ARMCM4_FP' 
- */
-
-#ifndef RTE_COMPONENTS_H
-#define RTE_COMPONENTS_H
-
-
-/*
- * Define the Device Header File: 
- */
-#define CMSIS_device_header "ARMCM4_FP.h"
-
-#define RTE_Compiler_IO_STDOUT          /* Compiler I/O: STDOUT */
-          #define RTE_Compiler_IO_STDOUT_ITM      /* Compiler I/O: STDOUT ITM */
-
-#endif /* RTE_COMPONENTS_H */
+version https://git-lfs.github.com/spec/v1
+oid sha256:5a2703bf88f3482173d7d4fae3b1455ba26bc25780a9107c3288c87001bd7ad6
+size 487

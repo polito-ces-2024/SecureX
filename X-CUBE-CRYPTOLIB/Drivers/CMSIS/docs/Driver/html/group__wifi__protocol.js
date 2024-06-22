@@ -1,5 +1,3 @@
-var group__wifi__protocol =
-[
-    [ "ARM_SOCKET_IPPROTO_TCP", "group__wifi__protocol.html#gaf07cfcf1b65ea6c6be0629459a2ba781", null ],
-    [ "ARM_SOCKET_IPPROTO_UDP", "group__wifi__protocol.html#gabacbead83c772f5737b25b4fc390e16d", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:1b4da1a7802f7cf41cf2c35f2f97fe94663bad8e77fb4d84f1017892171cb6e4
+size 241

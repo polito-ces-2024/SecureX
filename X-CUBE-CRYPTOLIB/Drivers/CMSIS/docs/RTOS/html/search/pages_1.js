@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['configure_20rtx',['Configure RTX',['../configure.html',1,'rtxImplementation']]],
-  ['configuration_20for_20low_2dpower_20modes',['Configuration for Low-Power Modes',['../lowPower.html',1,'configure']]],
-  ['create_20an_20rtx_20project',['Create an RTX Project',['../using.html',1,'rtxImplementation']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:3d2a1e7adfb4cd77656638b48687a62334bc08f4e6ae8263d2fb7fe48116a462
+size 328

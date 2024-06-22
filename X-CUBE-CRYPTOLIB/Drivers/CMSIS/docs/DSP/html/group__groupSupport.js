@@ -1,9 +1,3 @@
-var group__groupSupport =
-[
-    [ "Vector Copy", "group__copy.html", "group__copy" ],
-    [ "Vector Fill", "group__Fill.html", "group__Fill" ],
-    [ "Convert 32-bit floating point value", "group__float__to__x.html", "group__float__to__x" ],
-    [ "Convert 16-bit Integer value", "group__q15__to__x.html", "group__q15__to__x" ],
-    [ "Convert 32-bit Integer value", "group__q31__to__x.html", "group__q31__to__x" ],
-    [ "Convert 8-bit Integer value", "group__q7__to__x.html", "group__q7__to__x" ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:49e166055cc161fbb856732b2551645f898dcab68aeec994f9071bee01508de7
+size 501

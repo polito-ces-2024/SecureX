@@ -1,5 +1,3 @@
-var group__CMSIS__TTBR =
-[
-    [ "__get_TTBR0", "group__CMSIS__TTBR.html#ga678997bc01f6d8d48b1d407cec24809d", null ],
-    [ "__set_TTBR0", "group__CMSIS__TTBR.html#gad2ccad052f77c18897c5ceaaf307711e", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:cfad443cb61a9bb6000d05b7bbd10db7d92d3f21db84832ee9f8a66111d81338
+size 210

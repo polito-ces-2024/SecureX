@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['vectors',['Vectors',['../startup__ARMCA9_8c.html#a773f98dc213f4c8c5953d3b8a6db6acc',1,'startup_ARMCA9.c']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:ae50e093acf84c6d64debde18c93c5ffc4463644659ba56409bafb1e45599e1c
+size 133

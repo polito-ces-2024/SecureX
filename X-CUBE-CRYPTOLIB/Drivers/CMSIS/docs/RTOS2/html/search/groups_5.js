@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['kernel_20information_20and_20control',['Kernel Information and Control',['../group__CMSIS__RTOS__KernelCtrl.html',1,'']]],
-  ['kernel_20functions',['Kernel Functions',['../group__rtx__evr__kernel.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:11cb23b488801cc5fa1b679c55c687e9d88bfb7c395fbe878297e279fe93e552
+size 235

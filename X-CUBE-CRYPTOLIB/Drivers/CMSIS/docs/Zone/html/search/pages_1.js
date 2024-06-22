@@ -1,7 +1,3 @@
-var searchData=
-[
-  ['cmsis_2dzone_20use_20cases',['CMSIS-Zone Use Cases',['../UseCases.html',1,'']]],
-  ['cmsis_2dzone_20utility',['CMSIS-Zone Utility',['../zoneToolUsage.html',1,'']]],
-  ['command_20line_20mode',['Command Line Mode',['../zTCLI.html',1,'zoneToolUsage']]],
-  ['create_20a_20cmsis_2dzone_20project',['Create a CMSIS-Zone Project',['../zTUICreateProject.html',1,'zTInteractiveMode']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:05b1563da2ca9f094e23a82af81d50a93476a5e3c22ca4065c5ba36956763400
+size 403

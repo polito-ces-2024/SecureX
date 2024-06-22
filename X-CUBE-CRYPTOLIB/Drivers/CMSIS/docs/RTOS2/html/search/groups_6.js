@@ -1,12 +1,3 @@
-var searchData=
-[
-  ['memory_20management',['Memory Management',['../group__CMSIS__RTOS__MemoryMgmt.html',1,'']]],
-  ['message_20queue',['Message Queue',['../group__CMSIS__RTOS__Message.html',1,'']]],
-  ['mutex_20management',['Mutex Management',['../group__CMSIS__RTOS__MutexMgmt.html',1,'']]],
-  ['memory_20pool',['Memory Pool',['../group__CMSIS__RTOS__PoolMgmt.html',1,'']]],
-  ['macros',['Macros',['../group__rtx5__specific__defines.html',1,'']]],
-  ['memory_20functions',['Memory Functions',['../group__rtx__evr__memory.html',1,'']]],
-  ['memory_20pool_20functions',['Memory Pool Functions',['../group__rtx__evr__memory__pool.html',1,'']]],
-  ['message_20queue_20functions',['Message Queue Functions',['../group__rtx__evr__message__queue.html',1,'']]],
-  ['mutex_20functions',['Mutex Functions',['../group__rtx__evr__mutex.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:dc935eca89b669d4fbc3b4071b245f7380403a388a587e0eaf276e40c876a1d8
+size 844

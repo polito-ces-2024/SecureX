@@ -1,6 +1,3 @@
-var group__CmplxMatrixMult =
-[
-    [ "arm_mat_cmplx_mult_f32", "group__CmplxMatrixMult.html#ga1adb839ac84445b8c2f04efa43faef35", null ],
-    [ "arm_mat_cmplx_mult_q15", "group__CmplxMatrixMult.html#ga63066615e7d6f6a44f4358725092419e", null ],
-    [ "arm_mat_cmplx_mult_q31", "group__CmplxMatrixMult.html#gaaf3c0b171ca8412c77bab9fa90804737", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:2a9d5121f80983b56f2ee01e2be79f3be2d9adbbc1aa6b332f534432014409a9
+size 350

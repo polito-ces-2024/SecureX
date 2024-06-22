@@ -1,7 +1,3 @@
-var group__DAP__Config__gr =
-[
-    [ "Debug Unit Processor", "group__DAP__ConfigMCU__gr.html", null ],
-    [ "Configure I/O Ports and Debug Unit", "group__DAP__ConfigIO__gr.html", "group__DAP__ConfigIO__gr" ],
-    [ "Configure USB Peripheral", "group__DAP__ConfigUSB__gr.html", "group__DAP__ConfigUSB__gr" ],
-    [ "Flash Program Firmware", "group__DAP__ConfigFlash__gr.html", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:e0fed25cbfc59acfe8e8002b97b637de9ec45e57ae57ce0001910f793bea09e6
+size 386

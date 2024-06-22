@@ -1,9 +1,3 @@
-#ifndef _FAST_MATH_TEST_GROUP_H_
-#define _FAST_MATH_TEST_GROUP_H_
-
-/*--------------------------------------------------------------------------------*/
-/* Declare Test Groups */
-/*--------------------------------------------------------------------------------*/
-JTEST_DECLARE_GROUP(fast_math_tests);
-
-#endif /* _FAST_MATH_TEST_GROUP_H_ */
+version https://git-lfs.github.com/spec/v1
+oid sha256:cbc73d71375b78d2620e06c140202a95ae061b7e94c8f002d037f449dc428ac1
+size 340

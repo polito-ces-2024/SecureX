@@ -1,7 +1,3 @@
-CMSIS NN Lib example arm_nnexample_gru0 for
-  Cortex-M0, Cortex-M3, Cortex-M4 and Cortex-M7.
-
-The example is configured for IAR Embedded Workbench for ARM Simulator.
-
-When changing target, remember to change the ARM_MATH_CMx and __FPU_PRESENT
-Preprocessor defines for C/C++ Compiler
+version https://git-lfs.github.com/spec/v1
+oid sha256:2c93d87fd539879ff99111462add27b7c54a0519d5942926a4766c50ff4520e8
+size 282

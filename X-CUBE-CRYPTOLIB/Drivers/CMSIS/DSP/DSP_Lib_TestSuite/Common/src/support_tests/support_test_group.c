@@ -1,10 +1,3 @@
-#include "jtest.h"
-#include "support_tests.h"
-
-JTEST_DEFINE_GROUP(support_tests)
-{
-    JTEST_GROUP_CALL(copy_tests);
-    JTEST_GROUP_CALL(fill_tests);
-    JTEST_GROUP_CALL(x_to_y_tests);
-    return;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:986a295306a0548a107dc40fffce6fb7eb573e2f0318901958a4c007ed63394c
+size 201

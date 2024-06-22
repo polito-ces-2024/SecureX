@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['dct_20type_20iv_20functions',['DCT Type IV Functions',['../group__DCT4__IDCT4.html',1,'']]],
-  ['dct_20type_20iv_20tables',['DCT Type IV Tables',['../group__DCT4__IDCT4__Table.html',1,'']]],
-  ['dot_20product_20example',['Dot Product Example',['../group__DotproductExample.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:47ce4ca73a7e47589231c442e34d6b55b91bcc1373aa7e5a5a9ac01dbdd64ebe
+size 312

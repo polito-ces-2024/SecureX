@@ -1,3 +1,3 @@
-# Copyright (c) *2014* STMicroelectronics
-
-This software component is licensed by STMicroelectronics under the **BSD-3-Clause** license. You may not use this software except in compliance with this license. You may obtain a copy of the license [here](https://opensource.org/licenses/BSD-3-Clause).
+version https://git-lfs.github.com/spec/v1
+oid sha256:3574f922e511406c3a40694c8ac98b04aabce5cdee7e1ff50be3623b0f8f178f
+size 297

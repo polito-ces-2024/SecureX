@@ -1,11 +1,3 @@
-var group__USART__control =
-[
-    [ "USART Mode Control", "group__usart__mode__control.html", "group__usart__mode__control" ],
-    [ "USART Miscellaneous Control", "group__usart__misc__control.html", "group__usart__misc__control" ],
-    [ "USART Data Bits", "group__usart__data__bits.html", "group__usart__data__bits" ],
-    [ "USART Parity Bit", "group__usart__parity__bit.html", "group__usart__parity__bit" ],
-    [ "USART Stop Bits", "group__usart__stop__bits.html", "group__usart__stop__bits" ],
-    [ "USART Flow Control", "group__usart__flow__control.html", "group__usart__flow__control" ],
-    [ "USART Clock Polarity", "group__usart__clock__polarity.html", "group__usart__clock__polarity" ],
-    [ "USART Clock Phase", "group__usart__clock__phase.html", "group__usart__clock__phase" ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:ee9cb2915e530abcb75b4ff78d66ea0f0e446a52af2585349ca007c040675034
+size 795

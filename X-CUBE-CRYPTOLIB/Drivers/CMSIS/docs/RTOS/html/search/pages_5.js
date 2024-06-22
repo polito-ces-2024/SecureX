@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['misra_2dc_3a2004_20compliance_20exceptions',['MISRA-C:2004 Compliance Exceptions',['../misraCompliance.html',1,'rtxImplementation']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:b63222398931ce4c792f41e6e5e4863f0977a2d352a2a27d41f04b11ae5d9383
+size 159

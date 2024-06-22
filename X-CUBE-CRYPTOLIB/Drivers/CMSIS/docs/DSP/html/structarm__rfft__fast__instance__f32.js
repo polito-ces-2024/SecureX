@@ -1,6 +1,3 @@
-var structarm__rfft__fast__instance__f32 =
-[
-    [ "fftLenRFFT", "structarm__rfft__fast__instance__f32.html#aef06ab665041ec36f5b25d464f0cab14", null ],
-    [ "pTwiddleRFFT", "structarm__rfft__fast__instance__f32.html#ad1a1bd8b12b49eae674115308d324622", null ],
-    [ "Sint", "structarm__rfft__fast__instance__f32.html#a37419ababdfb3151b1891ae6bcd21012", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:76b8960abca5c12bf707ddb34900f553e094d4ff2fa584ab62cda2886dd72137
+size 363

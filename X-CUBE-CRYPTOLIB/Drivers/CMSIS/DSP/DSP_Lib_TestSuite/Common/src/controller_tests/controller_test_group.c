@@ -1,13 +1,3 @@
-#include "jtest.h"
-#include "controller_tests.h"
-
-JTEST_DEFINE_GROUP(controller_tests)
-{
-    /*
-      To skip a test, comment it out.
-    */
-    JTEST_GROUP_CALL(pid_reset_tests);
-    JTEST_GROUP_CALL(pid_tests);
-    JTEST_GROUP_CALL(sin_cos_tests);
-    return;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:1172414123f4387d3502f852864d6ce0fa7df3f1ca2bb6da088bb2ea0030452c
+size 264

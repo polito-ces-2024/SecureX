@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['systemcoreclockupdate',['SystemCoreClockUpdate',['../group__system__init__gr.html#gae0c36a9591fe6e9c45ecb21a794f0f0f',1,'Ref_SystemAndClock.txt']]],
-  ['systeminit',['SystemInit',['../group__system__init__gr.html#ga93f514700ccf00d08dbdcff7f1224eb2',1,'Ref_SystemAndClock.txt']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:4b8d4e63b91b21d082e51c3e2c377bbebc54040437b0726e7ca90fcb51f97008
+size 304

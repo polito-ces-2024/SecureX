@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['technical_20data',['Technical Data',['../technicalData.html',1,'rtxImplementation']]],
-  ['theory_20of_20operation',['Theory of Operation',['../theory.html',1,'rtxImplementation']]],
-  ['thread_20configuration',['Thread Configuration',['../threadConfig.html',1,'configure']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:be3d1fdc51bcba733baae83063d61139dde4844a90e4b796de73736c86d0eff6
+size 301

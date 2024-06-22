@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['block_5fsize',['BLOCK_SIZE',['../arm__fir__example__f32_8c.html#ad51ded0bbd705f02f73fc60c0b721ced',1,'arm_fir_example_f32.c']]],
-  ['blocksize',['BLOCKSIZE',['../arm__graphic__equalizer__example__q31_8c.html#afcf795f5a96fd55561abe69f56224630',1,'BLOCKSIZE():&#160;arm_graphic_equalizer_example_q31.c'],['../arm__signal__converge__example__f32_8c.html#afcf795f5a96fd55561abe69f56224630',1,'BLOCKSIZE():&#160;arm_signal_converge_example_f32.c']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:652be4ddf60baaec875ad3994b907fef434aff758a9339480ba8e894271b88be
+size 470

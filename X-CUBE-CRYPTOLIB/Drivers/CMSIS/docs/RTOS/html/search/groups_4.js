@@ -1,7 +1,3 @@
-var searchData=
-[
-  ['mail_20queue',['Mail Queue',['../group__CMSIS__RTOS__Mail.html',1,'']]],
-  ['message_20queue',['Message Queue',['../group__CMSIS__RTOS__Message.html',1,'']]],
-  ['mutexes',['Mutexes',['../group__CMSIS__RTOS__MutexMgmt.html',1,'']]],
-  ['memory_20pool',['Memory Pool',['../group__CMSIS__RTOS__PoolMgmt.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:88020e949d2cba1023d353c6c887b64dc97c2325c671bf7094db5a2e816da9d7
+size 340

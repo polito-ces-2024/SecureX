@@ -1,7 +1,3 @@
-var group__eth__mac__control =
-[
-    [ "Ethernet MAC Controls", "group__eth__mac__ctrls.html", "group__eth__mac__ctrls" ],
-    [ "Ethernet MAC Configuration", "group__eth__mac__configuration__ctrls.html", "group__eth__mac__configuration__ctrls" ],
-    [ "Ethernet MAC Flush Flags", "group__eth__mac__flush__flag__ctrls.html", "group__eth__mac__flush__flag__ctrls" ],
-    [ "Ethernet MAC VLAN Filter Flag", "group__eth__mac__vlan__filter__ctrls.html", "group__eth__mac__vlan__filter__ctrls" ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:fe4c5c26a598c969dc847fa03639e04ed6f92a02395cf71226ab5fc4214b6a4c
+size 494

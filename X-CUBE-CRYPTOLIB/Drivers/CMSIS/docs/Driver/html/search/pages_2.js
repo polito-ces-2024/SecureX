@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['revision_20history_20of_20cmsis_2ddriver',['Revision History of CMSIS-Driver',['../driver_revisionHistory.html',1,'']]],
-  ['reference_20implementation',['Reference Implementation',['../referenceImplementation.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:bc369ccd89a533dd7cf44f24383efebd7895a02761eb355e3046aa820688da7d
+size 249

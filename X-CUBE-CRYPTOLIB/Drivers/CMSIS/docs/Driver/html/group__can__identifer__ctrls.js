@@ -1,5 +1,3 @@
-var group__can__identifer__ctrls =
-[
-    [ "ARM_CAN_STANDARD_ID", "group__can__identifer__ctrls.html#ga561635b816ddaf5fb87377155fc692c7", null ],
-    [ "ARM_CAN_EXTENDED_ID", "group__can__identifer__ctrls.html#gae7d4efb6fb49e1ec47c2b12e22f37cae", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:7bdc8ec3d5a017cb5e4eb40d004260db0bd2801f078821c3ecfdf5086e6623e2
+size 256

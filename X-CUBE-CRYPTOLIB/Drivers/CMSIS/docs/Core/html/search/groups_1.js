@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['d_2dcache_20functions',['D-Cache Functions',['../group__Dcache__functions__m7.html',1,'']]],
-  ['debug_20access',['Debug Access',['../group__ITM__Debug__gr.html',1,'']]],
-  ['define_20values',['Define values',['../group__mpu__defines.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:b8d1d655d16600e3cf3f173c6814fb0310b21e36cf5b37975230eaf71eef3557
+size 273

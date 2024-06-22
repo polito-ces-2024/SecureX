@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['convolutional_20neural_20network_20example',['Convolutional Neural Network Example',['../group__CNNExample.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:995585b36ba410999969d8afe183e7553b60ef1ce1542f07552c0c29cccd9451
+size 146

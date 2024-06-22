@@ -1,31 +1,3 @@
-cmake_minimum_required (VERSION 3.6)
-
-project(CMSISDSPCommon)
-
-
-
-add_library(CMSISDSPCommon STATIC arm_common_tables.c)
-
-if (CONFIGTABLE AND ALLFFT)
-    target_compile_definitions(CMSISDSPCommon PUBLIC ARM_ALL_FFT_TABLES) 
-endif()
-
-if (CONFIGTABLE AND ALLFAST)
-    target_compile_definitions(CMSISDSPCommon PUBLIC ARM_ALL_FAST_TABLES) 
-endif()
-
-include(fft)
-fft(CMSISDSPCommon)
-
-include(interpol)
-interpol(CMSISDSPCommon)
-
-target_sources(CMSISDSPCommon PRIVATE arm_const_structs.c)
-
-configdsp(CMSISDSPCommon ..)
-
-### Includes
-target_include_directories(CMSISDSPCommon PUBLIC "${DSP}/../../Include")
-
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:b3c47e03d5e5ef0c94ff7ffce75d40073ba9cddcbdc3312996c396e5ffaeb3df
+size 602

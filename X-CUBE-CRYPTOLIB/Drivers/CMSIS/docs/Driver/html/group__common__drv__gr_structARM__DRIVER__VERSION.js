@@ -1,5 +1,3 @@
-var group__common__drv__gr_structARM__DRIVER__VERSION =
-[
-    [ "api", "group__common__drv__gr.html#ad180da20fbde1d3dafc074af87c19540", null ],
-    [ "drv", "group__common__drv__gr.html#adcd153bc4507926c792e86ebe74e6455", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:e44fe6691563b4298fcfcf663915f05e76f378dfe3e66f09360af32f53df97aa
+size 231

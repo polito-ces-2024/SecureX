@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['real_20fft_20functions',['Real FFT Functions',['../group__RealFFT.html',1,'']]],
-  ['real_20fft_20tables',['Real FFT Tables',['../group__RealFFT__Table.html',1,'']]],
-  ['root_20mean_20square_20_28rms_29',['Root mean square (RMS)',['../group__RMS.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:aff7a4719e321c6173560f6e645e426d47ac5a4d7e38ac3dc19d82db3c27e7fb
+size 286

@@ -1,5 +1,3 @@
-var group__NNBasicMath =
-[
-    [ "arm_nn_mult_q15", "group__NNBasicMath.html#ga08f8340aa6533271b3aa6d211614fe22", null ],
-    [ "arm_nn_mult_q7", "group__NNBasicMath.html#gad46c9ab012cceda8ce6681c687a58c70", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:7d10d65206be077380fd44273263a6179c1ee68c18cd70d5aaba7e03aca74881
+size 217

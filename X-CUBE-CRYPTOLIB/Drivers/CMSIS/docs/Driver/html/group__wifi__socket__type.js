@@ -1,5 +1,3 @@
-var group__wifi__socket__type =
-[
-    [ "ARM_SOCKET_SOCK_STREAM", "group__wifi__socket__type.html#ga9567d5735856190b2ae9cc39f68637f1", null ],
-    [ "ARM_SOCKET_SOCK_DGRAM", "group__wifi__socket__type.html#gaced5f33eda2fc38a8303cd11a0d76fab", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:604c004031b81e6f320264cd271f7bbc667966f8d436493fe0c5bfdc64d87413
+size 252

@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['load',['load',['../rtx__os_8h.html#aee4a6239f04d660fc90663dd6b39ca95',1,'osRtxTimer_t']]],
-  ['lock',['lock',['../rtx__os_8h.html#a92435efb84d6814afd444fd462802e9c',1,'osRtxMutex_t']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:07546bb4c75445773a3bd3cc91a4f27ebec5086b68fcad157a2a199d2d49adbd
+size 210

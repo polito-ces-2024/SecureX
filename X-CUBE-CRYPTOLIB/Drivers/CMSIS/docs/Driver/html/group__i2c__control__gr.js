@@ -1,5 +1,3 @@
-var group__i2c__control__gr =
-[
-    [ "I2C Control Codes", "group__i2c__control__codes.html", "group__i2c__control__codes" ],
-    [ "I2C Bus Speed", "group__i2c__bus__speed__ctrls.html", "group__i2c__bus__speed__ctrls" ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:66423dab7741dbb82bc6bf5220cad508369936ddaf93817b3740684bd5310192
+size 223

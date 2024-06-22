@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['vector_20base_20address_20register_20_28vbar_29',['Vector Base Address Register (VBAR)',['../group__CMSIS__VBAR.html',1,'']]],
-  ['version_20control',['Version Control',['../group__version__ctrl.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:bd71a48c54a715d47a40d8fbd67cd697e4005bbabf3f3326b47577fac28acee6
+size 234

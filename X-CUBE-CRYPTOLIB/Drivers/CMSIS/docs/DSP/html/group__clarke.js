@@ -1,5 +1,3 @@
-var group__clarke =
-[
-    [ "arm_clarke_f32", "group__clarke.html#ga82d40c62bb48ef4d613f1f2f685b4084", null ],
-    [ "arm_clarke_q31", "group__clarke.html#ga8d68db2a6e26e1caab677f5ab293c068", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:a31242d0f3d52e91b6cf96dd9d910f7625847e99b7ec37f6d98f69c715c1d1e0
+size 201

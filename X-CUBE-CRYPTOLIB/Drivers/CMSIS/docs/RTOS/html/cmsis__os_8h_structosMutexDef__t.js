@@ -1,4 +1,3 @@
-var cmsis__os_8h_structosMutexDef__t =
-[
-    [ "dummy", "cmsis__os_8h.html#a44b7a3baf02bac7ad707e8f2f5eca1ca", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:3e4e04fe2052b8b1f6d3677bd346cd93d459c60b8568a0bdff196c16be1fed46
+size 120

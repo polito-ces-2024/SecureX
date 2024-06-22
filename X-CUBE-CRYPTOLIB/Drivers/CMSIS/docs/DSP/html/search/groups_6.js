@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['high_20precision_20q31_20biquad_20cascade_20filter',['High Precision Q31 Biquad Cascade Filter',['../group__BiquadCascadeDF1__32x64.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:e4d6222256c4e90dfd7519741fe932ad110778203835438093959cdfc89d5119
+size 171

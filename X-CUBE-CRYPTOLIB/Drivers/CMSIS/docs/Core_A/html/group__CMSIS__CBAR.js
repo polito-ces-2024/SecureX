@@ -1,5 +1,3 @@
-var group__CMSIS__CBAR =
-[
-    [ "CBAR Bits", "group__CMSIS__CBAR__BITS.html", null ],
-    [ "__get_CBAR", "group__CMSIS__CBAR.html#gab0f00668bb0f6cbe3cc8b90535d66d8e", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:05f0ad789adaa1825643de3db47a54f8cc0657e42bce3efe83889be48b3ec02b
+size 178

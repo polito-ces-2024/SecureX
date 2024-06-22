@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['history_2etxt',['history.txt',['../history_8txt.html',1,'']]],
-  ['hardware_20requirements',['Hardware Requirements',['../pHardwareRequirements.html',1,'technicalData5']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:2171aa3fc45b39bb554338e771bc4083454ae82d1c6e357f922bd700c1429e54
+size 197

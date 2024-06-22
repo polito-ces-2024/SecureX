@@ -1,6 +1,3 @@
-var structarm__fir__instance__f32 =
-[
-    [ "numTaps", "structarm__fir__instance__f32.html#a20cf98c92b5323799b7881c9ff4d2f7c", null ],
-    [ "pCoeffs", "structarm__fir__instance__f32.html#aa590e6c845fcb19e027d77307c8ef016", null ],
-    [ "pState", "structarm__fir__instance__f32.html#a7afcf4022e8560db9b8fd28b0d090a15", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:d7e5b4fb4a563f2dcb067bf175a46bb1d06d9cdaf16eda6ae67e85e8e7425cbc
+size 329

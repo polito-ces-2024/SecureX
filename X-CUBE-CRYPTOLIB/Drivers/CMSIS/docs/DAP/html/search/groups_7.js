@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['swd_20commands',['SWD Commands',['../group__DAP__swd__gr.html',1,'']]],
-  ['swo_20commands',['SWO Commands',['../group__DAP__swo__gr.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:6b17ea566d9d2f4dc25ca43ab4ae78c78a3914c5ff4261546415e9b9a40d59c5
+size 172

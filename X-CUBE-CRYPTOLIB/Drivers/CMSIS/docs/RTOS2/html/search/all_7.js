@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['generic_20wait_20functions',['Generic Wait Functions',['../group__CMSIS__RTOS__Wait.html',1,'']]],
-  ['generic_20rtos_20interface',['Generic RTOS Interface',['../genRTOS2IF.html',1,'index']]],
-  ['generic_20wait_20functions',['Generic Wait Functions',['../group__rtx__evr__wait.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:4bcaec30203447e607e5892464827372ce99b3d4d300141befa3243bbfebb8a8
+size 317

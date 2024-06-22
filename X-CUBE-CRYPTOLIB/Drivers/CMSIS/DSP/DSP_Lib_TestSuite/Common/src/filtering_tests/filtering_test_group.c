@@ -1,17 +1,3 @@
-#include "jtest.h"
-#include "filtering_tests.h"
-
-JTEST_DEFINE_GROUP(filtering_tests)
-{
-  /*
-    To skip a test, comment it out.
-  */
-  JTEST_GROUP_CALL(biquad_tests);
-  JTEST_GROUP_CALL(conv_tests);
-  JTEST_GROUP_CALL(correlate_tests);
-  JTEST_GROUP_CALL(fir_tests);
-  JTEST_GROUP_CALL(iir_tests);
-  JTEST_GROUP_CALL(lms_tests);
-
-  return;
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:cd83d6a29047a15e03729f0bbadef757e52442699652da81aae2314f2b6ac412
+size 342

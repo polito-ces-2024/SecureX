@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['dobitreverse',['doBitReverse',['../arm__fft__bin__example__f32_8c.html#a4d2e31c38e8172505e0a369a6898657d',1,'arm_fft_bin_example_f32.c']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:b80c148808619b907beaef73acdcc1a75a42f00918adff2e50ee26aae6275577
+size 164

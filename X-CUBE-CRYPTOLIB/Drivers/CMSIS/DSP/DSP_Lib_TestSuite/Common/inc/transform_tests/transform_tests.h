@@ -1,13 +1,3 @@
-#ifndef _TRANSFORM_TESTS_H_
-#define _TRANSFORM_TESTS_H_
-
-/*--------------------------------------------------------------------------------*/
-/* Test/Group Declarations */
-/*--------------------------------------------------------------------------------*/
-JTEST_DECLARE_GROUP(cfft_tests);
-JTEST_DECLARE_GROUP(cfft_family_tests);
-JTEST_DECLARE_GROUP(dct4_tests);
-JTEST_DECLARE_GROUP(rfft_tests);
-JTEST_DECLARE_GROUP(rfft_fast_tests);
-
-#endif /* _TRANSFORM_TESTS_H_ */
+version https://git-lfs.github.com/spec/v1
+oid sha256:521e0f646562200068a65c51b015073d8e937a4adaacf9c1dcf7007acf0bce55
+size 468

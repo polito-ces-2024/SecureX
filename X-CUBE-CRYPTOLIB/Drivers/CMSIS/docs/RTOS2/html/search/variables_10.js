@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['used_5fblocks',['used_blocks',['../rtx__os_8h.html#a444139ba664bc8c262139a9addddb48c',1,'osRtxMpInfo_t']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:331ee040c7856bca267915b83618882f97df217e93069dbc31e56d38cbe6bb38
+size 132

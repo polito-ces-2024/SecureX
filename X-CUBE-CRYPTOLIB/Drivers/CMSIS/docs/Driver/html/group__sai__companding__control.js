@@ -1,6 +1,3 @@
-var group__sai__companding__control =
-[
-    [ "ARM_SAI_COMPANDING_NONE", "group__sai__companding__control.html#ga185919d553cf9204e514136eb375ef08", null ],
-    [ "ARM_SAI_COMPANDING_A_LAW", "group__sai__companding__control.html#gacfd6c74148c0ae90aa6eaaf8e69da3a9", null ],
-    [ "ARM_SAI_COMPANDING_U_LAW", "group__sai__companding__control.html#ga7b571406bcce383140198e53312faee5", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:6d8b62490c4603a8ee43c1685b8e9917ef61dd9d2c2591f445f19a20a5b99769
+size 391

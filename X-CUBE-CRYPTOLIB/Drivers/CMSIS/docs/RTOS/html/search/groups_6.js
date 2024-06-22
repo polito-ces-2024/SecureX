@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['semaphores',['Semaphores',['../group__CMSIS__RTOS__SemaphoreMgmt.html',1,'']]],
-  ['signal_20events',['Signal Events',['../group__CMSIS__RTOS__SignalMgmt.html',1,'']]],
-  ['status_20and_20error_20codes',['Status and Error Codes',['../group__CMSIS__RTOS__Status.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:113ff122d97dac06275d23def13692a19776a9cfb65bdeae031be9f0aa51a638
+size 300

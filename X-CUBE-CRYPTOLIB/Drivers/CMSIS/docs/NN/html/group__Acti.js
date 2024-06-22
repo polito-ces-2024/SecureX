@@ -1,7 +1,3 @@
-var group__Acti =
-[
-    [ "arm_nn_activations_direct_q15", "group__Acti.html#ga8932b57c8d0ee757511af2d40dcc11e7", null ],
-    [ "arm_nn_activations_direct_q7", "group__Acti.html#ga79f11131ae6767d60e03b1f6506b1af8", null ],
-    [ "arm_relu_q15", "group__Acti.html#ga53bcc00e54b802919bb3c89c143ee5ba", null ],
-    [ "arm_relu_q7", "group__Acti.html#ga638e803b4fe00426f401783a6255ca30", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:e3b3ca1de5537c750b48b45d24723416e31f17030c2a137c54782af285bdc0f1
+size 393

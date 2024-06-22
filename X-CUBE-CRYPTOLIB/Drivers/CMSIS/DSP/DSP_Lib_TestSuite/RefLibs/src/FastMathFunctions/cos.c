@@ -1,11 +1,3 @@
-#include "ref.h"
-
-q31_t ref_cos_q31(q31_t x)
-{
-	return (q31_t)(cosf((float32_t)x * 6.28318530717959f / 2147483648.0f) * 2147483648.0f);
-}
-
-q15_t ref_cos_q15(q15_t x)
-{
-	return (q15_t)(cosf((float32_t)x * 6.28318530717959f / 32768.0f) * 32768.0f);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a1bb3edd3834fa9b0c96d6f517cd9ff3e660a270293533837270d154d1ca0976
+size 249

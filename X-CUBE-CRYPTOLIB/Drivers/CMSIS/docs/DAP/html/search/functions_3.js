@@ -1,4 +1,3 @@
-var searchData=
-[
-  ['reset_5ftarget',['RESET_TARGET',['../group__DAP__Config__Initialization__gr.html#gaa0feceaeee69d69927d8a9beb0272dd7',1,'DAP_config.h']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:f019d41cc8cc507cd78643da5d25ad056c583bb3f5cc3dd3bf30d2155eab952d
+size 162

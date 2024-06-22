@@ -1,5 +1,3 @@
-var searchData=
-[
-  ['convert_5fq7_5fq15_5fweights',['convert_q7_q15_weights',['../namespacepara__gen.html#a75db0b43a1b942aa87ff10fd3b73dc8d',1,'para_gen']]],
-  ['convert_5fto_5fx4_5fweights',['convert_to_x4_weights',['../namespacepara__gen.html#ab7f5de20ae32542da9f83a8e99850722',1,'para_gen']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:f1f37b4ef50f94a2a1e69b9c50fdf447fc66828bba4244db5cde5b1e1ba16d0d
+size 300

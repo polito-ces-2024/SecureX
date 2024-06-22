@@ -1,7 +1,3 @@
-var cmsis__os_8h_structosThreadDef__t =
-[
-    [ "instances", "cmsis__os_8h.html#aa4c4115851a098c0b87358ab6c025603", null ],
-    [ "pthread", "cmsis__os_8h.html#ad3c9624ee214329fb34e71f544a6933e", null ],
-    [ "stacksize", "cmsis__os_8h.html#a950b7f81ad4711959517296e63bc79d1", null ],
-    [ "tpriority", "cmsis__os_8h.html#a15da8f23c6fe684b70a73646ada685e7", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:2bcb6c213dcaf741a9d2260635b63728bb9649e146d85f13f9eef0eb0a892515
+size 369

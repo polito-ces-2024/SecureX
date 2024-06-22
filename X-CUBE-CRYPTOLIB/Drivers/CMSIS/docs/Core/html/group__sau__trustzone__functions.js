@@ -1,6 +1,3 @@
-var group__sau__trustzone__functions =
-[
-    [ "TZ_SAU_Disable", "group__sau__trustzone__functions.html#ga42e201cea0a4b09f588a28b751f726fb", null ],
-    [ "TZ_SAU_Enable", "group__sau__trustzone__functions.html#ga187377409289e34838225ce801fb102c", null ],
-    [ "TZ_SAU_Setup", "group__sau__trustzone__functions.html#ga6093bc5939ea8924fbcfdffb8f0553f1", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:854f952413a2d3ce02fd46ace84b740daf0cbf95a602a442792ec70c5bb3bb85
+size 363

@@ -1,6 +1,3 @@
-var group__CAN__events =
-[
-    [ "ARM_CAN_EVENT_SEND_COMPLETE", "group__CAN__events.html#ga486f0f35ebc7e3b5931ee68b56703503", null ],
-    [ "ARM_CAN_EVENT_RECEIVE", "group__CAN__events.html#ga2c1082561eeae3b2b8132e81fc241e47", null ],
-    [ "ARM_CAN_EVENT_RECEIVE_OVERRUN", "group__CAN__events.html#ga6c2d29b5c49d5cd18e97f5931157a94c", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:5a8eff8dabc5bd20c423d4ba0edd393830918a53c41b0134dd8853bb430b487e
+size 345

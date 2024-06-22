@@ -1,5 +1,3 @@
-var group__CMSIS__RTOS__Wait =
-[
-    [ "osDelay", "group__CMSIS__RTOS__Wait.html#gaf6055a51390ef65b6b6edc28bf47322e", null ],
-    [ "osDelayUntil", "group__CMSIS__RTOS__Wait.html#ga3c807924c2d6d43bc2ffb49da3f7f3a1", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:843887aa6233f62a126671103d860f06bf1711224d87a3ae725f1ab1aa08ed0a
+size 225

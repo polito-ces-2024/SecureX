@@ -1,9 +1,3 @@
-var xml_rzone_pg =
-[
-    [ "/rzone/creator element", "xml_creator.html", null ],
-    [ "/rzone/device element", "xml_device.html", [
-      [ "/rzone/device/package element", "xml_device.html#xml_package", null ],
-      [ "/rzone/device/processor element", "xml_device.html#xml_processor", null ]
-    ] ],
-    [ "/rzone/resources element", "xml_resources.html", "xml_resources" ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:c9533f6f4307f533bfcbbdf0b85680e52f82f4fae3c12efb1c435e0bdea66f66
+size 381

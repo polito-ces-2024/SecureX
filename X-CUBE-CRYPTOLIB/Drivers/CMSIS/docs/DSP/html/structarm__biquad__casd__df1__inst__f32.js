@@ -1,6 +1,3 @@
-var structarm__biquad__casd__df1__inst__f32 =
-[
-    [ "numStages", "structarm__biquad__casd__df1__inst__f32.html#af69820c37a87252c46453e4cfe120585", null ],
-    [ "pCoeffs", "structarm__biquad__casd__df1__inst__f32.html#a4e873ff8bb6273858481cfd4c7f8f6d5", null ],
-    [ "pState", "structarm__biquad__casd__df1__inst__f32.html#a8c245d79e0d8cfabc82409d4b54fb682", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:29e37c06901538b624538cbddfe4dcefc5cd736706de88623d78a9b5f473aa6f
+size 371

@@ -1,6 +1,3 @@
-var searchData=
-[
-  ['cmsis_5fos_2eh',['cmsis_os.h',['../cmsis__os_8h.html',1,'']]],
-  ['cmsis_5fos_2etxt',['cmsis_os.txt',['../cmsis__os_8txt.html',1,'']]],
-  ['cmsis_5fos_5frtx_5fextensions_2eh',['cmsis_os_rtx_extensions.h',['../cmsis__os__rtx__extensions_8h.html',1,'']]]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:8abcc42363610d9bf1998fb951f03966621308f16cdeaf282ddb8f9228bbb401
+size 278

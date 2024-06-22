@@ -1,5 +1,3 @@
-var group__usart__clock__polarity =
-[
-    [ "ARM_USART_CPOL0", "group__usart__clock__polarity.html#ga472d459abb99f1caaff94fa0cdd2ad27", null ],
-    [ "ARM_USART_CPOL1", "group__usart__clock__polarity.html#ga9e5541d8937a9d92e42aeb273138592a", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:78caef0e5e260abb0fe7109123677017bc43f9b9f7dc0c7432a2a767a7216329
+size 251

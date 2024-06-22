@@ -1,5 +1,3 @@
-var group__DAP__Config__Initialization__gr =
-[
-    [ "DAP_SETUP", "group__DAP__Config__Initialization__gr.html#ga6d4656af10c47ec0d6c0389be2dbb4bb", null ],
-    [ "RESET_TARGET", "group__DAP__Config__Initialization__gr.html#gaa0feceaeee69d69927d8a9beb0272dd7", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:c766a31362047749ad4f3c2eb3a1f298bb28a069ff2cbf0704f6ee2661163bb1
+size 269

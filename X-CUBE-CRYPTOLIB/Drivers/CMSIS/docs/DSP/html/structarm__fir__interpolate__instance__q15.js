@@ -1,7 +1,3 @@
-var structarm__fir__interpolate__instance__q15 =
-[
-    [ "L", "structarm__fir__interpolate__instance__q15.html#a5431bdc079e72a973b51d359f7f13603", null ],
-    [ "pCoeffs", "structarm__fir__interpolate__instance__q15.html#a239cee528ee8f79188fc34a94c86673b", null ],
-    [ "phaseLength", "structarm__fir__interpolate__instance__q15.html#ad5178a02a697a77e0d0e60705d9f0a19", null ],
-    [ "pState", "structarm__fir__interpolate__instance__q15.html#a26b864363fa47954248f2590e3a82a3c", null ]
-];
+version https://git-lfs.github.com/spec/v1
+oid sha256:178a239cb54368dc8df34f02433bc7302bbdf861d0d8310462e86c685e1f7ed7
+size 489
