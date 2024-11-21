@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f0720cbc0f45f3b4080eb210f70316a84f694e391fefdce1d78af3c50be2332a
-size 121
+var cmsis__os_8h_structosTimerDef__t =
+[
+    [ "ptimer", "cmsis__os_8h.html#a15773df83aba93f8e61f3737af5fae47", null ]
+];

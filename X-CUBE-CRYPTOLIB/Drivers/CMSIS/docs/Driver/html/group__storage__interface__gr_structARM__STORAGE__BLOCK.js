@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b65dfa5625c6e578ea3dd7831aa21f30f9ca43cd74bfe82cba5559fff7ea94f4
-size 353
+var group__storage__interface__gr_structARM__STORAGE__BLOCK =
+[
+    [ "addr", "group__storage__interface__gr.html#a0e89cf6b9f6cd3125470b1bed2b823df", null ],
+    [ "size", "group__storage__interface__gr.html#af931a8871310b4dad23f0f0b0f623560", null ],
+    [ "attributes", "group__storage__interface__gr.html#ade62c905888479b4f6d078d45cec5830", null ]
+];

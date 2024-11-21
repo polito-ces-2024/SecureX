@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2a877be43cc8a5517f87ee109eaf3e8020b42f2c3ea16c0e6223e4037deacd14
-size 231
+var group__CMSIS__CNTP__CTL =
+[
+    [ "__get_CNTP_CTL", "group__CMSIS__CNTP__CTL.html#gaca4b93d7543b49c1d7e6b4e1c1ff3768", null ],
+    [ "__set_CNTP_CTL", "group__CMSIS__CNTP__CTL.html#ga96a537cd4e121d58aa9f7d2bfccaa66d", null ]
+];

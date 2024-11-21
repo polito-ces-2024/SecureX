@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9c62c82b9ee9ddeb96309b4bab9497c989fe58d613a366987b6b34408258f87a
-size 452
+var group__DAP__genCommands__gr =
+[
+    [ "DAP_Info", "group__DAP__Info.html", null ],
+    [ "DAP_HostStatus", "group__DAP__HostStatus.html", null ],
+    [ "DAP_Connect", "group__DAP__Connect.html", null ],
+    [ "DAP_Disconnect", "group__DAP__Disconnect.html", null ],
+    [ "DAP_WriteABORT", "group__DAP__WriteABORT.html", null ],
+    [ "DAP_Delay", "group__DAP__Delay.html", null ],
+    [ "DAP_ResetTarget", "group__DAP__ResetTarget.html", null ]
+];

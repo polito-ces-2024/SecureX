@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d83a88de20cd8804f8aa1e1ae85f7036b7a1835242719b95ccfe58b40d3df715
-size 379
+var searchData=
+[
+  ['startup_20file_20startup_5f_3cdevice_3e_2ec',['Startup File startup_&lt;device&gt;.c',['../startup_c_pg.html',1,'templates_pg']]],
+  ['system_20configuration_20files_20system_5f_3cdevice_3e_2ec_20and_20system_5f_3cdevice_3e_2eh',['System Configuration Files system_&lt;device&gt;.c and system_&lt;device&gt;.h',['../system_c_pg.html',1,'templates_pg']]]
+];

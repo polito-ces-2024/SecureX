@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:de279034a1488e3e3d68a03eb19e1d06dc2c0a753bf7a670db4b950d8b100b82
-size 242
+var group__usart__clock__phase =
+[
+    [ "ARM_USART_CPHA0", "group__usart__clock__phase.html#ga5eb27c2294b7d14a20d0c7e2ef0a47b4", null ],
+    [ "ARM_USART_CPHA1", "group__usart__clock__phase.html#ga4b9f16371870476739a198c52dba6862", null ]
+];

@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:73c73e38b40023658a947698c39f681bd1e89e52c02b099205d3e7f6a62dc2dc
-size 375
+var group__storage__interface__gr_structARM__STORAGE__CAPABILITIES =
+[
+    [ "asynchronous_ops", "group__storage__interface__gr.html#a15ade4ca762bc6ce72d435a16febb4cc", null ],
+    [ "erase_all", "group__storage__interface__gr.html#a63882f6a571f20aad1b5b3542cdaafa1", null ],
+    [ "reserved", "group__storage__interface__gr.html#aa43c4c21b173ada1b6b7568956f0d650", null ]
+];

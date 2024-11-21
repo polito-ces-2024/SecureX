@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9fa939f4d9eaa4f5220720170dcd096102f8bbba81380ec71d311827eeeec1ad
-size 299
+var searchData=
+[
+  ['detailed_20api_20function_20differences',['Detailed API Function Differences',['../os2MigrationFunctions.html',1,'os2Migration']]],
+  ['directory_20structure_20and_20file_20overview',['Directory Structure and File Overview',['../pDirectory_Files.html',1,'technicalData5']]]
+];

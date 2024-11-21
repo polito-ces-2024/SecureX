@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:27a65027525a396384dc61542e75a00478c34b04c8d566477945c2d8cc86d90c
-size 228
+var group__CMSIS__DACR__BITS =
+[
+    [ "DACR_D_Msk_", "group__CMSIS__DACR__BITS.html#ga41b90c8a7338fbe5e5b06be083ba22fe", null ],
+    [ "DACR_D_Pos_", "group__CMSIS__DACR__BITS.html#ga2c014e929b74e6ded5e89a74903ce975", null ]
+];

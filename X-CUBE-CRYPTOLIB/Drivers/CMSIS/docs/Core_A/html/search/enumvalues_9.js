@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bcd0cd211191f09e62c9e94d578ece6500468be579ca7a46cc198d84a539ef14
-size 411
+var searchData=
+[
+  ['read',['READ',['../core__ca_8h.html#ga2ee598252f996e4f96640b096291d280acb9be765f361bb7efb9073730aac92c6',1,'core_ca.h']]],
+  ['rtclock_5firqn',['RTClock_IRQn',['../ARMCA9_8h.html#a7e1129cd8a196f4284d41db3e82ad5c8abdd513b1533957e93fe0d7f26024d28e',1,'ARMCA9.h']]],
+  ['rw',['RW',['../core__ca_8h.html#ga2ee598252f996e4f96640b096291d280aec2497e0c8af01c04bec31ec0d1d7847',1,'core_ca.h']]]
+];

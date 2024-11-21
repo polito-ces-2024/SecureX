@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fc58888bba01303b03c68b72820ac432796841011c07bb4ab285d811a5c7f884
-size 580
+var group__groupCmplxMath =
+[
+    [ "Complex Conjugate", "group__cmplx__conj.html", "group__cmplx__conj" ],
+    [ "Complex Dot Product", "group__cmplx__dot__prod.html", "group__cmplx__dot__prod" ],
+    [ "Complex Magnitude", "group__cmplx__mag.html", "group__cmplx__mag" ],
+    [ "Complex Magnitude Squared", "group__cmplx__mag__squared.html", "group__cmplx__mag__squared" ],
+    [ "Complex-by-Complex Multiplication", "group__CmplxByCmplxMult.html", "group__CmplxByCmplxMult" ],
+    [ "Complex-by-Real Multiplication", "group__CmplxByRealMult.html", "group__CmplxByRealMult" ]
+];

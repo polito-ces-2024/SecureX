@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3352afcece7db230048cb7771715c52ff697d35c70aab88d8750d2d12cca884b
-size 467
+var modules =
+[
+    [ "Convolutional Neural Network Example", "group__CNNExample.html", null ],
+    [ "Gated Recurrent Unit Example", "group__GRUExample.html", null ],
+    [ "Neural Network Functions", "group__groupNN.html", "group__groupNN" ],
+    [ "Neural Network Data Conversion Functions", "group__nndata__convert.html", "group__nndata__convert" ],
+    [ "Basic Math Functions for Neural Network Computation", "group__NNBasicMath.html", "group__NNBasicMath" ]
+];

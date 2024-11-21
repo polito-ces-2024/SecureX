@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:49c021573ae00f187fffaf4560ead7b7f06ef8899c637f530ee4f83f5da929de
-size 250
+var group__DAP__Config__LEDs__gr =
+[
+    [ "LED_CONNECTED_OUT", "group__DAP__Config__LEDs__gr.html#ga27408c1c7010aa394abdcf0c85d7b798", null ],
+    [ "LED_RUNNING_OUT", "group__DAP__Config__LEDs__gr.html#gaa27ef99d16e3e68759adf1e6cb016e50", null ]
+];

@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f40a297580a755836962100d0bfc3be53c48b325613209f0750752186f99a3ae
-size 220
+var group__MatrixInv =
+[
+    [ "arm_mat_inverse_f32", "group__MatrixInv.html#ga542be7aabbf7a2297a4b62cf212910e3", null ],
+    [ "arm_mat_inverse_f64", "group__MatrixInv.html#gaede2367c02df083cc915ddd5d8fae838", null ]
+];

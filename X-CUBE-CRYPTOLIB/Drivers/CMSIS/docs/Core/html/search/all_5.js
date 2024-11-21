@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cdd4fe436d09806d7ab3c6a499e5489a1a98379a8b0c5456306002232fad2381
-size 120
+var searchData=
+[
+  ['exccnt',['EXCCNT',['../structDWT__Type.html#a9fe20c16c5167ca61486caf6832686d1',1,'DWT_Type']]]
+];

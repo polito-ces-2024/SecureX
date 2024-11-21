@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1d186b7880f96545c2c2779754e6e7401b910f454f365002aa61c0c31127cbdd
-size 146
+var searchData=
+[
+  ['trustzone_20for_20armv8_2dm_2fv8_2e1_2dm',['TrustZone for Armv8-M/v8.1-M',['../group__trustzone__functions.html',1,'']]]
+];

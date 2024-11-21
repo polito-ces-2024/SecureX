@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e60b5e76d6621f3025a7d9dcd748a39a60ab8c87ee30ab54444b8f615c86bae9
-size 353
+var group__storage__interface__gr_structARM__STORAGE__STATUS =
+[
+    [ "busy", "group__storage__interface__gr.html#a50c88f3c1d787773e2ac1b59533f034a", null ],
+    [ "error", "group__storage__interface__gr.html#aa8d183302fdfa4a6892f1d80300cdb32", null ],
+    [ "reserved", "group__storage__interface__gr.html#aa43c4c21b173ada1b6b7568956f0d650", null ]
+];

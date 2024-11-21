@@ -31,6 +31,43 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+typedef enum
+{
+  Lock=0,
+  Reset,
+  Timeout,
+  Enrollment,
+  Menu,
+}StateType;
+#define printf_debug            1
+#if printf_debug
+    #define DEBUG_PRINT(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#else
+    #define DEBUG_PRINT(fmt, ...)
+#endif
+#define sector_name             11
+#define sector_base_address     0x080E0000
+#define BrandNew_address        0
+#define Nusers_address          1
+#define WrongPassword_address   2
+#define GlobalSalt_address      3
+#define MemDatastartpoint       11
+#define TimeoutValue            120 //in second
+//#include "usbd_cdc_if.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include "printf_redirect.h"
+#include "MY_FLASH.h"
+#include "ssd1306_fonts.h"
+#include "ssd1306.h"
+//#include "bitmap.h"
+#include "cmox_crypto.h"
+#include "Button.h"
+#include "Crypto.h"
+#include "RNG.h"
+#include "Menu.h"
+#include "Timer.h"
 
 /* USER CODE END Includes */
 
@@ -57,18 +94,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Green_Pin GPIO_PIN_12
-#define Green_GPIO_Port GPIOD
-#define Orange_Pin GPIO_PIN_13
-#define Orange_GPIO_Port GPIOD
-#define Red_Pin GPIO_PIN_14
-#define Red_GPIO_Port GPIOD
-#define Blue_Pin GPIO_PIN_15
-#define Blue_GPIO_Port GPIOD
-#define Bt1_Pin GPIO_PIN_6
-#define Bt1_GPIO_Port GPIOC
-#define Bt2_Pin GPIO_PIN_7
-#define Bt2_GPIO_Port GPIOC
+#define UP_Pin GPIO_PIN_4
+#define UP_GPIO_Port GPIOC
+#define DOWN_Pin GPIO_PIN_5
+#define DOWN_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 

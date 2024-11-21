@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9fc2bf366cc393c8fe76aba11725d592fd7ad8d1e682f80f41c3c10eac591e0d
-size 353
+var group__CmplxByRealMult =
+[
+    [ "arm_cmplx_mult_real_f32", "group__CmplxByRealMult.html#ga903eb30a02343574e46cb123b52232f4", null ],
+    [ "arm_cmplx_mult_real_q15", "group__CmplxByRealMult.html#gaa41d60a567652bf6a783b916931bf20b", null ],
+    [ "arm_cmplx_mult_real_q31", "group__CmplxByRealMult.html#ga0fe1cd71d35b4481f8ab69d502c96ace", null ]
+];

@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1d620dca652f2b0cea9fe074375d6ccc114551fe1363c67f64a3db7d74ae0320
-size 308
+var group__DAP__transfer__gr =
+[
+    [ "DAP_TransferConfigure", "group__DAP__TransferConfigure.html", null ],
+    [ "DAP_Transfer", "group__DAP__Transfer.html", null ],
+    [ "DAP_TransferBlock", "group__DAP__TransferBlock.html", null ],
+    [ "DAP_TransferAbort", "group__DAP__TransferAbort.html", null ]
+];

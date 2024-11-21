@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3348aa7d0b2068c190228503f694dc73e3946c23c668d10a72b51fc62ffacc06
-size 261
+var searchData=
+[
+  ['generic_20data_20types_20and_20definitions',['Generic Data Types and Definitions',['../group__CMSIS__RTOS__Definitions.html',1,'']]],
+  ['generic_20wait_20functions',['Generic Wait Functions',['../group__CMSIS__RTOS__Wait.html',1,'']]]
+];

@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4cc4ea2cb942fdd4b40816995791fcac5cc060fd706db1395bf77819ab1ae2d8
-size 278
+var cmsis__os_8h_structosPoolDef__t =
+[
+    [ "item_sz", "cmsis__os_8h.html#a4c2a0c691de3365c00ecd22d8102811f", null ],
+    [ "pool", "cmsis__os_8h.html#a269c3935f8bc66db70bccdd02cb05e3c", null ],
+    [ "pool_sz", "cmsis__os_8h.html#ac112e786b2a234e0e45cb5bdbee53763", null ]
+];

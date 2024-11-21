@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c2c3c33c5acf482c97518d059d38d8aff3a2089a486c08563f7cecc261e699b3
-size 180
+CMSIS DSP_Lib example arm_fft_bin_example for
+  Cortex-M0, Cortex-M3, Cortex-M4 with FPU and Cortex-M7 with single precision FPU.
+
+The example is configured for uVision Simulator.

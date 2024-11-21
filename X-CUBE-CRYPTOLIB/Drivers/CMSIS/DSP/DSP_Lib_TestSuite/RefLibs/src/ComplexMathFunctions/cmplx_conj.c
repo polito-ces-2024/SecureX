@@ -1,3 +1,40 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:eb819aa60ecada061fa1cc4b1a3b0d5381a25d9c706acc17d9b08a59d3d757a3
-size 568
+#include "ref.h"
+
+void ref_cmplx_conj_f32(
+  float32_t * pSrc,
+  float32_t * pDst,
+  uint32_t numSamples)
+{
+	uint32_t i;
+	for(i=0;i<numSamples*2;i+=2)
+	{
+		pDst[i] = pSrc[i];
+		pDst[i+1] = -pSrc[i+1];
+	}
+}
+
+void ref_cmplx_conj_q31(
+  q31_t * pSrc,
+  q31_t * pDst,
+  uint32_t numSamples)
+{
+	uint32_t i;
+	for(i=0;i<numSamples*2;i+=2)
+	{
+		pDst[i] = pSrc[i];
+		pDst[i+1] = -pSrc[i+1];
+	}
+}
+
+void ref_cmplx_conj_q15(
+  q15_t * pSrc,
+  q15_t * pDst,
+  uint32_t numSamples)
+{
+	uint32_t i;
+	for(i=0;i<numSamples*2;i+=2)
+	{
+		pDst[i] = pSrc[i];
+		pDst[i+1] = -pSrc[i+1];
+	}
+}

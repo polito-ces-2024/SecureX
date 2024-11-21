@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9aa5f1bf558b0078f26b56d4d131aa831163d785f1d4bf96459e40130f1028d7
-size 271
+#include "jtest.h"
+#include "transform_tests.h"
+
+JTEST_DEFINE_GROUP(transform_tests)
+{
+    JTEST_GROUP_CALL(cfft_tests);
+    JTEST_GROUP_CALL(cfft_family_tests);
+    JTEST_GROUP_CALL(rfft_tests);
+    JTEST_GROUP_CALL(rfft_fast_tests);
+    JTEST_GROUP_CALL(dct4_tests);
+}

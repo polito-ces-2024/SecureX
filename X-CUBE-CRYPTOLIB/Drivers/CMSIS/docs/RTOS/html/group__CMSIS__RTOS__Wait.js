@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8001504f6d66eaf6535fcb4c989fd2c745d67254b580a589bef59ae101eae93d
-size 319
+var group__CMSIS__RTOS__Wait =
+[
+    [ "osFeature_Wait", "group__CMSIS__RTOS__Wait.html#ga6c97d38879ae86491628f6e647639bad", null ],
+    [ "osDelay", "group__CMSIS__RTOS__Wait.html#ga02e19d5e723bfb06ba9324d625162255", null ],
+    [ "osWait", "group__CMSIS__RTOS__Wait.html#ga8470c8aaedfde524a44e22e5b2328285", null ]
+];

@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5a9e87700727720740cbf317efec60c43c0c52d87d66fa4544e11e6e53a9b671
-size 222
+var searchData=
+[
+  ['weight',['weight',['../namespacepara__gen.html#af3dbe004474bc66ad55591f470ff008c',1,'para_gen']]],
+  ['word',['word',['../unionarm__nnword.html#a35c7b2ae25e35e0ddcd9ec0a1a6f8d18',1,'arm_nnword']]]
+];

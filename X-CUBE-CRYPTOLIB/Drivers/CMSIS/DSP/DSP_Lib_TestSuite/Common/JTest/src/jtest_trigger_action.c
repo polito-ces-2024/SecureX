@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2c56904e73c8d23e918ea4a8b488f0aa13f1c773e14c74b77a345acef66948b9
-size 449
+
+#include "jtest_fw.h"
+
+void test_start    (void) {
+//  ;
+  JTEST_FW.test_start++;
+}
+
+void test_end      (void) {
+//  ;
+  JTEST_FW.test_end++;
+}
+
+void group_start   (void) {
+//  ;
+  JTEST_FW.group_start++;
+}
+
+void group_end     (void) {
+//  ;
+  JTEST_FW.group_end++;
+}
+
+void dump_str      (void) {
+//  ;
+  JTEST_FW.dump_str++;
+}
+
+void dump_data     (void) {
+//  ;
+  JTEST_FW.dump_data++;
+}
+
+void exit_fw       (void) {
+//  ;
+  JTEST_FW.exit_fw++;
+}

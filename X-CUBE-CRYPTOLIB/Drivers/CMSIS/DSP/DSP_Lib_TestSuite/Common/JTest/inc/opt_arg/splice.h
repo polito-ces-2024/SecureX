@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f07ef56b69f2917d1a9477f65620a53c0d9afeb6f987ec208fbe64855f998325
-size 161
+#ifndef _SPLICE_H_
+#define _SPLICE_H_
+
+#define SPLICE(a,b) SPLICE_1(a,b)
+#define SPLICE_1(a,b) SPLICE_2(a,b)
+#define SPLICE_2(a,b) a##b
+
+#endif /* _SPLICE_H_ */

@@ -1,3 +1,46 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9f3b7429f852cffec8e9bda33299e319d788b91c7893a121936aad79429d874a
-size 916
+cmake_minimum_required (VERSION 3.6)
+project (arm_variance_example VERSION 0.1)
+
+# Needed to include the configBoot module
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
+
+################################### 
+#
+# LIBRARIES
+#
+###################################
+
+########### 
+#
+# CMSIS DSP
+#
+
+add_subdirectory(../../../Source bin_dsp)
+
+
+################################### 
+#
+# TEST APPLICATION
+#
+###################################
+
+
+add_executable(arm_variance_example)
+
+set(ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../../..)
+
+include(configBoot)
+
+target_sources(arm_variance_example PRIVATE arm_variance_example_f32.c)
+
+### Sources and libs
+
+target_link_libraries(arm_variance_example PRIVATE CMSISDSP)
+
+################################### 
+#
+# INSTALLATION
+#
+###################################
+
+install (TARGETS arm_variance_example DESTINATION "${PROJECT_SOURCE_DIR}/varianceExampleBuild.axf")

@@ -1,3 +1,4 @@
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -20,7 +21,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -63,14 +63,13 @@
   */
 void HAL_MspInit(void)
 {
+
   /* USER CODE BEGIN MspInit 0 */
 
   /* USER CODE END MspInit 0 */
 
   __HAL_RCC_SYSCFG_CLK_ENABLE();
   __HAL_RCC_PWR_CLK_ENABLE();
-
-  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
 
   /* System interrupt init*/
 
@@ -97,6 +96,7 @@ void HAL_CRC_MspInit(CRC_HandleTypeDef* hcrc)
   /* USER CODE BEGIN CRC_MspInit 1 */
 
   /* USER CODE END CRC_MspInit 1 */
+
   }
 
 }
@@ -155,6 +155,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* hi2c)
   /* USER CODE BEGIN I2C1_MspInit 1 */
 
   /* USER CODE END I2C1_MspInit 1 */
+
   }
 
 }
@@ -211,6 +212,7 @@ void HAL_RNG_MspInit(RNG_HandleTypeDef* hrng)
   /* USER CODE BEGIN RNG_MspInit 1 */
 
   /* USER CODE END RNG_MspInit 1 */
+
   }
 
 }
@@ -261,6 +263,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
   /* USER CODE BEGIN TIM2_MspInit 1 */
 
   /* USER CODE END TIM2_MspInit 1 */
+
   }
 
 }

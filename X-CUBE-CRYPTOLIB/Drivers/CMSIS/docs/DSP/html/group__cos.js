@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9b1a35ab577057147d629af6f05ffa575a100ad0a5c2be8c3888e5352cf30873
-size 269
+var group__cos =
+[
+    [ "arm_cos_f32", "group__cos.html#gace15287f9c64b9b4084d1c797d4c49d8", null ],
+    [ "arm_cos_q15", "group__cos.html#gadfd60c24def501638c0d5db20f4c869b", null ],
+    [ "arm_cos_q31", "group__cos.html#gad80f121949ef885a77d83ab36e002567", null ]
+];

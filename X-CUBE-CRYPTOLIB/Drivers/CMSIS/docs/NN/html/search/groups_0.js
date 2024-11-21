@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cd0c441e1df32c2faa32ac6d3f0427461a9de99d63a21404a3eebc1384552cae
-size 183
+var searchData=
+[
+  ['basic_20math_20functions_20for_20neural_20network_20computation',['Basic Math Functions for Neural Network Computation',['../group__NNBasicMath.html',1,'']]]
+];

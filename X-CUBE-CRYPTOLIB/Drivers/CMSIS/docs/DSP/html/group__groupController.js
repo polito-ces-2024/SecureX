@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5f2b7dc3a24fa471bf44922fe1d6ebfeb255954f981014daa165046968cb95e2
-size 476
+var group__groupController =
+[
+    [ "PID Motor Control", "group__PID.html", "group__PID" ],
+    [ "Vector Clarke Transform", "group__clarke.html", "group__clarke" ],
+    [ "Vector Inverse Clarke Transform", "group__inv__clarke.html", "group__inv__clarke" ],
+    [ "Vector Park Transform", "group__park.html", "group__park" ],
+    [ "Vector Inverse Park transform", "group__inv__park.html", "group__inv__park" ],
+    [ "Sine Cosine", "group__SinCos.html", "group__SinCos" ]
+];

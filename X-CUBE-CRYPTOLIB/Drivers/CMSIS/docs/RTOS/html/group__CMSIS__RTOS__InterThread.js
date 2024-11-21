@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1aedeb7dc2a519a535dd3ad3a9f40810349582465e5479293bdc869e5bae2f0e
-size 597
+var group__CMSIS__RTOS__InterThread =
+[
+    [ "Signal Events", "group__CMSIS__RTOS__SignalMgmt.html", "group__CMSIS__RTOS__SignalMgmt" ],
+    [ "Message Queue", "group__CMSIS__RTOS__Message.html", "group__CMSIS__RTOS__Message" ],
+    [ "Memory Pool", "group__CMSIS__RTOS__PoolMgmt.html", "group__CMSIS__RTOS__PoolMgmt" ],
+    [ "Mail Queue", "group__CMSIS__RTOS__Mail.html", "group__CMSIS__RTOS__Mail" ],
+    [ "Mutexes", "group__CMSIS__RTOS__MutexMgmt.html", "group__CMSIS__RTOS__MutexMgmt" ],
+    [ "Semaphores", "group__CMSIS__RTOS__SemaphoreMgmt.html", "group__CMSIS__RTOS__SemaphoreMgmt" ]
+];

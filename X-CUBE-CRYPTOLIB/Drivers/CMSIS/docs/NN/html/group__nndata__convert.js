@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2232210995675de888b91fc6a2800da06514114e16a51670f7346470e151848d
-size 254
+var group__nndata__convert =
+[
+    [ "arm_q7_to_q15_no_shift", "group__nndata__convert.html#gae349de4dba8d253c89d45794ccf05680", null ],
+    [ "arm_q7_to_q15_reordered_no_shift", "group__nndata__convert.html#gaba8fd446d5f54760b406ee63b25d1aee", null ]
+];

@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e72328beaeb81f9af12a5fc79ea49f41abc636626a1b7ad4e1d30a3a45a9b710
-size 224
+var group__inv__clarke =
+[
+    [ "arm_inv_clarke_f32", "group__inv__clarke.html#ga1a73ce96f94b2124d02426690e587197", null ],
+    [ "arm_inv_clarke_q31", "group__inv__clarke.html#ga3bab178431f22d13332a0dfae4390172", null ]
+];

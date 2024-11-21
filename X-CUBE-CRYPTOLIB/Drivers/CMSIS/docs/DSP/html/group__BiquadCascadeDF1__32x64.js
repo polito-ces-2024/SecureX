@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:505daedd20b8d8900112a4981ec1cd98c106984d3c6f43a66a9718e297aeba82
-size 285
+var group__BiquadCascadeDF1__32x64 =
+[
+    [ "arm_biquad_cas_df1_32x64_init_q31", "group__BiquadCascadeDF1__32x64.html#ga426cd78591a717e87d66d1eaa9a3d074", null ],
+    [ "arm_biquad_cas_df1_32x64_q31", "group__BiquadCascadeDF1__32x64.html#ga953a83e69685de6575cff37feb358a93", null ]
+];

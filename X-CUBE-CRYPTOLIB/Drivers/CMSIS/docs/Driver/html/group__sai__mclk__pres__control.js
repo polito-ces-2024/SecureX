@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:27df21a6b04c42984ae33851cc965989370dc69dc109fd98757a862463655952
-size 156
+var group__sai__mclk__pres__control =
+[
+    [ "ARM_SAI_MCLK_PRESCALER", "group__sai__mclk__pres__control.html#ga2afa85cd335e75d8b9b06c9f47f3f4b0", null ]
+];

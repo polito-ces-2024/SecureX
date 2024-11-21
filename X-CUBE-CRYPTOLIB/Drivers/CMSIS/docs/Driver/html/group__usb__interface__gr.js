@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6981af97bb274cd9d7263d0e1c7929a6db8bb445aac00fd44c2b23d1b2608112
-size 389
+var group__usb__interface__gr =
+[
+    [ "USB Device Interface", "group__usbd__interface__gr.html", "group__usbd__interface__gr" ],
+    [ "USB Host Interface", "group__usbh__interface__gr.html", "group__usbh__interface__gr" ],
+    [ "USB Speed", "group__USB__speed.html", "group__USB__speed" ],
+    [ "USB Endpoint Type", "group__USB__endpoint__type.html", "group__USB__endpoint__type" ]
+];

@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2503de24c9b0382d7ad65fed28290ebeca7200666fde3846c40df6629e7712fe
-size 112
+var searchData=
+[
+  ['cmsis_2dsvd_20schema_20file',['CMSIS-SVD Schema File',['../schema_1_2_gr.html',1,'']]]
+];

@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:009074251134da0a1ae4df8a206d2d04059d05baaa3e25d03bcd3739a52dec1b
-size 542
+var group__mci__control__gr =
+[
+    [ "MCI Controls", "group__mci__mode__ctrls.html", "group__mci__mode__ctrls" ],
+    [ "MCI Bus Speed Mode", "group__mci__bus__speed__ctrls.html", "group__mci__bus__speed__ctrls" ],
+    [ "MCI Bus Data Width", "group__mci__bus__data__width__ctrls.html", "group__mci__bus__data__width__ctrls" ],
+    [ "MCI CMD Line Mode", "group__mci__cmd__line__ctrls.html", "group__mci__cmd__line__ctrls" ],
+    [ "MCI Driver Strength", "group__mci__driver__strength__ctrls.html", "group__mci__driver__strength__ctrls" ]
+];

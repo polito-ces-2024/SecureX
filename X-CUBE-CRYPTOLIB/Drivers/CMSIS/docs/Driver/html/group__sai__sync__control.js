@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:89463c7a4715c3e5d7e88efe923040e61f695df5947dc0693e229968b2f63633
-size 248
+var group__sai__sync__control =
+[
+    [ "ARM_SAI_ASYNCHRONOUS", "group__sai__sync__control.html#gad123537cb6ab9eefd6feab193ed74655", null ],
+    [ "ARM_SAI_SYNCHRONOUS", "group__sai__sync__control.html#gad2ad5406c30c353e80f54b40b3de5db8", null ]
+];

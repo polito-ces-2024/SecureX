@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:389ee38fdcef4791fabe08e7697ad94f66d70033fcfd838b348273fdc8c3dadf
-size 328
+#ifndef _MATRIX_TEST_GROUP_H_
+#define _MATRIX_TEST_GROUP_H_
+
+/*--------------------------------------------------------------------------------*/
+/* Declare Test Groups */
+/*--------------------------------------------------------------------------------*/
+JTEST_DECLARE_GROUP(matrix_tests);
+
+#endif /* _MATRIX_TEST_GROUP_H_ */

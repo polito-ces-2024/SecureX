@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3d665450b2b236bf2d8f3be612556258746b3084642b2196a0585791fdace34a
-size 246
+var group__irq__priority__defs =
+[
+    [ "IRQ_PRIORITY_ERROR", "group__irq__priority__defs.html#ga47b19866dc05c58c6923c313b371f881", null ],
+    [ "IRQ_PRIORITY_Msk", "group__irq__priority__defs.html#gabaa4e91ab84dbe5f669080af6d0d81fa", null ]
+];

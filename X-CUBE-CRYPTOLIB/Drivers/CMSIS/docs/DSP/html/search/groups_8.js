@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:002f5ef455c2a9c2e7c07507f016d70466a305865181d15323c3dcbdb6bbb911
-size 345
+var searchData=
+[
+  ['linear_20interpolate_20example',['Linear Interpolate Example',['../group__LinearInterpExample.html',1,'']]],
+  ['linear_20interpolation',['Linear Interpolation',['../group__LinearInterpolate.html',1,'']]],
+  ['least_20mean_20square_20_28lms_29_20filters',['Least Mean Square (LMS) Filters',['../group__LMS.html',1,'']]]
+];

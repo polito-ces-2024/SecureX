@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:292b30f0287bf6c387b05017e2df0761f6e3ad4bf78637859607e73e356a4bb3
-size 208
+var group__CMSIS__VBAR =
+[
+    [ "__get_VBAR", "group__CMSIS__VBAR.html#ga8abf5c92597d8e7d403aa26d8246387c", null ],
+    [ "__set_VBAR", "group__CMSIS__VBAR.html#ga582f9a60f7b090ae5a4e8f60ef3b79f8", null ]
+];

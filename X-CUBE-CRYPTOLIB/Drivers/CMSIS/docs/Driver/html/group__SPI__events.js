@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bcb11e0ad48ab66f70293a5f47b8e4d6532e184f85fb5bb077e1095c92e1c8f6
-size 346
+var group__SPI__events =
+[
+    [ "ARM_SPI_EVENT_TRANSFER_COMPLETE", "group__SPI__events.html#gaabdfc9e17641144cd50d36d15511a1b8", null ],
+    [ "ARM_SPI_EVENT_DATA_LOST", "group__SPI__events.html#ga8e63d99c80ea56de596a8d0a51fd8244", null ],
+    [ "ARM_SPI_EVENT_MODE_FAULT", "group__SPI__events.html#ga7eaa229003689aa18598273490b3e630", null ]
+];

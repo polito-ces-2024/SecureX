@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:132d6c65c1a8755cf4b1810e16557a387087679fb852dc1313e40c3009c2d0e8
-size 456
+var searchData=
+[
+  ['domain_20access_20control_20register_20_28dacr_29',['Domain Access Control Register (DACR)',['../group__CMSIS__DACR.html',1,'']]],
+  ['dacr_20bits',['DACR Bits',['../group__CMSIS__DACR__BITS.html',1,'']]],
+  ['dacr_20dn_20field_20values',['DACR Dn field values',['../group__CMSIS__DACR__Dn.html',1,'']]],
+  ['data_20fault_20status_20register_20_28dfsr_29',['Data Fault Status Register (DFSR)',['../group__CMSIS__DFSR.html',1,'']]]
+];

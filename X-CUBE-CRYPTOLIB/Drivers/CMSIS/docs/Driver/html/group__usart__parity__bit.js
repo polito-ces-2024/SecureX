@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:deeb641475a962e74b50c45b3ab957451e575bbbb7c7b51907a16f9fafbf40a4
-size 358
+var group__usart__parity__bit =
+[
+    [ "ARM_USART_PARITY_NONE", "group__usart__parity__bit.html#ga141a64650f99a1f642c3b3b6ced0eb8d", null ],
+    [ "ARM_USART_PARITY_EVEN", "group__usart__parity__bit.html#gabc35e8dd2cbebb730abf36959e87a207", null ],
+    [ "ARM_USART_PARITY_ODD", "group__usart__parity__bit.html#ga02f30181eedd3b04d650dd507bf40d6d", null ]
+];

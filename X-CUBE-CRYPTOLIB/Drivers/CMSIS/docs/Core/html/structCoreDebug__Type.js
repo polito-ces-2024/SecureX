@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f0b12b5b05378b0c30e154ae97feb18c76ecc8ea43c14288b3f80c7542689086
-size 379
+var structCoreDebug__Type =
+[
+    [ "DCRDR", "structCoreDebug__Type.html#aab3cc92ef07bc1f04b3a3aa6db2c2d55", null ],
+    [ "DCRSR", "structCoreDebug__Type.html#af907cf64577eaf927dac6787df6dd98b", null ],
+    [ "DEMCR", "structCoreDebug__Type.html#aeb3126abc4c258a858f21f356c0df6ee", null ],
+    [ "DHCSR", "structCoreDebug__Type.html#ad63554e4650da91a8e79929cbb63db66", null ]
+];

@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:095c4d8ced775edff31e562b171129d7e0bdee6128fc8cf500ba282faf4a1d6e
-size 380
+var structarm__bilinear__interp__instance__f32 =
+[
+    [ "numCols", "structarm__bilinear__interp__instance__f32.html#aede17bebfb1f835b61d71dd813eab3f8", null ],
+    [ "numRows", "structarm__bilinear__interp__instance__f32.html#a34f2b17cc57b95011960df9718af6ed6", null ],
+    [ "pData", "structarm__bilinear__interp__instance__f32.html#afd1e764591c991c212d56c893efb5ea4", null ]
+];

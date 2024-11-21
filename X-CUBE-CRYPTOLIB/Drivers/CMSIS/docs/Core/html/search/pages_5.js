@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b714165f7c102cd3db6e9f0d086f479b0935c673759f318c82df4190b503b16b
-size 243
+var searchData=
+[
+  ['revision_20history_20of_20cmsis_2dcore_20_28cortex_2dm_29',['Revision History of CMSIS-Core (Cortex-M)',['../core_revisionHistory.html',1,'']]],
+  ['register_20mapping',['Register Mapping',['../regMap_pg.html',1,'']]]
+];

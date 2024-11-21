@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e3b1576f3c8bdaeac2e26862acaea71c9c39600fbba9990ef87d6434e64ec07e
-size 533
+var zoneToolUsage =
+[
+    [ "Installation", "zTInstall.html", null ],
+    [ "User Interface", "zTUI.html", [
+      [ "CMSIS-Zone GUI", "zTUI.html#zTGUI", null ],
+      [ "Project Explorer", "zTUI.html#zTProjEx", null ],
+      [ "Zone Editor", "zTUI.html#zTGUIZoneEditor", [
+        [ "Toolbar Buttons", "zTUI.html#zTGUIButtons", null ]
+      ] ]
+    ] ],
+    [ "Interactive Mode", "zTInteractiveMode.html", "zTInteractiveMode" ],
+    [ "Command Line Mode", "zTCLI.html", null ],
+    [ "Examples", "zTExamples.html", "zTExamples" ]
+];

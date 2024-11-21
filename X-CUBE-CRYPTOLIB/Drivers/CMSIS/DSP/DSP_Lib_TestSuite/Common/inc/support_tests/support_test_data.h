@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e8b5633ba8446f7b96e3868df64407189c465e53a60775e0929df9afc6ca8a5a
-size 865
+#ifndef ARM_SUPPORT_TEST_DATA_H
+#define ARM_SUPPORT_TEST_DATA_H
+
+/*--------------------------------------------------------------------------------*/
+/* Includes */
+/*--------------------------------------------------------------------------------*/
+
+#include "arr_desc.h"
+
+/*--------------------------------------------------------------------------------*/
+/* Declare Variables */
+/*--------------------------------------------------------------------------------*/
+
+/* Input/Output Buffers */
+ARR_DESC_DECLARE(support_output_fut);
+ARR_DESC_DECLARE(support_output_ref);
+
+/* Block Sizes*/
+ARR_DESC_DECLARE(support_block_sizes);
+
+/* Numbers */
+ARR_DESC_DECLARE(support_elts);
+
+/* Float Inputs */
+ARR_DESC_DECLARE(support_zeros);
+ARR_DESC_DECLARE(support_f_2);
+ARR_DESC_DECLARE(support_f_15);
+ARR_DESC_DECLARE(support_f_32);
+ARR_DESC_DECLARE(support_f_all);
+
+#endif

@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fd244e1dad999d8af893f1d8ba8bbab92e0c0f3915b669a4c04d2ea295a3ef18
-size 255
+var searchData=
+[
+  ['mpu_20functions_20for_20armv8_2dm',['MPU Functions for Armv8-M',['../group__mpu8__functions.html',1,'']]],
+  ['mpu_20functions_20for_20armv6_2dm_2fv7_2dm',['MPU Functions for Armv6-M/v7-M',['../group__mpu__functions.html',1,'']]]
+];

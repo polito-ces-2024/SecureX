@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b3ba407af250ed88ae78ea17fcd01976bf8f2e2cc1a0ae8b514639f8376c6744
-size 337
+var searchData=
+[
+  ['mpc_5fsetup_5bn_5d_20element',['mpc_setup[n] element',['../fm_mpc_setup.html',1,'fm_system']]],
+  ['mpu_5fsetup_20element',['mpu_setup element',['../fm_mpu_setup.html',1,'fm_zone']]],
+  ['memory_20and_20peripheral_20resources',['Memory and Peripheral Resources',['../zTUIMemPerRes.html',1,'zTInteractiveMode']]]
+];

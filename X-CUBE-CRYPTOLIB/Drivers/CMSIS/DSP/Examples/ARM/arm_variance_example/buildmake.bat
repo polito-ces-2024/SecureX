@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d09cb17ccf1edddbcf45dd00c4166c56789db65418368e65d681d84183457d5f
-size 342
+REM Example cmake command.
+cmake -DBASICMATH=OFF ^
+-DCOMPLEXMATH=OFF ^
+-DCONTROLLER=OFF ^
+-DFASTMATH=OFF ^
+-DFILTERING=ON ^
+-DMATRIX=OFF ^
+-DSTATISTICS=OFF ^
+-DSUPPORT=OFF ^
+-DTRANSFORM=OFF ^
+-DCONFIGTABLE=ON ^
+-DARM_LMS_NORM_Q15=ON ^
+-DCMAKE_TOOLCHAIN_FILE=../../../../armcc.cmake ^
+-DNEON=ON ^
+-DARM_CPU="cortex-a5" ^
+-G "Unix Makefiles" ..

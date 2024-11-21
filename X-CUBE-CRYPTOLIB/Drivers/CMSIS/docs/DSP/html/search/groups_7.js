@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b46460cf13046901f8f1762544f920382959cc4475896cf55ddd5fd0351226e0
-size 282
+var searchData=
+[
+  ['interpolation_20functions',['Interpolation Functions',['../group__groupInterpolation.html',1,'']]],
+  ['infinite_20impulse_20response_20_28iir_29_20lattice_20filters',['Infinite Impulse Response (IIR) Lattice Filters',['../group__IIR__Lattice.html',1,'']]]
+];

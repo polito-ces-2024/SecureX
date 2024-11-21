@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0153339fa8ba47663add11aec0b401522916615357d0f71ff923926f1bb46494
-size 151
+var searchData=
+[
+  ['controller_5fq31_5fshift',['CONTROLLER_Q31_SHIFT',['../arm__math_8h.html#aaff6d2358c4ada8de838a279254ab550',1,'arm_math.h']]]
+];

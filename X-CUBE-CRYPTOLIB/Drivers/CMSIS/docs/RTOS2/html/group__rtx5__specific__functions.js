@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dce44cd033ba68fe99ad46ed278607c5078fd4f807f54adffbc5c0b127324701
-size 261
+var group__rtx5__specific__functions =
+[
+    [ "osRtxErrorNotify", "group__rtx5__specific__functions.html#gaf1745a88f9cc60b609ab1c8076bd346d", null ],
+    [ "osRtxIdleThread", "group__rtx5__specific__functions.html#ga074068b8efa7074cee68a71481d0b072", null ]
+];

@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:40f73785d25d68275e75364f4bb7669cbd3ac7c182949d88fdb415c79624c580
-size 231
+var searchData=
+[
+  ['kernel',['kernel',['../group__CMSIS__RTOS__KernelCtrl.html#ad8075d3f42141346ae2c56389358f9e7',1,'osVersion_t::kernel()'],['../rtx__os_8h.html#a72d4e2550fcee67cc139fca04505a903',1,'osRtxInfo_t::kernel()']]]
+];

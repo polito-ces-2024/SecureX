@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ef9cfc8816e3d9b49553b3db8de3952aed39109f0908c692e3417815b972e74e
-size 322
+var group__CMSIS__CPACR__CP =
+[
+    [ "CPACR_CP_FA", "group__CMSIS__CPACR__CP.html#gaeaa29f06a74fadc7245d6bd183bad11b", null ],
+    [ "CPACR_CP_NA", "group__CMSIS__CPACR__CP.html#gabd03f590b34b809438eaa3df4af2e7db", null ],
+    [ "CPACR_CP_PL1", "group__CMSIS__CPACR__CP.html#ga8602342c0bad80f3a36d3bdee7418a46", null ]
+];

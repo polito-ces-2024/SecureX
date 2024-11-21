@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:61660de9b29399a3dbcab06d8a64ab1db906364a260c01073da53d3167ce1d62
-size 124
+var searchData=
+[
+  ['timer_5fbase',['TIMER_BASE',['../ARMCA9_8h.html#a251f8c6600afee0dddf950c7a41d4723',1,'ARMCA9.h']]]
+];

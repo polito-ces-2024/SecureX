@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3a90f8e0f1459026c5a4f2be579cbbeece5814e4c63e6fb5bfcfa67df6897984
-size 290
+var group__rtx5__specific =
+[
+    [ "Macros", "group__rtx5__specific__defines.html", "group__rtx5__specific__defines" ],
+    [ "Functions", "group__rtx5__specific__functions.html", "group__rtx5__specific__functions" ],
+    [ "Event functions", "group__rtx__evr.html", "group__rtx__evr" ]
+];

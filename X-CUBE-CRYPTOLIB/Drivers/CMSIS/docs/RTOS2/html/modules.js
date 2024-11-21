@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:89bbf00413344a0ad7df7590e786216eb7e58dea28b6b2ef8dcc48d8b44e7fa4
-size 271
+var modules =
+[
+    [ "CMSIS-RTOS API v2", "group__CMSIS__RTOS.html", "group__CMSIS__RTOS" ],
+    [ "OS Tick API", "group__CMSIS__RTOS__TickAPI.html", "group__CMSIS__RTOS__TickAPI" ],
+    [ "RTX v5 Specific API", "group__rtx5__specific.html", "group__rtx5__specific" ]
+];

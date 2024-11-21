@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f0eabbe1bd4b0fa70a08522e65c32ab6458c97ce56ebdd96c9ea05dffeba73ac
-size 1343
+var searchData=
+[
+  ['reserved',['reserved',['../group__CMSIS__RTOS__ThreadMgmt.html#a66f538babc389986738ec70104e0562b',1,'osThreadAttr_t::reserved()'],['../rtx__os_8h.html#acb7bc06bed6f6408d719334fc41698c7',1,'osRtxEventFlags_t::reserved()'],['../rtx__os_8h.html#acb7bc06bed6f6408d719334fc41698c7',1,'osRtxSemaphore_t::reserved()'],['../rtx__os_8h.html#acb7bc06bed6f6408d719334fc41698c7',1,'osRtxMemoryPool_t::reserved()'],['../rtx__os_8h.html#acb7bc06bed6f6408d719334fc41698c7',1,'osRtxMessageQueue_t::reserved()'],['../rtx__os_8h.html#acb7bc06bed6f6408d719334fc41698c7',1,'osRtxObject_t::reserved()']]],
+  ['reserved_5fstate',['reserved_state',['../rtx__os_8h.html#a0acbb12a103775ddce0fb5d0efa3540f',1,'osRtxEventFlags_t::reserved_state()'],['../rtx__os_8h.html#a0acbb12a103775ddce0fb5d0efa3540f',1,'osRtxMutex_t::reserved_state()'],['../rtx__os_8h.html#a0acbb12a103775ddce0fb5d0efa3540f',1,'osRtxSemaphore_t::reserved_state()'],['../rtx__os_8h.html#a0acbb12a103775ddce0fb5d0efa3540f',1,'osRtxMemoryPool_t::reserved_state()'],['../rtx__os_8h.html#a0acbb12a103775ddce0fb5d0efa3540f',1,'osRtxMessage_t::reserved_state()'],['../rtx__os_8h.html#a0acbb12a103775ddce0fb5d0efa3540f',1,'osRtxMessageQueue_t::reserved_state()']]],
+  ['robin_5ftimeout',['robin_timeout',['../rtx__os_8h.html#a6b4c66676a5bc985c28b71ac4ac79159',1,'osRtxConfig_t']]]
+];

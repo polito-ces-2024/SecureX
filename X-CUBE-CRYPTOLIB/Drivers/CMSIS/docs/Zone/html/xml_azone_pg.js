@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e7f6a2c084bded6c95d3c3f976d43b2fd8ca3498217138cfe375f0c9f75df1d2
-size 868
+var xml_azone_pg =
+[
+    [ "/azone/rzone element", "xml_arzone.html", null ],
+    [ "/azone/configure element", "xml_configure.html", [
+      [ "/azone/configure/type element", "xml_configure.html#xml_ctype", null ]
+    ] ],
+    [ "/azone/partition element", "xml_partition.html", [
+      [ "/azone/partition/memory element", "xml_partition.html#xml_amemory", null ],
+      [ "/azone/partition/peripheral element", "xml_partition.html#xml_aperipheral", null ],
+      [ "/azone/partition/peripheral/slot element", "xml_partition.html#xml_aslot", null ]
+    ] ],
+    [ "/azone/zones element", "xml_zones.html", [
+      [ "/azone/zones/zone element", "xml_zones.html#xml_zone", null ],
+      [ "/azone/zones/zone/assign element", "xml_zones.html#xml_assign", null ],
+      [ "/azone/zones/zone/assign/interrupt element", "xml_zones.html#xml_ainterrupt", null ]
+    ] ]
+];

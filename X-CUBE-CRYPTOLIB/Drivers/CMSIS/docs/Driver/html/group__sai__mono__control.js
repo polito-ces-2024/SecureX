@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5fdf1e3ced0517a6488e587f91627099b382e002e049d94ddd69e0312c995a5a
-size 139
+var group__sai__mono__control =
+[
+    [ "ARM_SAI_MONO_MODE", "group__sai__mono__control.html#ga0adcd27875d92add813b9664e9cb0b4b", null ]
+];

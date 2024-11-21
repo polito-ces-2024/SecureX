@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c524ebf37f16c1fb17d3551283672b7fa0ce76106da0d14390879362df760009
-size 120
+var searchData=
+[
+  ['version',['version',['../rtx__os_8h.html#acd99bb05ca015e7d74448acb1deba7ca',1,'osRtxInfo_t']]]
+];

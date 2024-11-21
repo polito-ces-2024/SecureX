@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d38d6366f6762f5db07daeb4d0ed2c5ceebfb8755e15d68299928881d7344b51
-size 116
+var searchData=
+[
+  ['rtx_20v5_20specific_20api',['RTX v5 Specific API',['../group__rtx5__specific.html',1,'']]]
+];

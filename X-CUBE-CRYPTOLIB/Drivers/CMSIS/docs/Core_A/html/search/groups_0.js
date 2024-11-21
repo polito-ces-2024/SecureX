@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:edd730f921ca37705c0a12f091a82cf8dd4aca2585153bb0a7947256e5db9bc1
-size 303
+var searchData=
+[
+  ['auxiliary_20control_20register_20_28actlr_29',['Auxiliary Control Register (ACTLR)',['../group__CMSIS__ACTLR.html',1,'']]],
+  ['actlr_20bits',['ACTLR Bits',['../group__CMSIS__ACTLR__BITS.html',1,'']]],
+  ['actlr_20bits',['ACTLR Bits',['../group__CMSIS__DFSR__BITS.html',1,'']]]
+];

@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a2d273c69d230f5e6d2392f1eb3ed7313c48900e1248486c2f111b94e9d2a73c
-size 252
+var searchData=
+[
+  ['l1_20cache_20functions',['L1 Cache Functions',['../group__L1__cache__functions.html',1,'']]],
+  ['l2c_2d310_20cache_20controller_20functions',['L2C-310 Cache Controller Functions',['../group__L2__cache__functions.html',1,'']]]
+];

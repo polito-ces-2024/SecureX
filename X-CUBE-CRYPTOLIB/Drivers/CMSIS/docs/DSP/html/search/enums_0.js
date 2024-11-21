@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ea240a3bd3008c966bb77f423821deb491a981b99d1af4ac2dfb4366bb36a408
-size 129
+var searchData=
+[
+  ['arm_5fstatus',['arm_status',['../arm__math_8h.html#a5e459c6409dfcd2927bb8a57491d7cf6',1,'arm_math.h']]]
+];

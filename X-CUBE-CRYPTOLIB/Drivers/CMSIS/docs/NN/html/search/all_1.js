@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ce58289353fe56c42a47d4c8f5f4d5c25f7e8dfc91029bd4022325b49b42d859
-size 284
+var searchData=
+[
+  ['bytes',['bytes',['../unionarm__nnword.html#ac7cff6480a8e29d95f29b73cb1267249',1,'arm_nnword']]],
+  ['basic_20math_20functions_20for_20neural_20network_20computation',['Basic Math Functions for Neural Network Computation',['../group__NNBasicMath.html',1,'']]]
+];

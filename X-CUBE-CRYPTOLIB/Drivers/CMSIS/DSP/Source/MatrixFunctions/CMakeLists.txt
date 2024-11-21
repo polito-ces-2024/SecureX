@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:019bafdecaa8f068c2ba05157b0d11acd3e0161858121116c70af4f4469810ee
-size 252
+cmake_minimum_required (VERSION 3.6)
+
+project(CMSISDSPMatrix)
+
+
+file(GLOB SRC "./*_*.c")
+
+add_library(CMSISDSPMatrix STATIC ${SRC})
+
+configdsp(CMSISDSPMatrix ..)
+
+### Includes
+target_include_directories(CMSISDSPMatrix PUBLIC "${DSP}/../../Include")
+
+
+

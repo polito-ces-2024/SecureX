@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:73ac913abee7d09c9e711aec0344085f2d52eba88f02502387c658a86b35d5fc
-size 340
+#ifndef _FILTERING_TEST_GROUP_H_
+#define _FILTERING_TEST_GROUP_H_
+
+/*--------------------------------------------------------------------------------*/
+/* Declare Test Groups */
+/*--------------------------------------------------------------------------------*/
+JTEST_DECLARE_GROUP(filtering_tests);
+
+#endif /* _FILTERING_TEST_GROUP_H_ */

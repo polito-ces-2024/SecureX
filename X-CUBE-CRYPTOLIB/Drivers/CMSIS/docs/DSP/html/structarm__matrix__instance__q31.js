@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2ac906271753f3ddf77114ce07d3d00b52249e6a298103affacd59be1deec25c
-size 340
+var structarm__matrix__instance__q31 =
+[
+    [ "numCols", "structarm__matrix__instance__q31.html#abd161da7614eda927157f18b698074b1", null ],
+    [ "numRows", "structarm__matrix__instance__q31.html#a63bacac158a821c8cfc06088d251598c", null ],
+    [ "pData", "structarm__matrix__instance__q31.html#a09a64267c0579fef086efc9059741e56", null ]
+];

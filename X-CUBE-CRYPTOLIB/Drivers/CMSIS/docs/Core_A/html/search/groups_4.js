@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5f5531cf8ba05c926cb4c44aeb32980d6a4e3ac949bca1300af82e5aa27995c0
-size 283
+var searchData=
+[
+  ['generic_20interrupt_20controller_20functions',['Generic Interrupt Controller Functions',['../group__GIC__functions.html',1,'']]],
+  ['generic_20physical_20timer_20functions',['Generic Physical Timer Functions',['../group__PL1__timer__functions.html',1,'']]]
+];

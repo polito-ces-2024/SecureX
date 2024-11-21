@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b79f759b40a426b8791a2a66ea79434eeba5b00ae23467ae9cd54bb6567ee49d
-size 219
+var group__DAP__swj__gr =
+[
+    [ "DAP_SWJ_Pins", "group__DAP__SWJ__Pins.html", null ],
+    [ "DAP_SWJ_Clock", "group__DAP__SWJ__Clock.html", null ],
+    [ "DAP_SWJ_Sequence", "group__DAP__SWJ__Sequence.html", null ]
+];

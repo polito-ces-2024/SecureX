@@ -1,3 +1,53 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:eb1d12e7c80f86136f2f462f0ebaa1e2be86eb1c77115f5adc9f24e82e93c015
-size 618
+#include "ref.h"
+
+void ref_negate_f32(
+  float32_t * pSrc,
+  float32_t * pDst,
+  uint32_t blockSize)
+{
+	uint32_t i;
+	
+	for(i=0;i<blockSize;i++)
+	{
+		pDst[i] = -pSrc[i];
+	}
+}
+
+void ref_negate_q31(
+  q31_t * pSrc,
+  q31_t * pDst,
+  uint32_t blockSize)
+{
+	uint32_t i;
+	
+	for(i=0;i<blockSize;i++)
+	{
+		pDst[i] = -pSrc[i];
+	}
+}
+
+void ref_negate_q15(
+  q15_t * pSrc,
+  q15_t * pDst,
+  uint32_t blockSize)
+{
+	uint32_t i;
+	
+	for(i=0;i<blockSize;i++)
+	{
+		pDst[i] = -pSrc[i];
+	}
+}
+
+void ref_negate_q7(
+  q7_t * pSrc,
+  q7_t * pDst,
+  uint32_t blockSize)
+{
+	uint32_t i;
+	
+	for(i=0;i<blockSize;i++)
+	{
+		pDst[i] = -pSrc[i];
+	}
+}

@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dcaedb0ab8cdee36a3d60f7ba865df2327d41e2394607b1f5c1701735145d179
-size 95
+var searchData=
+[
+  ['nxp_20lpc55s69',['NXP LPC55S69',['../zTELPC55.html',1,'zTExamples']]]
+];

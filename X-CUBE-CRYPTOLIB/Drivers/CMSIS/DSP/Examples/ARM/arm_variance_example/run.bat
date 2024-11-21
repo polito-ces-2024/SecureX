@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f5d7d0a3807c00668d34ac03a3d01338f71cfef96d8a016f8d35e93be43820cb
-size 268
+REM Example commands to run on ArmDS FVP
+
+REM "C:\Program Files\ARM\Development Studio 2019.0\sw\models\bin\FVP_MPS2_Cortex-M7.exe" -a arm_variance_example
+
+"C:\Program Files\ARM\Development Studio 2019.0\sw\models\bin\FVP_VE_Cortex-A5x1.exe" -a arm_variance_example
+

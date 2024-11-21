@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:41dd9edf9ce97e05195b0bb2283de894852f90a5370053b3f92cde76be84ba0a
-size 152
+var searchData=
+[
+  ['high_5fspeed',['high_speed',['../group__mci__interface__gr.html#a83ecf7d4472c55362750ef72d8f8f47d',1,'ARM_MCI_CAPABILITIES']]]
+];

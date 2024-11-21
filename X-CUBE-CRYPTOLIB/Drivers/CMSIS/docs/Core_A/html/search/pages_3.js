@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:13119adddad886996c6ab78195e57e77bb5ac916e1288d76190aba80e03e1686
-size 426
+var searchData=
+[
+  ['misra_2dc_20deviations',['MISRA-C Deviations',['../coreMISRA_Exceptions_pg.html',1,'']]],
+  ['memory_20configuration_20files_20mem_5f_3cdevice_3e_2eh',['Memory Configuration Files mem_&lt;device&gt;.h',['../mem_h_pg.html',1,'templates_pg']]],
+  ['memory_20management_20unit_20files_20mmu_5f_3cdevice_3e_2ec',['Memory Management Unit Files mmu_&lt;device&gt;.c',['../mmu_c_pg.html',1,'templates_pg']]]
+];

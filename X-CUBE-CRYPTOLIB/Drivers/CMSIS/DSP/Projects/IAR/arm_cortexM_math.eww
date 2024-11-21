@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f7a9988a1e611d03a0b442076ddd4dfa362903dfdd5ec2422b5ba1fb3dd3ad3
-size 158
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\arm_cortexM_math.ewp</path>
+  </project>
+  <batchBuild/>
+</workspace>

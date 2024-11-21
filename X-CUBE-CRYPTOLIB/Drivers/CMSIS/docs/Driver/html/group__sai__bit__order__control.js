@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:518006516eee99c3821514a2278670a15b1b51f09cd34d02d9ef0d71b181d436
-size 261
+var group__sai__bit__order__control =
+[
+    [ "ARM_SAI_MSB_FIRST", "group__sai__bit__order__control.html#gaf74bfe9c3005bf3b80d69f112ea9e62b", null ],
+    [ "ARM_SAI_LSB_FIRST", "group__sai__bit__order__control.html#ga19b51b75537b030b975efcf68f3db78b", null ]
+];

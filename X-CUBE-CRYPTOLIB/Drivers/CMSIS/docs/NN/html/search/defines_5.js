@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:531b7a792145e64279160f7c0876c11f4d96d21366c169b30656382170676690
-size 153
+var searchData=
+[
+  ['nn_5fround',['NN_ROUND',['../arm__nnsupportfunctions_8h.html#a4cbd428a2b4a4f6b2a6e4219520c7ce0',1,'arm_nnsupportfunctions.h']]]
+];

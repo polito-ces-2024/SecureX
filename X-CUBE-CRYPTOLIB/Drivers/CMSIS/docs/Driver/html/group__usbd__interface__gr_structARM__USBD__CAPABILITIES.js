@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7d10afdc28f0921722eaf78857ecfa2c4d54afef5de0767cf66c1ab68908db32
-size 463
+var group__usbd__interface__gr_structARM__USBD__CAPABILITIES =
+[
+    [ "vbus_detection", "group__usbd__interface__gr.html#a6673fc1aa13f62122ecf51e52a605c6e", null ],
+    [ "event_vbus_on", "group__usbd__interface__gr.html#a53f95b9ecb7c84197947e7542501c7d3", null ],
+    [ "event_vbus_off", "group__usbd__interface__gr.html#a72d905bc20735bafda40d73c91829709", null ],
+    [ "reserved", "group__usbd__interface__gr.html#aa43c4c21b173ada1b6b7568956f0d650", null ]
+];

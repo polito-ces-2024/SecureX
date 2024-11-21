@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6416a2959c6e33f543d3de88e4fc03b5d88e119cc58796209ddd447cdbda9404
-size 345
+var group__CMSIS__RTOS__Definitions_structosEvent =
+[
+    [ "def", "group__CMSIS__RTOS__Definitions.html#a596b6d55c3321db19239256bbe403df6", null ],
+    [ "status", "group__CMSIS__RTOS__Definitions.html#ad477a289f1f03ac45407b64268d707d3", null ],
+    [ "value", "group__CMSIS__RTOS__Definitions.html#a0b9f8fd3645f01d8cb09cae82add2d7f", null ]
+];

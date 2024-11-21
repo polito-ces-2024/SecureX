@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d4d1b554083b99a0611102829ca7cd5f48bee43148bd232b4a18b796cff895f2
-size 111
+var searchData=
+[
+  ['transfer_20commands',['Transfer Commands',['../group__DAP__transfer__gr.html',1,'']]]
+];

@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0f7dda5239fc6bec56e8e48d6ade984009b6f305e5703122ac882d07b539325f
-size 295
+var searchData=
+[
+  ['generator_20data_20model',['Generator Data Model',['../GenDataModel.html',1,'']]],
+  ['gendatamodel_2etxt',['GenDataModel.txt',['../GenDataModel_8txt.html',1,'']]],
+  ['generate_20output_20files',['Generate output files',['../zTUIGenerate.html',1,'zTInteractiveMode']]]
+];

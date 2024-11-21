@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e42e381d283672e79925bcb0161ed923f04f0f5c25920516b9d9095730f2a3c9
-size 487
+
+/*
+ * Auto generated Run-Time-Environment Component Configuration File
+ *      *** Do not modify ! ***
+ *
+ * Project: 'arm_nnexamples_gru' 
+ * Target:  'ARMCM7_SP' 
+ */
+
+#ifndef RTE_COMPONENTS_H
+#define RTE_COMPONENTS_H
+
+
+/*
+ * Define the Device Header File: 
+ */
+#define CMSIS_device_header "ARMCM7_SP.h"
+
+#define RTE_Compiler_IO_STDOUT          /* Compiler I/O: STDOUT */
+          #define RTE_Compiler_IO_STDOUT_ITM      /* Compiler I/O: STDOUT ITM */
+
+#endif /* RTE_COMPONENTS_H */

@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ade8d14d8b6c95245d376cd69262475932dba2a2664bac8c5c5fb0dc108d8802
-size 335
+var searchData=
+[
+  ['gru_5fexample',['gru_example',['../arm__nnexamples__gru_8cpp.html#ac71a806472c7c0c284a2253e71a6a27b',1,'arm_nnexamples_gru.cpp']]],
+  ['gated_20recurrent_20unit_20example',['Gated Recurrent Unit Example',['../group__GRUExample.html',1,'']]],
+  ['readme_2etxt',['readme.txt',['../gru_2readme_8txt.html',1,'']]]
+];

@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:55054053185a4c07dd2934fde27ab8f4ef9b4ef2bcb704fa42dcdea4cc480acf
-size 134
+var searchData=
+[
+  ['graphic_20audio_20equalizer_20example',['Graphic Audio Equalizer Example',['../group__GEQ5Band.html',1,'']]]
+];
